@@ -58,7 +58,12 @@ const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
 
       {/* League Ranking */}
       {profile.league && (
-        <LeagueRank league={profile.league} points={profile.points} />
+        <LeagueRank
+          league={profile.league}
+          points={profile.points}
+          leagueImage={profile.leagueImage}
+          memberSince={profile.memberSince}
+        />
       )}
 
       {/* Level + Progress */}

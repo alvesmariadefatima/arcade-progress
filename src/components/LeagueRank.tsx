@@ -1,119 +1,117 @@
-import { Trophy, ChevronRight } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 interface LeagueRankProps {
   league: string;
   points: number;
+  leagueImage?: string;
+  memberSince?: string;
 }
 
 const LEAGUES = [
-  { name: "Bronze League", minPoints: 0, color: "from-amber-700/30 to-amber-900/10", border: "border-amber-700/40", textColor: "text-amber-600" },
-  { name: "Silver League", minPoints: 500, color: "from-slate-400/30 to-slate-500/10", border: "border-slate-400/40", textColor: "text-slate-300" },
-  { name: "Gold League", minPoints: 2000, color: "from-yellow-500/30 to-yellow-600/10", border: "border-yellow-500/40", textColor: "text-yellow-400" },
-  { name: "Platinum League", minPoints: 5000, color: "from-cyan-400/30 to-cyan-500/10", border: "border-cyan-400/40", textColor: "text-cyan-300" },
-  { name: "Diamond League", minPoints: 10000, color: "from-violet-400/30 to-violet-500/10", border: "border-violet-400/40", textColor: "text-violet-300" },
+  {
+    name: "Bronze League",
+    color: "from-amber-700/30 to-amber-900/10",
+    border: "border-amber-700/40",
+    textColor: "text-amber-500",
+    dotColor: "bg-amber-500",
+  },
+  {
+    name: "Silver League",
+    color: "from-slate-400/30 to-slate-500/10",
+    border: "border-slate-400/40",
+    textColor: "text-slate-300",
+    dotColor: "bg-slate-300",
+  },
+  {
+    name: "Gold League",
+    color: "from-yellow-500/30 to-yellow-600/10",
+    border: "border-yellow-500/40",
+    textColor: "text-yellow-400",
+    dotColor: "bg-yellow-400",
+  },
+  {
+    name: "Diamond League",
+    color: "from-cyan-300/30 to-violet-400/10",
+    border: "border-cyan-300/40",
+    textColor: "text-cyan-300",
+    dotColor: "bg-cyan-300",
+  },
 ];
 
-const LeagueRank = ({ league, points }: LeagueRankProps) => {
+const LeagueRank = ({ league, points, leagueImage, memberSince }: LeagueRankProps) => {
   const currentIndex = LEAGUES.findIndex(
     (l) => l.name.toLowerCase() === league.toLowerCase()
   );
   const current = currentIndex >= 0 ? LEAGUES[currentIndex] : LEAGUES[0];
-  const next = currentIndex < LEAGUES.length - 1 ? LEAGUES[currentIndex + 1] : null;
-
-  const progressPercent = next
-    ? Math.min(((points - current.minPoints) / (next.minPoints - current.minPoints)) * 100, 100)
-    : 100;
 
   return (
     <div
       className="glass rounded-2xl p-6 neon-border animate-scale-in"
       style={{ animationDelay: "0.35s", animationFillMode: "backwards" }}
     >
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-5">
         <Trophy className="w-5 h-5 text-primary" />
         <h3 className="text-lg font-bold font-display text-foreground">
           Ranking Google Skills
         </h3>
       </div>
 
+      {/* Current league highlight */}
+      <div
+        className={`flex items-center gap-4 px-5 py-4 rounded-2xl bg-gradient-to-r ${current.color} border ${current.border} mb-5`}
+      >
+        {leagueImage ? (
+          <img src={leagueImage} alt={league} className="w-16 h-16 object-contain" />
+        ) : (
+          <div className="w-16 h-16 flex items-center justify-center text-4xl">🏆</div>
+        )}
+        <div>
+          <p className={`text-xl font-bold font-display ${current.textColor}`}>
+            {league}
+          </p>
+          <p className="text-2xl font-bold font-display text-foreground">
+            {points.toLocaleString()}
+            <span className="text-sm text-muted-foreground ml-1 font-body font-normal">pontos</span>
+          </p>
+          {memberSince && (
+            <p className="text-xs text-muted-foreground font-body mt-0.5">
+              Membro desde {memberSince}
+            </p>
+          )}
+        </div>
+      </div>
+
       {/* League progression */}
-      <div className="space-y-2 mb-5">
+      <div className="flex items-center gap-1">
         {LEAGUES.map((l, i) => {
           const isActive = i === currentIndex;
           const isPast = i < currentIndex;
           return (
-            <div
-              key={l.name}
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-300 ${
-                isActive
-                  ? `bg-gradient-to-r ${l.color} border ${l.border} glow-cyan`
-                  : isPast
-                  ? "opacity-50"
-                  : "opacity-30"
-              }`}
-            >
+            <div key={l.name} className="flex-1 flex flex-col items-center gap-1.5">
               <div
-                className={`w-3 h-3 rounded-full flex-shrink-0 ${
+                className={`w-full h-2 rounded-full transition-all ${
                   isActive
-                    ? "bg-primary animate-pulse-glow"
+                    ? `${l.dotColor} animate-pulse-glow`
                     : isPast
-                    ? "bg-muted-foreground"
+                    ? `${l.dotColor} opacity-60`
                     : "bg-muted"
                 }`}
               />
               <span
-                className={`text-sm font-body flex-1 ${
-                  isActive
-                    ? `font-semibold ${l.textColor}`
-                    : "text-muted-foreground"
+                className={`text-[10px] font-body leading-tight text-center ${
+                  isActive ? `${l.textColor} font-semibold` : "text-muted-foreground/50"
                 }`}
               >
-                {l.name}
+                {l.name.replace(" League", "")}
               </span>
-              {isActive && (
-                <span className="text-xs font-display text-primary">
-                  {points.toLocaleString()} pts
-                </span>
-              )}
-              {l.minPoints > 0 && !isActive && (
-                <span className="text-xs text-muted-foreground/50 font-body">
-                  {l.minPoints.toLocaleString()}+
-                </span>
-              )}
             </div>
           );
         })}
       </div>
 
-      {/* Progress to next league */}
-      {next ? (
-        <div>
-          <div className="flex items-center justify-between text-xs text-muted-foreground font-body mb-1.5">
-            <span>{current.name}</span>
-            <div className="flex items-center gap-1">
-              <ChevronRight className="w-3 h-3" />
-              <span>{next.name}</span>
-            </div>
-          </div>
-          <div className="w-full h-2.5 rounded-full bg-muted overflow-hidden">
-            <div
-              className="h-full rounded-full arcade-gradient transition-all duration-1000 ease-out"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          <p className="text-xs text-muted-foreground font-body mt-1.5">
-            Faltam{" "}
-            <span className="text-foreground font-semibold">
-              {(next.minPoints - points).toLocaleString()}
-            </span>{" "}
-            pontos para {next.name}
-          </p>
-        </div>
-      ) : (
-        <p className="text-sm text-accent font-display text-glow-green">
-          🏆 Liga máxima alcançada!
-        </p>
-      )}
+      <p className="text-xs text-muted-foreground font-body mt-3 text-center">
+        Ligas são baseadas no ranking semanal entre jogadores
+      </p>
     </div>
   );
 };

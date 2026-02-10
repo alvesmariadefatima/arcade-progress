@@ -33,6 +33,8 @@ const Index = () => {
         points: profileData.points || 0,
         level: getArcadeLevel(profileData.badges?.length || 0),
         league: profileData.league || '',
+        leagueImage: profileData.leagueImage || '',
+        memberSince: profileData.memberSince || '',
         badges: profileData.badges || [],
         badgeCount: profileData.badgeCount || 0,
       };

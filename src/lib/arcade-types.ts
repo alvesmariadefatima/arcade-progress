@@ -11,6 +11,8 @@ export interface ArcadeProfile {
   points: number;
   level: string;
   league?: string;
+  leagueImage?: string;
+  memberSince?: string;
   badges: Badge[];
   badgeCount?: number;
 }
