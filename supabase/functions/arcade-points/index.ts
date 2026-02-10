@@ -9,7 +9,7 @@ interface BadgeInfo {
   earnedDate: string;
 }
 
-function parseProfile(markdown: string) {
+function parseProfile(markdown: string, html: string) {
   const lines = markdown.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
   // Extract name from first H1
@@ -42,14 +42,13 @@ function parseProfile(markdown: string) {
     }
   }
 
-  // Extract avatar image from league line
+  // Extract avatar from HTML (ql-avatar component has the real profile photo)
   let avatar = '';
-  for (const line of lines) {
-    if (line.includes('points') && line.includes('![')) {
-      const imgMatch = line.match(/!\[\]\(([^)]+)\)/);
-      if (imgMatch) {
-        avatar = imgMatch[1];
-      }
+  if (html) {
+    const avatarMatch = html.match(/ql-avatar[^>]*src="([^"]+)"/i)
+      || html.match(/lh3\.googleusercontent\.com[^"'\s)]+/i);
+    if (avatarMatch) {
+      avatar = avatarMatch[1] || avatarMatch[0];
     }
   }
 
@@ -123,7 +122,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         url: formattedUrl,
-        formats: ['markdown'],
+        formats: ['markdown', 'html'],
         waitFor: 5000,
       }),
     });
@@ -139,9 +138,10 @@ Deno.serve(async (req) => {
     }
 
     const markdown = scrapeData.data?.markdown || scrapeData.markdown || '';
+    const html = scrapeData.data?.html || scrapeData.html || '';
     console.log('Markdown length:', markdown.length);
 
-    const profile = parseProfile(markdown);
+    const profile = parseProfile(markdown, html);
 
     // Determine arcade level based on badge count
     const badgeCount = profile.badges.length;
