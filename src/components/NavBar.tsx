@@ -18,7 +18,7 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
   const visibleItems = items.filter((i) => i.always || showResults);
 
   return (
-    <nav className="fixed top-0 right-0 left-0 z-50 px-4 py-3">
+    <nav className="fixed top-0 right-0 left-0 z-50 px-4 py-3 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto flex items-center justify-between">
         <span className="font-display text-sm text-primary tracking-wider text-glow-yellow">ARCADE PROGRESS</span>
 
@@ -51,7 +51,7 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="sm:hidden mt-2 glass rounded-xl neon-border p-2 space-y-1 animate-scale-in">
+        <div className="sm:hidden mt-2 bg-card rounded-xl border border-border p-2 space-y-1 animate-scale-in shadow-lg">
           {visibleItems.map((item) => (
             <button
               key={item.label}
