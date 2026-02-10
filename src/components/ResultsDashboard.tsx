@@ -3,8 +3,7 @@ import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, User, Award } from "lucide-react";
+import { User, Award } from "lucide-react";
 
 interface ResultsDashboardProps {
   profile: ArcadeProfile;
@@ -14,17 +13,6 @@ interface ResultsDashboardProps {
 const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center animate-slide-up">
-        <Button
-          variant="ghost"
-          onClick={onReset}
-          className="text-muted-foreground hover:text-foreground font-body"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Nova consulta
-        </Button>
-      </div>
 
       {/* Profile Card */}
       <div
