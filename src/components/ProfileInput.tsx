@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Gamepad2, Zap, AlertTriangle } from "lucide-react";
+import { Gamepad2, Zap, AlertTriangle, HelpCircle } from "lucide-react";
 
 interface ProfileInputProps {
   onSubmit: (url: string) => void;
@@ -13,6 +13,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
   const validateUrl = (input: string): boolean => {
@@ -92,9 +93,55 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
         </Button>
       </form>
 
-      <p className="text-center text-sm text-muted-foreground mt-6 font-body">
+      <button
+        type="button"
+        onClick={() => setShowHelp(true)}
+        className="mx-auto mt-5 flex items-center gap-2 px-4 py-2.5 rounded-xl glass neon-border text-sm font-body text-primary hover:bg-primary/10 transition-colors"
+      >
+        <HelpCircle className="w-4 h-4" />
+        Como encontrar minha URL?
+      </button>
+
+      <p className="text-center text-sm text-muted-foreground mt-4 font-body">
         Cole a URL pública do seu perfil no Google Cloud Skills Boost
       </p>
+
+      {/* Help Modal */}
+      <Dialog open={showHelp} onOpenChange={setShowHelp}>
+        <DialogContent className="glass neon-border sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10">
+                <HelpCircle className="w-5 h-5 text-accent" />
+              </div>
+              <DialogTitle className="font-display text-foreground">Como encontrar sua URL</DialogTitle>
+            </div>
+            <DialogDescription className="font-body text-muted-foreground pt-2">
+              Siga os passos abaixo para copiar o link do seu perfil público:
+            </DialogDescription>
+            <div className="mt-3 p-4 rounded-lg bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-2">
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li>Acesse <a href="https://www.cloudskillsboost.google" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80">cloudskillsboost.google</a></li>
+                <li>Faça login na sua conta Google</li>
+                <li>Clique na sua <strong className="text-foreground">foto de perfil</strong> (canto superior direito)</li>
+                <li>Selecione <strong className="text-foreground">"Perfil Público"</strong></li>
+                <li>Copie a <strong className="text-foreground">URL da barra de endereço</strong> do navegador</li>
+              </ol>
+              <p className="text-xs text-muted-foreground mt-3 pt-2 border-t border-border">
+                Exemplo: <span className="text-primary font-mono text-xs">https://www.skills.google/public_profiles/abc123</span>
+              </p>
+            </div>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowHelp(false)}
+              className="arcade-gradient text-primary-foreground font-display"
+            >
+              Entendi
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="glass neon-border sm:max-w-md">
