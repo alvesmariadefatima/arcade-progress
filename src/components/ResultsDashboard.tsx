@@ -3,6 +3,7 @@ import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
+import ShareResults from "./ShareResults";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, User, Award } from "lucide-react";
 
@@ -24,6 +25,7 @@ const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Nova consulta
         </Button>
+        <ShareResults profile={profile} />
       </div>
 
       {/* Profile Card */}
