@@ -2,6 +2,7 @@ import { ArcadeProfile } from "@/lib/arcade-types";
 import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
 import BadgeGrid from "./BadgeGrid";
+import LeagueRank from "./LeagueRank";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, User, Award } from "lucide-react";
 
@@ -52,6 +53,11 @@ const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
           {profile.points.toLocaleString()} pontos · {profile.badges.length} badges
         </p>
       </div>
+
+      {/* League Ranking */}
+      {profile.league && (
+        <LeagueRank league={profile.league} points={profile.points} />
+      )}
 
       {/* Level + Progress */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
