@@ -27,22 +27,7 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
     }
   };
 
-  const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "Google Arcade 2026", text: shareText });
-      } catch {
-        // user cancelled, ignore
-      }
-    } else {
-      setOpen(!open);
-    }
-  };
-
-  const openLink = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-    setOpen(false);
-  };
+  const toggleOpen = () => setOpen(!open);
 
   const socials = [
     {
@@ -65,7 +50,7 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
   return (
     <div className="relative">
       <button
-        onClick={handleNativeShare}
+        onClick={toggleOpen}
         className="flex items-center gap-2 px-4 py-2 rounded-xl glass neon-border text-sm font-body text-muted-foreground hover:text-foreground hover:glow-cyan transition-all duration-300"
       >
         <Share2 className="w-4 h-4" />
@@ -77,14 +62,17 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-12 z-50 w-56 rounded-xl bg-card border border-border shadow-lg p-2 space-y-1 animate-scale-in">
             {socials.map((s) => (
-              <button
+              <a
                 key={s.name}
-                onClick={() => openLink(s.url)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-body text-card-foreground hover:bg-muted transition-colors w-full text-left"
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-body text-card-foreground hover:bg-muted transition-colors w-full"
               >
                 {s.icon}
                 {s.name}
-              </button>
+              </a>
             ))}
             <button
               onClick={handleCopy}
