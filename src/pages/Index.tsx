@@ -81,7 +81,7 @@ const Index = () => {
         ) : profile ? (
           <>
             <ResultsDashboard profile={profile} onReset={handleReset} />
-            <TiersTable currentLevel={profile.level} />
+            <TiersTable currentLevel={profile.level} userPoints={profile.badges.length} />
           </>
         ) : null}
       </div>
