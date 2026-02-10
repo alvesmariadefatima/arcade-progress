@@ -44,10 +44,10 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           <Gamepad2 className="w-10 h-10 text-primary" />
         </div>
         <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-yellow">
-          THE ARCADE
+          ARCADE PROGRESS
         </h1>
         <p className="text-base text-secondary font-display tracking-wider mb-1">
-          POINTS CALCULATOR
+          ACOMPANHE SUA JORNADA
         </p>
         <p className="text-sm text-muted-foreground font-body">
           Google Cloud Arcade 2026
