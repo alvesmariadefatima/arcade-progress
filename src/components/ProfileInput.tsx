@@ -34,14 +34,17 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   return (
     <div className="w-full max-w-xl mx-auto animate-slide-up">
       <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl arcade-gradient mb-6 animate-float">
-          <Gamepad2 className="w-10 h-10 text-primary-foreground" />
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-card border-2 border-primary/30 mb-6 animate-float shadow-[0_0_30px_hsl(48_100%_55%/0.2)]">
+          <Gamepad2 className="w-10 h-10 text-primary" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold font-display text-foreground mb-3 text-glow-cyan">
-          ARCADE POINTS
+        <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-yellow">
+          THE ARCADE
         </h1>
-        <p className="text-lg text-muted-foreground font-body">
-          Google Arcade 2026 — Calculadora de Pontos
+        <p className="text-base text-secondary font-display tracking-wider mb-1">
+          POINTS CALCULATOR
+        </p>
+        <p className="text-sm text-muted-foreground font-body">
+          Google Cloud Arcade 2026
         </p>
       </div>
 
@@ -68,7 +71,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 glow-cyan hover:opacity-90 transition-all duration-300 disabled:opacity-50"
+          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(48_100%_55%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
