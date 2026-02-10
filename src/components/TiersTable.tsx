@@ -1,99 +1,151 @@
-import { Trophy, Star, Shield, Zap, Check } from "lucide-react";
+import { Trophy, Star, Shield, Zap, Check, ChevronRight } from "lucide-react";
 
 const tiers = [
-  {
-    name: "Arcade Novice",
-    subtitle: "Iniciante",
-    points: 20,
-    icon: Star,
-    color: "text-neon-yellow",
-    description: "Para quem está começando, focado em concluir os primeiros jogos e habilidades básicas.",
-  },
-  {
-    name: "Arcade Trooper",
-    subtitle: "Ativo",
-    points: 40,
-    icon: Shield,
-    color: "text-primary",
-    description: "Para participantes consistentes, que acumulam pontos através de jogos, quizzes e emblemas.",
-  },
-  {
-    name: "Arcade Ranger",
-    subtitle: "Premium",
-    points: 65,
-    icon: Zap,
-    color: "text-neon-green",
-    description: "Focado em usuários avançados que superam desafios complexos de nuvem.",
-  },
-  {
-    name: "Champion Tier",
-    subtitle: "Campeão",
-    points: 75,
-    icon: Trophy,
-    color: "text-neon-pink",
-    description: "Atingir 75+ pontos e requisitos específicos qualifica para os prêmios máximos.",
-  },
+  { name: "Arcade Novice", subtitle: "Iniciante", points: 20, icon: Star, color: "text-neon-yellow", bgColor: "bg-neon-yellow/15", borderColor: "border-neon-yellow/40", glowClass: "shadow-[0_0_15px_hsl(50_100%_55%/0.3)]" },
+  { name: "Arcade Trooper", subtitle: "Ativo", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]" },
+  { name: "Arcade Ranger", subtitle: "Premium", points: 65, icon: Zap, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]" },
+  { name: "Champion Tier", subtitle: "Campeão", points: 75, icon: Trophy, color: "text-neon-pink", bgColor: "bg-neon-pink/15", borderColor: "border-neon-pink/40", glowClass: "shadow-[0_0_15px_hsl(330_100%_60%/0.3)]" },
 ];
 
 interface TiersTableProps {
   currentLevel?: string;
+  userPoints?: number;
 }
 
-function matchesTier(tierName: string, currentLevel: string): boolean {
-  const normalized = currentLevel.toLowerCase();
-  if (tierName === "Arcade Novice") return normalized.includes("novice");
-  if (tierName === "Arcade Trooper") return normalized.includes("trooper");
-  if (tierName === "Arcade Ranger") return normalized.includes("ranger");
-  if (tierName === "Champion Tier") return normalized.includes("champion");
-  return false;
+function getTierIndex(currentLevel: string): number {
+  const n = currentLevel.toLowerCase();
+  if (n.includes("champion")) return 3;
+  if (n.includes("ranger")) return 2;
+  if (n.includes("trooper")) return 1;
+  if (n.includes("novice")) return 0;
+  return -1;
 }
 
-const TiersTable = ({ currentLevel }: TiersTableProps) => {
+const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
+  const activeIndex = currentLevel ? getTierIndex(currentLevel) : -1;
+
+  // Calculate next tier info
+  const nextTier = activeIndex < 3 ? tiers[activeIndex + 1] : null;
+  const pointsToNext = nextTier ? nextTier.points - userPoints : 0;
+
   return (
     <div className="w-full max-w-2xl mx-auto mt-10 animate-scale-in" style={{ animationDelay: "0.7s", animationFillMode: "backwards" }}>
-      <h3 className="text-xl font-bold font-display text-foreground mb-5">
-        Tiers & Pontuação
-        <span className="text-sm text-muted-foreground ml-2 font-body font-normal">2025/2026</span>
+      <h3 className="text-xl font-bold font-display text-foreground mb-2">
+        Sua Jornada Arcade
       </h3>
+      <p className="text-sm text-muted-foreground font-body mb-6">
+        {nextTier
+          ? `Faltam ${pointsToNext} ponto${pointsToNext !== 1 ? "s" : ""} para ${nextTier.name}`
+          : "Você atingiu o nível máximo! 🏆"}
+      </p>
 
-      <div className="space-y-3">
-        {tiers.map((tier) => {
-          const Icon = tier.icon;
-          const isActive = currentLevel ? matchesTier(tier.name, currentLevel) : false;
+      {/* Progress tracker */}
+      <div className="relative">
+        {/* Vertical line connecting tiers */}
+        <div className="absolute left-6 top-6 bottom-6 w-px bg-border" />
+        {/* Filled progress line */}
+        {activeIndex >= 0 && (
+          <div
+            className="absolute left-6 top-6 w-px bg-primary transition-all duration-700"
+            style={{
+              height: `${((activeIndex + 0.5) / tiers.length) * 100}%`,
+            }}
+          />
+        )}
 
-          return (
-            <div
-              key={tier.name}
-              className={`glass rounded-2xl p-4 neon-border flex items-center gap-4 transition-all duration-300 ${
-                isActive
-                  ? "ring-2 ring-primary/60 glow-cyan scale-[1.02]"
-                  : "opacity-60 hover:opacity-100"
-              }`}
-            >
-              <div className={`w-12 h-12 flex-shrink-0 rounded-xl bg-muted/50 flex items-center justify-center ${tier.color}`}>
-                <Icon className="w-6 h-6" />
-              </div>
+        <div className="space-y-0">
+          {tiers.map((tier, index) => {
+            const Icon = tier.icon;
+            const isActive = index === activeIndex;
+            const isCompleted = index < activeIndex;
+            const isLocked = index > activeIndex + 1;
 
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <p className={`font-semibold font-display text-sm ${tier.color}`}>{tier.name}</p>
-                  <span className="text-xs text-muted-foreground font-body">({tier.subtitle})</span>
-                  {isActive && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full">
-                      <Check className="w-3 h-3" /> Você está aqui
-                    </span>
-                  )}
+            // Progress within the current active tier
+            let progressPercent = 0;
+            if (isActive && nextTier) {
+              const prevPoints = index > 0 ? tiers[index - 1].points : 0;
+              const range = nextTier.points - prevPoints;
+              progressPercent = Math.min(100, Math.max(0, ((userPoints - tier.points) / (nextTier.points - tier.points)) * 100));
+            }
+            if (isCompleted) progressPercent = 100;
+
+            return (
+              <div key={tier.name} className="relative flex items-stretch gap-4">
+                {/* Node */}
+                <div className="relative z-10 flex flex-col items-center">
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
+                      isActive
+                        ? `${tier.bgColor} ${tier.borderColor} ${tier.glowClass} scale-110`
+                        : isCompleted
+                        ? `${tier.bgColor} ${tier.borderColor}`
+                        : "bg-muted/30 border-border"
+                    }`}
+                  >
+                    {isCompleted ? (
+                      <Check className={`w-5 h-5 ${tier.color}`} />
+                    ) : (
+                      <Icon className={`w-5 h-5 ${isActive || isCompleted ? tier.color : "text-muted-foreground/50"}`} />
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground font-body mt-1 leading-relaxed">{tier.description}</p>
-              </div>
 
-              <div className="flex-shrink-0 text-right">
-                <p className={`text-lg font-bold font-display ${tier.color}`}>{tier.points}+</p>
-                <p className="text-[10px] text-muted-foreground font-body uppercase tracking-wider">pontos</p>
+                {/* Content card */}
+                <div
+                  className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 ${
+                    isActive
+                      ? `glass ${tier.borderColor} border ${tier.glowClass}`
+                      : isCompleted
+                      ? "glass border border-border/50"
+                      : "bg-muted/10 border border-border/30"
+                  } ${isLocked ? "opacity-40" : ""}`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <p className={`font-bold font-display text-sm ${isActive || isCompleted ? tier.color : "text-muted-foreground"}`}>
+                        {tier.name}
+                      </p>
+                      {isActive && (
+                        <span className="text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                          Atual
+                        </span>
+                      )}
+                      {isCompleted && (
+                        <span className="text-[10px] font-body text-neon-green uppercase tracking-wider">✓ Concluído</span>
+                      )}
+                    </div>
+                    <span className={`text-sm font-bold font-display ${isActive || isCompleted ? tier.color : "text-muted-foreground/50"}`}>
+                      {tier.points} pts
+                    </span>
+                  </div>
+
+                  {/* Progress bar for active tier */}
+                  {isActive && nextTier && (
+                    <div className="mt-2 mb-2">
+                      <div className="flex items-center justify-between text-[10px] text-muted-foreground font-body mb-1">
+                        <span>{userPoints} pts</span>
+                        <span className="flex items-center gap-0.5">
+                          <ChevronRight className="w-3 h-3" />
+                          {nextTier.name} ({nextTier.points} pts)
+                        </span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
+                          style={{ width: `${Math.max(5, progressPercent)}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <p className={`text-xs font-body leading-relaxed ${isActive || isCompleted ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
+                    {tier.subtitle} — {isLocked ? "Bloqueado" : isCompleted ? "Nível concluído" : isActive ? "Você está neste nível" : "Próximo objetivo"}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
