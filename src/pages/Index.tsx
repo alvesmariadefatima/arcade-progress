@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProfileInput from "@/components/ProfileInput";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
+import NavBar from "@/components/NavBar";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -62,10 +63,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background bg-grid-pattern relative overflow-hidden">
+      <NavBar onReset={handleReset} showResults={appState === "results"} />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-4 py-12 md:py-20 flex flex-col items-center justify-center min-h-screen">
+      <div className="relative z-10 container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-20 flex flex-col items-center justify-center min-h-screen">
         {appState === "idle" || appState === "loading" ? (
           <ProfileInput onSubmit={handleSubmit} isLoading={appState === "loading"} />
         ) : appState === "error" ? (
