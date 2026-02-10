@@ -3,6 +3,7 @@ import ProfileInput from "@/components/ProfileInput";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
 import NavBar from "@/components/NavBar";
+import ArcadeDecorations from "@/components/ArcadeDecorations";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -63,6 +64,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background bg-grid-pattern relative overflow-hidden">
+      <ArcadeDecorations />
       <NavBar onReset={handleReset} showResults={appState === "results"} />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-yellow/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-pink/5 rounded-full blur-[120px] pointer-events-none" />
