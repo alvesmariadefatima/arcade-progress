@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Gamepad2, Zap } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Gamepad2, Zap, AlertTriangle } from "lucide-react";
 
 interface ProfileInputProps {
   onSubmit: (url: string) => void;
@@ -11,6 +12,8 @@ interface ProfileInputProps {
 const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const validateUrl = (input: string): boolean => {
     const pattern = /^https?:\/\/(www\.)?(cloudskillsboost\.google|skills\.google)\/public_profiles\/.+/;
@@ -20,11 +23,13 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
-      setError("Por favor, insira a URL do seu perfil.");
+      setModalMessage("Por favor, insira a URL do seu perfil público do Google Cloud Skills Boost.");
+      setShowModal(true);
       return;
     }
     if (!validateUrl(url)) {
-      setError("URL inválida. Verifique o link do perfil.");
+      setModalMessage("URL inválida. O link deve seguir o formato:\nhttps://www.skills.google/public_profiles/SEU_ID");
+      setShowModal(true);
       return;
     }
     setError("");
@@ -90,6 +95,30 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       <p className="text-center text-sm text-muted-foreground mt-6 font-body">
         Cole a URL pública do seu perfil no Google Cloud Skills Boost
       </p>
+
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="glass neon-border sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+                <AlertTriangle className="w-5 h-5 text-primary" />
+              </div>
+              <DialogTitle className="font-display text-foreground">Atenção</DialogTitle>
+            </div>
+            <DialogDescription className="font-body text-muted-foreground pt-2 whitespace-pre-line">
+              {modalMessage}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowModal(false)}
+              className="arcade-gradient text-primary-foreground font-display"
+            >
+              Entendi
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
