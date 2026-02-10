@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Share2, Twitter, Linkedin, Copy, Check, Link } from "lucide-react";
+import { Share2, Twitter, Linkedin, Copy, Check } from "lucide-react";
 import { ArcadeProfile } from "@/lib/arcade-types";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -27,6 +27,23 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
     }
   };
 
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Google Arcade 2026", text: shareText });
+      } catch {
+        // user cancelled, ignore
+      }
+    } else {
+      setOpen(!open);
+    }
+  };
+
+  const openLink = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+    setOpen(false);
+  };
+
   const socials = [
     {
       name: "X (Twitter)",
@@ -36,7 +53,7 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
     {
       name: "LinkedIn",
       icon: <Linkedin className="w-4 h-4" />,
-      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://skills.google")}&summary=${encodedText}`,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://cloud.google.com/arcade")}&summary=${encodedText}`,
     },
     {
       name: "WhatsApp",
@@ -48,7 +65,7 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
   return (
     <div className="relative">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={handleNativeShare}
         className="flex items-center gap-2 px-4 py-2 rounded-xl glass neon-border text-sm font-body text-muted-foreground hover:text-foreground hover:glow-cyan transition-all duration-300"
       >
         <Share2 className="w-4 h-4" />
@@ -60,17 +77,14 @@ const ShareResults = ({ profile }: ShareResultsProps) => {
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-12 z-50 w-56 rounded-xl bg-card border border-border shadow-lg p-2 space-y-1 animate-scale-in">
             {socials.map((s) => (
-              <a
+              <button
                 key={s.name}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-body text-card-foreground hover:bg-muted transition-colors"
-                onClick={() => setOpen(false)}
+                onClick={() => openLink(s.url)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-body text-card-foreground hover:bg-muted transition-colors w-full text-left"
               >
                 {s.icon}
                 {s.name}
-              </a>
+              </button>
             ))}
             <button
               onClick={handleCopy}
