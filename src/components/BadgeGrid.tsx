@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Badge } from "@/lib/arcade-types";
 import { Calendar, SortAsc, SortDesc } from "lucide-react";
+import BadgeDetailModal from "./BadgeDetailModal";
 
 interface BadgeGridProps {
   badges: Badge[];
@@ -10,6 +11,7 @@ type SortOrder = "newest" | "oldest";
 
 const BadgeGrid = ({ badges }: BadgeGridProps) => {
   const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
+  const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const sortedBadges = useMemo(() => {
     if (!badges.length) return badges;
@@ -51,7 +53,8 @@ const BadgeGrid = ({ badges }: BadgeGridProps) => {
         {sortedBadges.map((badge, index) => (
           <div
             key={badge.name}
-            className="glass rounded-2xl p-5 neon-border hover:glow-cyan transition-all duration-300 group cursor-default flex gap-4 items-start"
+            onClick={() => setSelectedBadge(badge)}
+            className="glass rounded-2xl p-5 neon-border hover:glow-cyan transition-all duration-300 group cursor-pointer flex gap-4 items-start"
             style={{
               animationDelay: `${0.6 + index * 0.06}s`,
               animationFillMode: "backwards",
@@ -87,6 +90,13 @@ const BadgeGrid = ({ badges }: BadgeGridProps) => {
           </div>
         ))}
       </div>
+
+      {/* Detail Modal */}
+      <BadgeDetailModal
+        badge={selectedBadge}
+        open={!!selectedBadge}
+        onOpenChange={(open) => !open && setSelectedBadge(null)}
+      />
     </div>
   );
 };

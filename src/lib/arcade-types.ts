@@ -3,6 +3,7 @@ export interface Badge {
   image: string;
   points: number;
   earnedDate?: string;
+  link?: string;
 }
 
 export interface ArcadeProfile {
