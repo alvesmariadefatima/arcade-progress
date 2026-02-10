@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProfileInput from "@/components/ProfileInput";
 import ResultsDashboard from "@/components/ResultsDashboard";
+import TiersTable from "@/components/TiersTable";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -78,7 +79,10 @@ const Index = () => {
             </button>
           </div>
         ) : profile ? (
-          <ResultsDashboard profile={profile} onReset={handleReset} />
+          <>
+            <ResultsDashboard profile={profile} onReset={handleReset} />
+            <TiersTable />
+          </>
         ) : null}
       </div>
     </div>
