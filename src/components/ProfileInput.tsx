@@ -108,6 +108,14 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
             <DialogDescription className="font-body text-muted-foreground pt-2 whitespace-pre-line">
               {modalMessage}
             </DialogDescription>
+            <div className="mt-3 p-3 rounded-lg bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-1.5">
+              <p className="text-foreground font-medium text-xs uppercase tracking-wide">Como encontrar sua URL:</p>
+              <ol className="list-decimal list-inside space-y-1 text-xs">
+                <li>Acesse <a href="https://www.cloudskillsboost.google" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80">cloudskillsboost.google</a></li>
+                <li>Clique na sua foto de perfil → <strong className="text-foreground">Perfil Público</strong></li>
+                <li>Copie a URL da barra de endereço do navegador</li>
+              </ol>
+            </div>
           </DialogHeader>
           <DialogFooter>
             <Button
