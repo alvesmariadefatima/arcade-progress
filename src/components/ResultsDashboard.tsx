@@ -3,7 +3,7 @@ import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
 import BadgeGrid from "./BadgeGrid";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, User } from "lucide-react";
+import { ArrowLeft, User, Award } from "lucide-react";
 
 interface ResultsDashboardProps {
   profile: ArcadeProfile;
@@ -42,17 +42,25 @@ const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
           )}
         </div>
         <h2 className="text-2xl font-bold font-display text-foreground">{profile.name}</h2>
-        <p className="text-sm text-muted-foreground font-body mt-1">Google Cloud Skills Boost</p>
+        {profile.league && (
+          <div className="flex items-center justify-center gap-1.5 mt-1">
+            <Award className="w-4 h-4 text-primary" />
+            <span className="text-sm text-primary font-display">{profile.league}</span>
+          </div>
+        )}
+        <p className="text-sm text-muted-foreground font-body mt-1">
+          {profile.points.toLocaleString()} pontos · {profile.badges.length} badges
+        </p>
       </div>
 
       {/* Level + Progress */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <LevelBadge level={profile.level} points={profile.points} />
-        <ProgressBar points={profile.points} />
+        <LevelBadge level={profile.level} points={profile.badges.length} />
+        <ProgressBar points={profile.badges.length} />
       </div>
 
       {/* Badges */}
-      <BadgeGrid badges={profile.badges} />
+      {profile.badges.length > 0 && <BadgeGrid badges={profile.badges} />}
     </div>
   );
 };

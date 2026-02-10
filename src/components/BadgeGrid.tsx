@@ -26,15 +26,21 @@ const BadgeGrid = ({ badges }: BadgeGridProps) => {
               animationFillMode: "backwards",
             }}
           >
-            <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">
-              {badge.image}
+            <div className="w-12 h-12 mb-2 group-hover:scale-110 transition-transform flex items-center justify-center">
+              {badge.image.startsWith('http') ? (
+                <img src={badge.image} alt={badge.name} className="w-12 h-12 rounded object-contain" />
+              ) : (
+                <span className="text-3xl">{badge.image}</span>
+              )}
             </div>
             <p className="text-sm font-medium text-foreground font-body leading-tight">
               {badge.name}
             </p>
-            <p className="text-xs text-primary font-display mt-1">
-              +{badge.points} pts
-            </p>
+            {badge.earnedDate && (
+              <p className="text-xs text-muted-foreground font-body mt-1">
+                {badge.earnedDate}
+              </p>
+            )}
           </div>
         ))}
       </div>
