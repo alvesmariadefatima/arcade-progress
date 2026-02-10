@@ -13,7 +13,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [error, setError] = useState("");
 
   const validateUrl = (input: string): boolean => {
-    const pattern = /^https?:\/\/(www\.)?cloudskillsboost\.google\/public_profiles\/.+/;
+    const pattern = /^https?:\/\/(www\.)?(cloudskillsboost\.google|skills\.google)\/public_profiles\/.+/;
     return pattern.test(input.trim());
   };
 
@@ -57,7 +57,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
               setUrl(e.target.value);
               setError("");
             }}
-            placeholder="https://www.cloudskillsboost.google/public_profiles/USER_ID"
+            placeholder="https://www.skills.google/public_profiles/USER_ID"
             className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body"
           />
           {error && (
