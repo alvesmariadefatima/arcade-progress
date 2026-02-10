@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Search, Trophy, Menu, X } from "lucide-react";
+import { Home, Search, LogOut, Menu, X } from "lucide-react";
 
 interface NavBarProps {
   onReset: () => void;
@@ -10,9 +10,12 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
   const [open, setOpen] = useState(false);
 
   const items = [
-    { label: "Início", icon: Home, action: onReset },
-    { label: "Nova Consulta", icon: Search, action: onReset },
+    { label: "Início", icon: Home, action: onReset, always: true },
+    { label: "Nova Consulta", icon: Search, action: onReset, always: true },
+    { label: "Sair", icon: LogOut, action: onReset, always: false },
   ];
+
+  const visibleItems = items.filter((i) => i.always || showResults);
 
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 px-4 py-3">
@@ -21,11 +24,15 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
 
         {/* Desktop */}
         <div className="hidden sm:flex items-center gap-1">
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <button
               key={item.label}
               onClick={() => { item.action(); setOpen(false); }}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-body transition-colors ${
+                item.label === "Sair"
+                  ? "text-destructive hover:bg-destructive/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
             >
               <item.icon className="w-4 h-4" />
               {item.label}
@@ -45,13 +52,17 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
       {/* Mobile dropdown */}
       {open && (
         <div className="sm:hidden mt-2 glass rounded-xl neon-border p-2 space-y-1 animate-scale-in">
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <button
               key={item.label}
               onClick={() => { item.action(); setOpen(false); }}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-body text-foreground hover:bg-muted/50 transition-colors w-full text-left"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-body transition-colors w-full text-left ${
+                item.label === "Sair"
+                  ? "text-destructive hover:bg-destructive/10"
+                  : "text-foreground hover:bg-muted/50"
+              }`}
             >
-              <item.icon className="w-4 h-4 text-primary" />
+              <item.icon className={`w-4 h-4 ${item.label === "Sair" ? "" : "text-primary"}`} />
               {item.label}
             </button>
           ))}
