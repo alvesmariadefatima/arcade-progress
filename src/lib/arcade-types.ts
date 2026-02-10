@@ -2,6 +2,7 @@ export interface Badge {
   name: string;
   image: string;
   points: number;
+  earnedDate?: string;
 }
 
 export interface ArcadeProfile {
@@ -9,7 +10,9 @@ export interface ArcadeProfile {
   avatar: string;
   points: number;
   level: string;
+  league?: string;
   badges: Badge[];
+  badgeCount?: number;
 }
 
 export type AppState = "idle" | "loading" | "results" | "error";
