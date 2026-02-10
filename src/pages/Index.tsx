@@ -63,14 +63,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-grid-pattern relative overflow-hidden">
+    <div className="min-h-screen bg-background bg-grid-pattern relative overflow-hidden flex flex-col">
       <ArcadeDecorations />
       <NavBar onReset={handleReset} showResults={appState === "results"} />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-yellow/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-pink/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-20 flex flex-col items-center justify-center min-h-screen">
+      <div className="relative z-10 container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-20 flex flex-col items-center justify-center flex-1">
         {appState === "idle" || appState === "loading" ? (
           <ProfileInput onSubmit={handleSubmit} isLoading={appState === "loading"} />
         ) : appState === "error" ? (
@@ -90,6 +90,15 @@ const Index = () => {
           </>
         ) : null}
       </div>
+
+      <footer className="relative z-10 py-6 text-center">
+        <p className="font-display text-sm md:text-base tracking-wide">
+          <span className="text-muted-foreground">Feito com </span>
+          <span className="text-secondary text-glow-pink text-lg">❤️</span>
+          <span className="text-muted-foreground"> e carinho por </span>
+          <span className="text-primary text-glow-yellow font-semibold">Maria de Fátima Nunes Alves</span>
+        </p>
+      </footer>
     </div>
   );
 };
