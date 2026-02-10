@@ -7,6 +7,7 @@ interface BadgeInfo {
   name: string;
   image: string;
   earnedDate: string;
+  link: string;
 }
 
 function parseProfile(markdown: string, html: string) {
@@ -79,6 +80,7 @@ function parseProfile(markdown: string, html: string) {
     const badgeMatch = line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/badges\/[^)]+)\)/);
     if (badgeMatch) {
       const image = badgeMatch[1];
+      const link = badgeMatch[2];
       // Next non-empty line should be the badge name
       let badgeName = '';
       let earnedDate = '';
@@ -95,7 +97,7 @@ function parseProfile(markdown: string, html: string) {
       }
 
       if (badgeName) {
-        badges.push({ name: badgeName, image, earnedDate });
+        badges.push({ name: badgeName, image, earnedDate, link });
       }
     }
   }
@@ -183,6 +185,7 @@ Deno.serve(async (req) => {
           name: b.name,
           image: b.image,
           earnedDate: b.earnedDate,
+          link: b.link,
           points: 1,
         })),
         badgeCount: profile.badges.length,
