@@ -42,6 +42,25 @@ function parseProfile(markdown: string, html: string) {
     }
   }
 
+  // Extract member since
+  let memberSince = '';
+  for (const line of lines) {
+    const memberMatch = line.match(/Member since (\d{4})/i);
+    if (memberMatch) {
+      memberSince = memberMatch[1];
+      break;
+    }
+  }
+
+  // Extract league image from HTML
+  let leagueImage = '';
+  if (html) {
+    const leagueImgMatch = html.match(/profile-league[\s\S]*?<img[^>]*src="([^"]+)"/i);
+    if (leagueImgMatch) {
+      leagueImage = leagueImgMatch[1];
+    }
+  }
+
   // Extract avatar from HTML (ql-avatar component has the real profile photo)
   let avatar = '';
   if (html) {
@@ -81,7 +100,7 @@ function parseProfile(markdown: string, html: string) {
     }
   }
 
-  return { name, points, league, avatar, badges };
+  return { name, points, league, leagueImage, memberSince, avatar, badges };
 }
 
 Deno.serve(async (req) => {
@@ -157,6 +176,8 @@ Deno.serve(async (req) => {
         avatar: profile.avatar,
         points: profile.points,
         league: profile.league,
+        leagueImage: profile.leagueImage,
+        memberSince: profile.memberSince,
         level,
         badges: profile.badges.map(b => ({
           name: b.name,
