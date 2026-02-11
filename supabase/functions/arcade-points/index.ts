@@ -72,15 +72,28 @@ function parseProfile(markdown: string, html: string) {
     }
   }
 
-  // Extract badges: pattern is [![](image)](link) followed by badge name, then "Earned date"
+  // Extract badges: multiple patterns for regular badges and skill badges
   const badges: BadgeInfo[] = [];
+  const seenLinks = new Set<string>();
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    // Match badge image links: [![](image_url)](badge_url)
+    
+    // Pattern 1: [![](image_url)](badge_url) - standard markdown image link
     const badgeMatch = line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/badges\/[^)]+)\)/);
-    if (badgeMatch) {
-      const image = badgeMatch[1];
-      const link = badgeMatch[2];
+    // Pattern 2: Also match skill badges which may use different URL patterns  
+    const skillBadgeMatch = !badgeMatch ? line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/(?:course_templates|quests|games)\/[^)]+)\)/) : null;
+    
+    const match = badgeMatch || skillBadgeMatch;
+    
+    if (match) {
+      const image = match[1];
+      const link = match[2];
+      
+      // Skip duplicates
+      if (seenLinks.has(link)) continue;
+      seenLinks.add(link);
+      
       // Next non-empty line should be the badge name
       let badgeName = '';
       let earnedDate = '';
@@ -144,7 +157,8 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         url: formattedUrl,
         formats: ['markdown', 'html'],
-        waitFor: 5000,
+        waitFor: 8000,
+        onlyMainContent: false,
       }),
     });
 
