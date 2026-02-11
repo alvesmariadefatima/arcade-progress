@@ -11,10 +11,18 @@ import { supabase } from "@/integrations/supabase/client";
 const Index = () => {
   const [appState, setAppState] = useState<AppState>("idle");
   const [profile, setProfile] = useState<ArcadeProfile | null>(null);
+  const [lastUrl, setLastUrl] = useState<string>("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (url: string) => {
-    setAppState("loading");
+    setLastUrl(url);
+    const isRefresh = appState === "results" && profile !== null;
+    if (isRefresh) {
+      setIsRefreshing(true);
+    } else {
+      setAppState("loading");
+    }
 
     try {
       const { data, error } = await supabase.functions.invoke('arcade-points', {
@@ -44,22 +52,35 @@ const Index = () => {
 
       setProfile(arcadeProfile);
       setAppState("results");
+      setIsRefreshing(false);
+      if (isRefresh) {
+        toast({ title: "Atualizado!", description: "Seus dados foram atualizados com sucesso." });
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Não foi possível acessar os dados do usuário.';
-      setAppState("error");
+      setIsRefreshing(false);
+      if (!isRefresh) {
+        setAppState("error");
+        setTimeout(() => setAppState("idle"), 3000);
+      }
       toast({
         title: "Erro",
         description: message,
         variant: "destructive",
       });
-      // Go back to idle so user can retry
-      setTimeout(() => setAppState("idle"), 3000);
     }
   };
 
   const handleReset = () => {
     setAppState("idle");
     setProfile(null);
+    setLastUrl("");
+  };
+
+  const handleRefresh = () => {
+    if (lastUrl) {
+      handleSubmit(lastUrl);
+    }
   };
 
   return (
@@ -85,7 +106,7 @@ const Index = () => {
           </div>
         ) : profile ? (
           <>
-            <ResultsDashboard profile={profile} onReset={handleReset} />
+            <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
             <TiersTable currentLevel={profile.level} userPoints={profile.badges.length} />
           </>
         ) : null}

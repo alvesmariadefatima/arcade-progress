@@ -3,14 +3,17 @@ import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
-import { User, Award } from "lucide-react";
+import { User, Award, RefreshCw } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface ResultsDashboardProps {
   profile: ArcadeProfile;
   onReset: () => void;
+  onRefresh: () => void;
+  isRefreshing: boolean;
 }
 
-const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
+const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: ResultsDashboardProps) => {
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
 
@@ -40,6 +43,16 @@ const ResultsDashboard = ({ profile, onReset }: ResultsDashboardProps) => {
         <p className="text-sm text-muted-foreground font-body mt-1">
           {profile.points.toLocaleString()} pontos · {profile.badges.length} badges
         </p>
+        <Button
+          onClick={onRefresh}
+          disabled={isRefreshing}
+          variant="outline"
+          size="sm"
+          className="mt-3 gap-2 font-body"
+        >
+          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          {isRefreshing ? 'Atualizando…' : 'Atualizar dados'}
+        </Button>
       </div>
 
       {/* League Ranking */}
