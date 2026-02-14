@@ -6,7 +6,14 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Calendar, ExternalLink } from "lucide-react";
+import { Calendar, ExternalLink, BookOpen, Gamepad2, Award } from "lucide-react";
+
+const typeLabels: Record<string, { label: string; icon: typeof BookOpen; colorClass: string }> = {
+  arcade_game: { label: "Arcade Game · 3 pontos", icon: Gamepad2, colorClass: "text-neon-pink" },
+  skill_badge: { label: "Skill Badge · 3 pontos", icon: Award, colorClass: "text-neon-green" },
+  course_short: { label: "Curso · 1 ponto", icon: BookOpen, colorClass: "text-primary" },
+  course_long: { label: "Curso 60+ · 2 pontos", icon: BookOpen, colorClass: "text-neon-yellow" },
+};
 
 interface BadgeDetailModalProps {
   badge: Badge | null;
@@ -42,7 +49,16 @@ const BadgeDetailModal = ({ badge, open, onOpenChange }: BadgeDetailModalProps) 
               {badge.name}
             </DialogTitle>
             <DialogDescription className="text-center text-muted-foreground text-sm font-body">
-              Google Cloud Skills Boost Badge
+              {(() => {
+                const t = typeLabels[badge.type || "course_short"] || typeLabels.course_short;
+                const Icon = t.icon;
+                return (
+                  <span className={`inline-flex items-center gap-1.5 ${t.colorClass}`}>
+                    <Icon className="w-4 h-4" />
+                    {t.label}
+                  </span>
+                );
+              })()}
             </DialogDescription>
           </DialogHeader>
 
