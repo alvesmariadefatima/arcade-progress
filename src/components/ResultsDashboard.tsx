@@ -1,6 +1,7 @@
 import { ArcadeProfile } from "@/lib/arcade-types";
 import LevelBadge from "./LevelBadge";
 import ProgressBar from "./ProgressBar";
+import PointsBreakdown from "./PointsBreakdown";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
 import { User, Award, RefreshCw } from "lucide-react";
@@ -70,6 +71,9 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
         <LevelBadge level={profile.level} points={profile.badges.length} />
         <ProgressBar points={profile.badges.length} />
       </div>
+
+      {/* Points Breakdown */}
+      <PointsBreakdown badges={profile.badges} />
 
       {/* Badges */}
       {profile.badges.length > 0 && <BadgeGrid badges={profile.badges} />}
