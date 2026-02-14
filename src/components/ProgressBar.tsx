@@ -26,7 +26,7 @@ const ProgressBar = ({ points }: ProgressBarProps) => {
   }
 
   // Find previous threshold
-  const prevThreshold = points >= 40 ? 40 : points >= 20 ? 20 : 0;
+  const prevThreshold = points >= 40 ? 40 : 0;
   const range = next.threshold - prevThreshold;
   const progress = ((points - prevThreshold) / range) * 100;
 

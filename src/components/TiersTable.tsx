@@ -1,10 +1,8 @@
-import { Trophy, Star, Shield, Zap, Check, ChevronRight } from "lucide-react";
+import { Trophy, Shield, Check, ChevronRight } from "lucide-react";
 
 const tiers = [
-  { name: "Arcade Novice", subtitle: "Iniciante", points: 20, icon: Star, color: "text-neon-yellow", bgColor: "bg-neon-yellow/15", borderColor: "border-neon-yellow/40", glowClass: "shadow-[0_0_15px_hsl(50_100%_55%/0.3)]" },
-  { name: "Arcade Trooper", subtitle: "Ativo", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]" },
-  { name: "Arcade Ranger", subtitle: "Premium", points: 65, icon: Zap, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]" },
-  { name: "Champion Tier", subtitle: "Campeão", points: 75, icon: Trophy, color: "text-neon-pink", bgColor: "bg-neon-pink/15", borderColor: "border-neon-pink/40", glowClass: "shadow-[0_0_15px_hsl(330_100%_60%/0.3)]" },
+  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]" },
+  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]" },
 ];
 
 interface TiersTableProps {
@@ -14,10 +12,8 @@ interface TiersTableProps {
 
 function getTierIndex(currentLevel: string): number {
   const n = currentLevel.toLowerCase();
-  if (n.includes("champion")) return 3;
-  if (n.includes("ranger")) return 2;
-  if (n.includes("trooper")) return 1;
-  if (n.includes("novice")) return 0;
+  if (n.includes("premium")) return 1;
+  if (n.includes("standard")) return 0;
   return -1;
 }
 

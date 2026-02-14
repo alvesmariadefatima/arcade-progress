@@ -8,6 +8,15 @@ interface BadgeInfo {
   image: string;
   earnedDate: string;
   link: string;
+  type: 'course_short' | 'course_long' | 'arcade_game' | 'skill_badge';
+  points: number;
+}
+
+function classifyBadge(link: string): { type: BadgeInfo['type']; points: number } {
+  if (/\/games\//i.test(link)) return { type: 'arcade_game', points: 3 };
+  if (/\/(?:quests|course_templates)\//i.test(link)) return { type: 'skill_badge', points: 3 };
+  // Default courses — can't distinguish duration from profile page, default to 1
+  return { type: 'course_short', points: 1 };
 }
 
 function parseProfile(markdown: string, html: string) {
@@ -110,12 +119,17 @@ function parseProfile(markdown: string, html: string) {
       }
 
       if (badgeName) {
-        badges.push({ name: badgeName, image, earnedDate, link });
+        const classification = classifyBadge(link);
+        badges.push({ name: badgeName, image, earnedDate, link, type: classification.type, points: classification.points });
       }
     }
   }
 
   return { name, points, league, leagueImage, memberSince, avatar, badges };
+}
+
+function calculateArcadePoints(badges: BadgeInfo[]): number {
+  return badges.reduce((sum, b) => sum + b.points, 0);
 }
 
 Deno.serve(async (req) => {
@@ -178,12 +192,13 @@ Deno.serve(async (req) => {
 
     const profile = parseProfile(markdown, html);
 
-    // Determine arcade level based on badge count
-    const badgeCount = profile.badges.length;
+    // Calculate arcade points based on badge types
+    const arcadePoints = calculateArcadePoints(profile.badges);
+    
+    // Determine level based on calculated points
     let level = 'Iniciante';
-    if (badgeCount >= 65) level = 'Arcade Ranger';
-    else if (badgeCount >= 40) level = 'Arcade Trooper';
-    else if (badgeCount >= 20) level = 'Arcade Novice';
+    if (arcadePoints >= 60) level = 'Marco Premium';
+    else if (arcadePoints >= 40) level = 'Marco Standard';
 
     const result = {
       success: true,
@@ -191,6 +206,7 @@ Deno.serve(async (req) => {
         name: profile.name,
         avatar: profile.avatar,
         points: profile.points,
+        arcadePoints,
         league: profile.league,
         leagueImage: profile.leagueImage,
         memberSince: profile.memberSince,
@@ -200,13 +216,14 @@ Deno.serve(async (req) => {
           image: b.image,
           earnedDate: b.earnedDate,
           link: b.link,
-          points: 1,
+          type: b.type,
+          points: b.points,
         })),
         badgeCount: profile.badges.length,
       },
     };
 
-    console.log(`Found ${profile.badges.length} badges for ${profile.name} (${profile.points} points)`);
+    console.log(`Found ${profile.badges.length} badges for ${profile.name} — ${arcadePoints} arcade points (${profile.points} profile points)`);
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

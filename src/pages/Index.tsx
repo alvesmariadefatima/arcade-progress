@@ -38,11 +38,12 @@ const Index = () => {
       }
 
       const profileData = data.data;
+      const arcadePoints = profileData.arcadePoints || profileData.badges?.reduce((s: number, b: any) => s + (b.points || 1), 0) || 0;
       const arcadeProfile: ArcadeProfile = {
         name: profileData.name || 'Usuário',
         avatar: profileData.avatar || '',
-        points: profileData.points || 0,
-        level: getArcadeLevel(profileData.badges?.length || 0),
+        points: arcadePoints,
+        level: getArcadeLevel(arcadePoints),
         league: profileData.league || '',
         leagueImage: profileData.leagueImage || '',
         memberSince: profileData.memberSince || '',
@@ -107,7 +108,7 @@ const Index = () => {
         ) : profile ? (
           <>
             <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
-            <TiersTable currentLevel={profile.level} userPoints={profile.badges.length} />
+            <TiersTable currentLevel={profile.level} userPoints={profile.points} />
           </>
         ) : null}
       </div>
