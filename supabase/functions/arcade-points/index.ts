@@ -12,10 +12,19 @@ interface BadgeInfo {
   points: number;
 }
 
-function classifyBadge(link: string): { type: BadgeInfo['type']; points: number } {
-  if (/\/games\//i.test(link)) return { type: 'arcade_game', points: 3 };
-  if (/\/(?:quests|course_templates)\//i.test(link)) return { type: 'skill_badge', points: 3 };
-  // Default courses — can't distinguish duration from profile page, default to 1
+function classifyBadge(name: string, description: string): { type: BadgeInfo['type']; points: number } {
+  const nameLower = name.toLowerCase();
+  const descLower = description.toLowerCase();
+  
+  // Arcade Games: name starts with "Arcade" or description mentions it's a challenge/game
+  if (/^arcade\b/i.test(name)) {
+    return { type: 'arcade_game', points: 3 };
+  }
+  // Skill Badges: description starts with or contains "earn a skill badge" indicating the badge itself IS a skill badge
+  if (/earn a skill badge/i.test(description) || /complete the .+ skill badge/i.test(description)) {
+    return { type: 'skill_badge', points: 3 };
+  }
+  // Courses: default — 1 point
   return { type: 'course_short', points: 1 };
 }
 
@@ -85,25 +94,39 @@ function parseProfile(markdown: string, html: string) {
   const badges: BadgeInfo[] = [];
   const seenLinks = new Set<string>();
 
+  // First pass: collect badge names and their detail descriptions from the markdown
+  // Detail sections appear as: # Badge Name \n Dismiss \n Description text...
+  const badgeDescriptions = new Map<string, string>();
+  for (let i = 0; i < lines.length; i++) {
+    // Detail sections start with "# Name" followed by "Dismiss"
+    const h1Match = lines[i].match(/^# (.+)$/);
+    if (h1Match && i + 1 < lines.length && lines[i + 1] === 'Dismiss') {
+      const detailName = h1Match[1].trim();
+      // Collect description lines until we hit "Learn more" or another heading
+      let desc = '';
+      for (let j = i + 2; j < lines.length && j <= i + 15; j++) {
+        if (lines[j] === 'Learn more' || lines[j].startsWith('# ') || lines[j] === 'close') break;
+        desc += ' ' + lines[j];
+      }
+      badgeDescriptions.set(detailName.toLowerCase(), desc.trim());
+    }
+  }
+
+  // Second pass: extract badges from the grid
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     
-    // Pattern 1: [![](image_url)](badge_url) - standard markdown image link
     const badgeMatch = line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/badges\/[^)]+)\)/);
-    // Pattern 2: Also match skill badges which may use different URL patterns  
     const skillBadgeMatch = !badgeMatch ? line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/(?:course_templates|quests|games)\/[^)]+)\)/) : null;
-    
     const match = badgeMatch || skillBadgeMatch;
     
     if (match) {
       const image = match[1];
       const link = match[2];
       
-      // Skip duplicates
       if (seenLinks.has(link)) continue;
       seenLinks.add(link);
       
-      // Next non-empty line should be the badge name
       let badgeName = '';
       let earnedDate = '';
       
@@ -119,7 +142,8 @@ function parseProfile(markdown: string, html: string) {
       }
 
       if (badgeName) {
-        const classification = classifyBadge(link);
+        const description = badgeDescriptions.get(badgeName.toLowerCase()) || '';
+        const classification = classifyBadge(badgeName, description);
         badges.push({ name: badgeName, image, earnedDate, link, type: classification.type, points: classification.points });
       }
     }
@@ -189,7 +213,6 @@ Deno.serve(async (req) => {
     const markdown = scrapeData.data?.markdown || scrapeData.markdown || '';
     const html = scrapeData.data?.html || scrapeData.html || '';
     console.log('Markdown length:', markdown.length);
-
     const profile = parseProfile(markdown, html);
 
     // Calculate arcade points based on badge types
