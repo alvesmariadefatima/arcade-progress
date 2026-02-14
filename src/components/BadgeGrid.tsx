@@ -1,7 +1,14 @@
 import { useState, useMemo } from "react";
 import { Badge } from "@/lib/arcade-types";
-import { Calendar, SortAsc, SortDesc } from "lucide-react";
+import { Calendar, SortAsc, SortDesc, BookOpen, Gamepad2, Award } from "lucide-react";
 import BadgeDetailModal from "./BadgeDetailModal";
+
+const badgeTypeConfig: Record<string, { label: string; icon: typeof BookOpen; colorClass: string; borderClass: string; bgClass: string }> = {
+  arcade_game: { label: "Arcade Game", icon: Gamepad2, colorClass: "text-neon-pink", borderClass: "border-neon-pink/30", bgClass: "bg-neon-pink/10" },
+  skill_badge: { label: "Skill Badge", icon: Award, colorClass: "text-neon-green", borderClass: "border-neon-green/30", bgClass: "bg-neon-green/10" },
+  course_short: { label: "Curso", icon: BookOpen, colorClass: "text-primary", borderClass: "border-primary/30", bgClass: "bg-primary/10" },
+  course_long: { label: "Curso 60+", icon: BookOpen, colorClass: "text-neon-yellow", borderClass: "border-neon-yellow/30", bgClass: "bg-neon-yellow/10" },
+};
 
 interface BadgeGridProps {
   badges: Badge[];
@@ -50,45 +57,59 @@ const BadgeGrid = ({ badges }: BadgeGridProps) => {
 
       {/* Badge cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {sortedBadges.map((badge, index) => (
-          <div
-            key={badge.name}
-            onClick={() => setSelectedBadge(badge)}
-            className="glass rounded-2xl p-5 neon-border hover:glow-cyan transition-all duration-300 group cursor-pointer flex gap-4 items-start"
-            style={{
-              animationDelay: `${0.6 + index * 0.06}s`,
-              animationFillMode: "backwards",
-            }}
-          >
-            {/* Badge image */}
-            <div className="w-16 h-16 flex-shrink-0 rounded-xl bg-muted/50 flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden">
-              {badge.image.startsWith("http") ? (
-                <img
-                  src={badge.image}
-                  alt={badge.name}
-                  className="w-14 h-14 object-contain"
-                />
-              ) : (
-                <span className="text-4xl">{badge.image}</span>
-              )}
-            </div>
+        {sortedBadges.map((badge, index) => {
+          const config = badgeTypeConfig[badge.type || "course_short"] || badgeTypeConfig.course_short;
+          const TypeIcon = config.icon;
+          return (
+            <div
+              key={`${badge.name}-${index}`}
+              onClick={() => setSelectedBadge(badge)}
+              className={`glass rounded-2xl p-5 border ${config.borderClass} hover:glow-cyan transition-all duration-300 group cursor-pointer flex gap-4 items-start`}
+              style={{
+                animationDelay: `${0.6 + index * 0.06}s`,
+                animationFillMode: "backwards",
+              }}
+            >
+              {/* Badge image */}
+              <div className="w-16 h-16 flex-shrink-0 rounded-xl bg-muted/50 flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden">
+                {badge.image.startsWith("http") ? (
+                  <img
+                    src={badge.image}
+                    alt={badge.name}
+                    className="w-14 h-14 object-contain"
+                  />
+                ) : (
+                  <span className="text-4xl">{badge.image}</span>
+                )}
+              </div>
 
-            {/* Badge info */}
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-foreground font-body leading-snug">
-                {badge.name}
-              </p>
-              {badge.earnedDate && (
-                <div className="flex items-center gap-1.5 mt-2">
-                  <Calendar className="w-3.5 h-3.5 text-primary" />
-                  <span className="text-xs text-muted-foreground font-body">
-                    {badge.earnedDate}
+              {/* Badge info */}
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-foreground font-body leading-snug">
+                  {badge.name}
+                </p>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  {/* Type tag */}
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold font-body uppercase tracking-wider ${config.bgClass} ${config.colorClass}`}>
+                    <TypeIcon className="w-3 h-3" />
+                    {config.label}
+                  </span>
+                  <span className={`text-xs font-bold font-display ${config.colorClass}`}>
+                    {badge.points}pt{badge.points > 1 ? "s" : ""}
                   </span>
                 </div>
-              )}
+                {badge.earnedDate && (
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground font-body">
+                      {badge.earnedDate}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Detail Modal */}
