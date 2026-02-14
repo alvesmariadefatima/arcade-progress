@@ -1,4 +1,4 @@
-import { Shield, Sword, Star, Trophy } from "lucide-react";
+import { Shield, Star, Trophy } from "lucide-react";
 
 interface LevelBadgeProps {
   level: string;
@@ -6,23 +6,17 @@ interface LevelBadgeProps {
 }
 
 const levelConfig: Record<string, { icon: React.ReactNode; glowClass: string; borderClass: string; bgClass: string }> = {
-  "Arcade Ranger": {
+  "Marco Premium": {
     icon: <Trophy className="w-8 h-8" />,
     glowClass: "glow-green",
     borderClass: "border-neon-green/40",
     bgClass: "from-neon-green/20 to-neon-green/5",
   },
-  "Arcade Trooper": {
-    icon: <Sword className="w-8 h-8" />,
+  "Marco Standard": {
+    icon: <Star className="w-8 h-8" />,
     glowClass: "glow-cyan",
     borderClass: "border-neon-cyan/40",
     bgClass: "from-neon-cyan/20 to-neon-cyan/5",
-  },
-  "Arcade Novice": {
-    icon: <Star className="w-8 h-8" />,
-    glowClass: "glow-purple",
-    borderClass: "border-neon-yellow/40",
-    bgClass: "from-neon-yellow/20 to-neon-yellow/5",
   },
   "Iniciante": {
     icon: <Shield className="w-8 h-8" />,
