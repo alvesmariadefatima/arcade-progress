@@ -50,7 +50,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           ACOMPANHE SUA JORNADA
         </p>
         <p className="text-sm text-muted-foreground font-body">
-          Google Cloud Arcade 2026
+          Google Arcade Facilitadores Brasil 2026
         </p>
       </div>
 
