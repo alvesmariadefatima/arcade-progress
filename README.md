@@ -8,7 +8,7 @@ O objetivo do projeto é gamificar e facilitar a visualização do progresso dos
 
 ### 🚀 Demonstração
 
-🔗 Acesse o sistema: https://arcade-progress.lovable.app
+![Acesse o sistema](https://arcade-progress.lovable.app)
 
 ---
 
