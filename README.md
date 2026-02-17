@@ -1,73 +1,149 @@
-# Welcome to your Lovable project
+### 🎮 Arcade Progress
 
-## Project info
+Sistema desenvolvido com Lovable para acompanhamento e cálculo de pontuação dos participantes da jornada Google Arcade Facilitadores Brasil 2026, em parceria com a Soulcode Academy.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+O objetivo do projeto é gamificar e facilitar a visualização do progresso dos facilitadores dentro do programa, permitindo monitorar missões, pontuações e evolução na trilha de aprendizagem.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+### 🚀 Demonstração
 
-**Use Lovable**
+🔗 Acesse o sistema: https://arcade-progress.lovable.app
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+### 📌 Sobre o Projeto
 
-**Use your preferred IDE**
+O Arcade Progress nasceu com a proposta de transformar o acompanhamento da jornada em uma experiência mais interativa, utilizando conceitos de gamificação como:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Pontuação por atividades concluídas
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Evolução de progresso
 
-Follow these steps:
+- Feedback visual da jornada
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Estímulo à competitividade saudável
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Tudo isso integrado ao ecossistema do programa Google Arcade Facilitadores Brasil 2026.
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 🧩 Funcionalidades
+
+✅ Cálculo automático de pontuação
+
+✅ Registro de atividades/missões
+
+✅ Visualização do progresso individual
+
+✅ Interface gamificada
+
+✅ Feedback visual de desempenho
+
+✅ Acompanhamento da jornada em tempo real
+
+---
+
+### 🛠️ Tecnologias Utilizadas
+
+Este projeto foi desenvolvido utilizando:
+
+- Lovable → Plataforma de desenvolvimento do sistema
+
+- Frontend Web → Interface interativa e responsiva
+
+- Lógica de Pontuação Customizada → Regras específicas do programa
+
+- Gamificação → Mecânicas de engajamento e progresso
+
+---
+
+### 🧮 Lógica de Pontuação
+
+A pontuação do participante é calculada com base em critérios definidos pela jornada, como por exemplo:
+
+- Conclusão de missões
+
+- Participação em atividades
+
+- Entregas realizadas
+
+- Engajamento nas trilhas
+
+
+> As regras podem ser ajustadas conforme atualizações do programa.
+
+---
+
+### 🎯 Objetivos do Sistema
+
+- Facilitar o acompanhamento da evolução dos facilitadores
+
+- Centralizar informações da jornada
+
+- Aumentar o engajamento dos participantes
+
+- Proporcionar transparência na pontuação
+
+- Incentivar a conclusão das trilhas
+
+---
+
+### 👥 Público-Alvo
+
+- Facilitadores do Google Arcade Brasil 2026
+
+- Participantes da jornada educacional
+
+- Mentores e organizadores do programa
+
+---
+
+### 🏫 Parceria
+
+Projeto desenvolvido no contexto educacional em parceria com:
+
+- Google Arcade Facilitadores Brasil 2026
+
+- Soulcode Academy
+
+---
+
+### ⚙️ Como Executar o Projeto
+
+> Caso o projeto tenha código exportado do Lovable.
+
+
+# Clone o repositório
+git clone https://github.com/seu-usuario/arcade-progress.git
+
+# Acesse a pasta
+cd arcade-progress
+
+# Instale as dependências
+npm install
+
+# Execute o projeto
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 🤝 Contribuição
 
-**Use GitHub Codespaces**
+Contribuições são bem-vindas!
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Faça um fork do projeto
 
-## What technologies are used for this project?
+2. Crie uma branch
 
-This project is built with:
+3. Commit suas alterações
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+4. Abra um Pull Request
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### 📄 Licença
 
-## Can I connect a custom domain to my Lovable project?
+Este projeto é de caráter educacional, desenvolvido para fins de acompanhamento da jornada Google Arcade Facilitadores Brasil 2026.
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
