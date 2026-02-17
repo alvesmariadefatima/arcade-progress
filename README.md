@@ -115,8 +115,7 @@ Projeto desenvolvido no contexto educacional em parceria com:
 
 
 # Clone o repositório
-```bash
-git clone https://github.com/seu-usuario/arcade-progress.git```
+git clone https://github.com/seu-usuario/arcade-progress.git
 
 # Acesse a pasta
 cd arcade-progress
