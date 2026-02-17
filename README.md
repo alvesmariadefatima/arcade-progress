@@ -114,17 +114,17 @@ Projeto desenvolvido no contexto educacional em parceria com:
 > Caso o projeto tenha código exportado do Lovable.
 
 
-# Clone o repositório
-git clone https://github.com/seu-usuario/arcade-progress.git
+### Clone o repositório
+```git clone https://github.com/seu-usuario/arcade-progress.git```
 
-# Acesse a pasta
-cd arcade-progress
+### Acesse a pasta do projeto 
+```cd arcade-progress```
 
-# Instale as dependências
-npm install
+#### Instale as dependências
+```npm install```
 
-# Execute o projeto
-npm run dev
+### Execute o projeto
+```npm run dev```
 
 ---
 
