@@ -1,8 +1,25 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Gamepad2, Zap, AlertTriangle, HelpCircle } from "lucide-react";
+import { Gamepad2, Zap, AlertTriangle, HelpCircle, History } from "lucide-react";
+
+const HISTORY_KEY = "arcade-url-history";
+const MAX_HISTORY = 5;
+
+function loadHistory(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveToHistory(url: string) {
+  const history = loadHistory().filter((u) => u !== url);
+  history.unshift(url);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+}
 
 interface ProfileInputProps {
   onSubmit: (url: string) => void;
@@ -15,6 +32,19 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [showModal, setShowModal] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [history, setHistory] = useState<string[]>(loadHistory);
+  const [showHistory, setShowHistory] = useState(false);
+  const inputWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (inputWrapperRef.current && !inputWrapperRef.current.contains(e.target as Node)) {
+        setShowHistory(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const validateUrl = (input: string): boolean => {
     const pattern = /^https?:\/\/(www\.)?(cloudskillsboost\.google|skills\.google)\/public_profiles\/.+/;
@@ -34,7 +64,11 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       return;
     }
     setError("");
-    onSubmit(url.trim());
+    const trimmed = url.trim();
+    saveToHistory(trimmed);
+    setHistory(loadHistory());
+    setShowHistory(false);
+    onSubmit(trimmed);
   };
 
   return (
@@ -59,16 +93,39 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           <label className="block text-sm font-medium text-muted-foreground mb-2 font-body">
             URL do Perfil Público
           </label>
-          <Input
-            type="url"
-            value={url}
-            onChange={(e) => {
-              setUrl(e.target.value);
-              setError("");
-            }}
-            placeholder="https://www.skills.google/public_profiles/USER_ID"
-            className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body"
-          />
+          <div ref={inputWrapperRef} className="relative">
+            <Input
+              type="url"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value);
+                setError("");
+              }}
+              onFocus={() => history.length > 0 && setShowHistory(true)}
+              placeholder="https://www.skills.google/public_profiles/USER_ID"
+              className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body"
+            />
+            {showHistory && history.length > 0 && (
+              <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden">
+                {history.map((item) => (
+                  <li key={item}>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setUrl(item);
+                        setShowHistory(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-body text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors truncate"
+                    >
+                      <History className="w-3.5 h-3.5 shrink-0 text-muted-foreground/50" />
+                      <span className="truncate">{item}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           {error && (
             <p className="text-destructive text-sm mt-2 font-body">{error}</p>
           )}
