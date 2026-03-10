@@ -129,7 +129,7 @@ const Index = () => {
           <span className="text-muted-foreground">Feito com </span>
           <span className="text-secondary text-glow-pink text-lg">❤️</span>
           <span className="text-muted-foreground"> e carinho por </span>
-          <span className="text-primary text-glow-yellow font-semibold">Maria de Fátima Nunes Alves</span>
+          <a href="https://github.com/alvesmariadefatima" target="_blank" rel="noopener noreferrer" className="text-primary text-glow-yellow font-semibold hover:underline">Maria de Fátima Nunes Alves</a>
         </p>
       </footer>
     </div>
