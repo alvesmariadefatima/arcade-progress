@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProfileInput from "@/components/ProfileInput";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
@@ -14,9 +15,18 @@ const Index = () => {
   const [lastUrl, setLastUrl] = useState<string>("");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const urlParam = searchParams.get("url");
+    if (urlParam) {
+      handleSubmit(urlParam);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (url: string) => {
     setLastUrl(url);
+    setSearchParams({ url });
     const isRefresh = appState === "results" && profile !== null;
     if (isRefresh) {
       setIsRefreshing(true);
@@ -76,6 +86,7 @@ const Index = () => {
     setAppState("idle");
     setProfile(null);
     setLastUrl("");
+    setSearchParams({});
   };
 
   const handleRefresh = () => {
@@ -118,7 +129,7 @@ const Index = () => {
           <span className="text-muted-foreground">Feito com </span>
           <span className="text-secondary text-glow-pink text-lg">❤️</span>
           <span className="text-muted-foreground"> e carinho por </span>
-          <span className="text-primary text-glow-yellow font-semibold">Maria de Fátima Nunes Alves</span>
+          <a href="https://github.com/alvesmariadefatima" target="_blank" rel="noopener noreferrer" className="text-primary text-glow-yellow font-semibold hover:underline">Maria de Fátima Nunes Alves</a>
         </p>
       </footer>
     </div>
