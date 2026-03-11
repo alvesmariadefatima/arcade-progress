@@ -263,8 +263,28 @@ interface ScoreResult {
  * - Provides detailed category breakdown
  * - Tracks unrecognized badges for user feedback
  */
+/**
+ * Normalizes a badge name for flexible matching:
+ * lowercase, trim, collapse whitespace, remove special chars
+ */
+function normalize(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[''""]/g, "'")
+    .replace(/\s+/g, ' ')
+    .replace(/[:–—]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Pre-build a lookup map with normalized keys for O(1) matching
+const normalizedLookup = new Map<string, (typeof BADGES_DATABASE)[number]>();
+for (const badge of BADGES_DATABASE) {
+  normalizedLookup.set(normalize(badge.name), badge);
+}
+
 function calculateScore(completedBadges: string[]): ScoreResult {
-  // Initialize the result object with default values
   const result: ScoreResult = {
     totalPoints: 0,
     categoryPoints: {
@@ -278,31 +298,29 @@ function calculateScore(completedBadges: string[]): ScoreResult {
     unknownBadges: [],
   };
 
-  // Create a Set to track already processed badges (prevents duplicates)
   const processedBadges = new Set<string>();
 
-  // Process each completed badge
   for (const badgeName of completedBadges) {
-    // Skip if badge was already processed (duplicate handling)
-    if (processedBadges.has(badgeName)) {
-      continue;
+    const key = normalize(badgeName);
+    if (processedBadges.has(key)) continue;
+
+    // Try exact match first, then normalized match, then "includes" fallback
+    let badge = BADGES_DATABASE.find((b) => b.name === badgeName);
+    if (!badge) badge = normalizedLookup.get(key);
+    if (!badge) {
+      // Fuzzy: check if any DB badge name is contained in the scraped name or vice-versa
+      badge = BADGES_DATABASE.find((b) => {
+        const nDb = normalize(b.name);
+        return key.includes(nDb) || nDb.includes(key);
+      });
     }
 
-    // Find the badge in the database
-    const badge = BADGES_DATABASE.find((b) => b.name === badgeName);
-
     if (badge) {
-      // Badge found - add to recognized and calculate points
       result.recognizedBadges.push(badgeName);
       result.totalPoints += badge.points;
-
-      // Add points to the corresponding category
       result.categoryPoints[badge.category] += badge.points;
-
-      // Mark as processed to avoid duplicates
-      processedBadges.add(badgeName);
+      processedBadges.add(key);
     } else {
-      // Badge not found - add to unknown list
       result.unknownBadges.push(badgeName);
     }
   }
