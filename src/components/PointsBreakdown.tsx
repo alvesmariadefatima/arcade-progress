@@ -90,7 +90,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
       {/* Recognized badges count */}
       {scoreResult.recognizedBadges.length > 0 && (
         <div className="mt-4 pt-3 border-t border-border flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+          <CheckCircle className="w-4 h-4 text-accent-foreground shrink-0" />
           <span className="text-xs font-body text-muted-foreground">
             {scoreResult.recognizedBadges.length} badge{scoreResult.recognizedBadges.length > 1 ? "s" : ""} reconhecida{scoreResult.recognizedBadges.length > 1 ? "s" : ""}
           </span>
