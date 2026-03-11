@@ -100,7 +100,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
       {/* Unknown badges */}
       {scoreResult.unknownBadges.length > 0 && (
         <div className="mt-2 flex items-start gap-2">
-          <AlertTriangle className="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-4 h-4 text-destructive shrink-0 mt-0.5" />
           <span className="text-xs font-body text-muted-foreground">
             {scoreResult.unknownBadges.length} badge{scoreResult.unknownBadges.length > 1 ? "s" : ""} não catalogada{scoreResult.unknownBadges.length > 1 ? "s" : ""} no programa
           </span>
