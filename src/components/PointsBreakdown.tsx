@@ -63,7 +63,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
       <div className="flex items-center justify-between rounded-lg border border-border bg-muted/20 px-3 py-2 mb-4">
         <span className="text-sm font-bold font-display text-foreground">Total Oficial</span>
         <span className="text-lg font-bold font-display text-primary text-glow-cyan tabular-nums">
-          {scoreResult.totalPoints} pts
+          {cappedTotal} pts
         </span>
       </div>
 
