@@ -1,4 +1,4 @@
-import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, Info } from "lucide-react";
+import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, Info, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
 import { Badge } from "@/lib/arcade-types";
 import { BADGES_DATABASE, BadgeType, calculateScore } from "@/lib/badges";
 
