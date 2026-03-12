@@ -71,7 +71,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         <h4 className="text-sm font-bold font-display text-foreground">Pontuação por Trilha</h4>
         {tracks.map((track) => {
           const Icon = track.icon;
-          const points = scoreResult.categoryPoints[track.key];
+          const points = cappedCategoryPoints[track.key];
           const max = maxByTrack[track.key];
           const progress = max > 0 ? Math.min(100, (points / max) * 100) : 0;
 
