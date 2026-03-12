@@ -43,15 +43,52 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
     cappedTotal += capped;
   }
 
+  const courseShortCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_SHORT).length;
+  const courseShortPoints = courseShortCount * 1;
+
+  const courseLongCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_LONG).length;
+  const courseLongPoints = courseLongCount * 2;
+
   const skillBadgesCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
-  const skillBadgesPoints = recognizedBadgeDetails
-    .filter((b) => b.type === BadgeType.SKILL_BADGE)
-    .reduce((sum, b) => sum + b.points, 0);
+  const skillBadgesPoints = skillBadgesCount * 3;
 
   const arcadeEventsCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT).length;
-  const arcadeEventsPoints = recognizedBadgeDetails
-    .filter((b) => b.type === BadgeType.ARCADE_EVENT)
-    .reduce((sum, b) => sum + b.points, 0);
+  const arcadeEventsPoints = arcadeEventsCount * 3;
+
+  const activityTypes = [
+    {
+      icon: BookOpen,
+      label: "Cursos < 60 min",
+      unitPoints: 1,
+      count: courseShortCount,
+      total: courseShortPoints,
+      color: "text-accent",
+    },
+    {
+      icon: GraduationCap,
+      label: "Cursos ≥ 60 min",
+      unitPoints: 2,
+      count: courseLongCount,
+      total: courseLongPoints,
+      color: "text-accent",
+    },
+    {
+      icon: Gamepad2,
+      label: "Arcade Game",
+      unitPoints: 3,
+      count: arcadeEventsCount,
+      total: arcadeEventsPoints,
+      color: "text-secondary",
+    },
+    {
+      icon: Award,
+      label: "Skill Badge",
+      unitPoints: 3,
+      count: skillBadgesCount,
+      total: skillBadgesPoints,
+      color: "text-primary",
+    },
+  ];
 
   return (
     <div
@@ -97,27 +134,51 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         })}
       </div>
 
-      <div className="mt-5 pt-4 border-t border-border space-y-2">
-        <h4 className="text-sm font-bold font-display text-foreground">Resumo por Tipo Relevante</h4>
-
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <Award className="w-4 h-4 text-primary shrink-0" />
-            <span className="text-sm font-body text-foreground truncate">Skill Badges</span>
-          </div>
-          <span className="text-sm font-bold font-display text-primary tabular-nums shrink-0">
-            {skillBadgesCount} × 3 = {skillBadgesPoints}
-          </span>
+      {/* Sistema de Pontos - baseado na ementa oficial */}
+      <div className="mt-5 pt-4 border-t border-border">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-sm font-bold font-display text-foreground">Sistema de Pontos</h4>
+          <a
+            href="https://rsvp.withgoogle.com/events/arcade-facilitador/sistema-de-pontos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs font-body text-muted-foreground hover:text-primary transition-colors"
+          >
+            <span>Ementa oficial</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
 
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <Gamepad2 className="w-4 h-4 text-primary shrink-0" />
-            <span className="text-sm font-body text-foreground truncate">Arcade Games/Eventos</span>
-          </div>
-          <span className="text-sm font-bold font-display text-primary tabular-nums shrink-0">
-            {arcadeEventsCount} × 3 = {arcadeEventsPoints}
-          </span>
+        <div className="grid grid-cols-1 gap-2">
+          {activityTypes.map((activity) => {
+            const Icon = activity.icon;
+            return (
+              <div
+                key={activity.label}
+                className="flex items-center justify-between rounded-lg border border-border bg-muted/10 px-3 py-2.5"
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className={`flex items-center justify-center w-7 h-7 rounded-md bg-muted/30 shrink-0`}>
+                    <Icon className={`w-4 h-4 ${activity.color} shrink-0`} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-sm font-body text-foreground block truncate">{activity.label}</span>
+                    <span className="text-xs font-body text-muted-foreground">
+                      ×1 = {activity.unitPoints} {activity.unitPoints === 1 ? "ponto" : "pontos"}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right shrink-0 ml-2">
+                  <span className="text-sm font-bold font-display text-primary tabular-nums block">
+                    {activity.total} pts
+                  </span>
+                  <span className="text-xs font-body text-muted-foreground tabular-nums">
+                    {activity.count} concluído{activity.count !== 1 ? "s" : ""}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
