@@ -6,6 +6,7 @@ import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
 import { User, Award, RefreshCw } from "lucide-react";
 import { Button } from "./ui/button";
+import { calculateScore } from "@/lib/badges";
 
 interface ResultsDashboardProps {
   profile: ArcadeProfile;
