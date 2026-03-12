@@ -32,6 +32,17 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const recognizedSet = new Set(scoreResult.recognizedBadges);
   const recognizedBadgeDetails = BADGES_DATABASE.filter((b) => recognizedSet.has(b.name));
 
+  // Cap each track at its max and compute capped total
+  const cappedCategoryPoints: Record<string, number> = {};
+  let cappedTotal = 0;
+  for (const track of tracks) {
+    const raw = scoreResult.categoryPoints[track.key];
+    const max = maxByTrack[track.key];
+    const capped = Math.min(raw, max);
+    cappedCategoryPoints[track.key] = capped;
+    cappedTotal += capped;
+  }
+
   const skillBadgesCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
   const skillBadgesPoints = recognizedBadgeDetails
     .filter((b) => b.type === BadgeType.SKILL_BADGE)
