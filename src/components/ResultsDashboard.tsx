@@ -57,7 +57,7 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
           </div>
         )}
         <p className="text-sm text-muted-foreground font-body mt-1">
-          {scoreResult.totalPoints} arcade points · {profile.badges.length} badges
+          {cappedTotal} arcade points · {profile.badges.length} badges
         </p>
         <Button
           onClick={onRefresh}
