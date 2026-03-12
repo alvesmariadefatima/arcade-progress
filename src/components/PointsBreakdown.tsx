@@ -17,7 +17,7 @@ const tracks = [
 type TrackKey = (typeof tracks)[number]["key"];
 
 const maxByTrack: Record<TrackKey, number> = {
-  fundamentosCloud: 29,
+  fundamentosCloud: 20,
   cybersecurity: 10,
   liderIA: 11,
   beginnerIA: 5,

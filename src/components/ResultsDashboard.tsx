@@ -6,6 +6,7 @@ import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
 import { User, Award, RefreshCw } from "lucide-react";
 import { Button } from "./ui/button";
+import { calculateScore } from "@/lib/badges";
 
 interface ResultsDashboardProps {
   profile: ArcadeProfile;
@@ -15,6 +16,8 @@ interface ResultsDashboardProps {
 }
 
 const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: ResultsDashboardProps) => {
+  const scoreResult = calculateScore(profile.badges.map((b) => b.name));
+
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
 
@@ -42,7 +45,7 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
           </div>
         )}
         <p className="text-sm text-muted-foreground font-body mt-1">
-          {profile.points} arcade points · {profile.badges.length} badges
+          {scoreResult.totalPoints} arcade points · {profile.badges.length} badges
         </p>
         <Button
           onClick={onRefresh}
