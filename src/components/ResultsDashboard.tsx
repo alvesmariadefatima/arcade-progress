@@ -20,7 +20,7 @@ const trackMaxes: Record<string, number> = {
   cybersecurity: 10,
   liderIA: 11,
   beginnerIA: 5,
-  arcade: 3,
+  arcade: 9,
 };
 
 const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: ResultsDashboardProps) => {

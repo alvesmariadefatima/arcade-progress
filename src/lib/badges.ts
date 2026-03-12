@@ -218,9 +218,21 @@ const BADGES_DATABASE: Badge[] = [
   },
 
   // ==================== Arcade ====================
-  // Eventos (3 pts)
+  // Eventos (3 pts cada — 1 por mês)
   {
-    name: 'Arcade for Brazil',
+    name: 'Arcade for Brazil Jan 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil Feb 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil March 2026',
     category: BadgeCategory.ARCADE,
     type: BadgeType.ARCADE_EVENT,
     points: 3,
