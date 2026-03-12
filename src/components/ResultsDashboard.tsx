@@ -15,8 +15,20 @@ interface ResultsDashboardProps {
   isRefreshing: boolean;
 }
 
+const trackMaxes: Record<string, number> = {
+  fundamentosCloud: 20,
+  cybersecurity: 10,
+  liderIA: 11,
+  beginnerIA: 5,
+  arcade: 3,
+};
+
 const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: ResultsDashboardProps) => {
   const scoreResult = calculateScore(profile.badges.map((b) => b.name));
+  const cappedTotal = Object.entries(scoreResult.categoryPoints).reduce((sum, [key, pts]) => {
+    const max = trackMaxes[key] ?? pts;
+    return sum + Math.min(pts, max);
+  }, 0);
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -45,7 +57,7 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
           </div>
         )}
         <p className="text-sm text-muted-foreground font-body mt-1">
-          {scoreResult.totalPoints} arcade points · {profile.badges.length} badges
+          {cappedTotal} arcade points · {profile.badges.length} badges
         </p>
         <Button
           onClick={onRefresh}

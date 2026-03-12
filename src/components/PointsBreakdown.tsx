@@ -32,6 +32,17 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const recognizedSet = new Set(scoreResult.recognizedBadges);
   const recognizedBadgeDetails = BADGES_DATABASE.filter((b) => recognizedSet.has(b.name));
 
+  // Cap each track at its max and compute capped total
+  const cappedCategoryPoints: Record<string, number> = {};
+  let cappedTotal = 0;
+  for (const track of tracks) {
+    const raw = scoreResult.categoryPoints[track.key];
+    const max = maxByTrack[track.key];
+    const capped = Math.min(raw, max);
+    cappedCategoryPoints[track.key] = capped;
+    cappedTotal += capped;
+  }
+
   const skillBadgesCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
   const skillBadgesPoints = recognizedBadgeDetails
     .filter((b) => b.type === BadgeType.SKILL_BADGE)
@@ -52,7 +63,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
       <div className="flex items-center justify-between rounded-lg border border-border bg-muted/20 px-3 py-2 mb-4">
         <span className="text-sm font-bold font-display text-foreground">Total Oficial</span>
         <span className="text-lg font-bold font-display text-primary text-glow-cyan tabular-nums">
-          {scoreResult.totalPoints} pts
+          {cappedTotal} pts
         </span>
       </div>
 
@@ -60,7 +71,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         <h4 className="text-sm font-bold font-display text-foreground">Pontuação por Trilha</h4>
         {tracks.map((track) => {
           const Icon = track.icon;
-          const points = scoreResult.categoryPoints[track.key];
+          const points = cappedCategoryPoints[track.key];
           const max = maxByTrack[track.key];
           const progress = max > 0 ? Math.min(100, (points / max) * 100) : 0;
 
