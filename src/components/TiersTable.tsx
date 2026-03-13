@@ -1,8 +1,8 @@
-import { Trophy, Shield, Check, ChevronRight } from "lucide-react";
+import { Trophy, Shield, Check, ChevronRight, Sparkles } from "lucide-react";
 
 const tiers = [
-  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]" },
-  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]" },
+  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(185_100%_50%/0.5),0_0_50px_hsl(185_100%_50%/0.2)]", activeBorder: "border-primary/70", activeBg: "bg-gradient-to-r from-primary/20 via-primary/10 to-transparent" },
+  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(145_100%_50%/0.5),0_0_50px_hsl(145_100%_50%/0.2)]", activeBorder: "border-neon-green/70", activeBg: "bg-gradient-to-r from-neon-green/20 via-neon-green/10 to-transparent" },
 ];
 
 interface TiersTableProps {
@@ -72,7 +72,7 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
                       isActive
-                        ? `${tier.bgColor} ${tier.borderColor} ${tier.glowClass} scale-110`
+                        ? `${tier.bgColor} ${tier.activeBorder} ${tier.activeGlow} scale-125 ring-2 ring-primary/30 ring-offset-2 ring-offset-background`
                         : isCompleted
                         ? `${tier.bgColor} ${tier.borderColor}`
                         : "bg-muted/30 border-border"
@@ -80,6 +80,8 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                   >
                     {isCompleted ? (
                       <Check className={`w-5 h-5 ${tier.color}`} />
+                    ) : isActive ? (
+                      <Icon className={`w-5 h-5 ${tier.color} animate-pulse`} />
                     ) : (
                       <Icon className={`w-5 h-5 ${isActive || isCompleted ? tier.color : "text-muted-foreground/50"}`} />
                     )}
@@ -88,21 +90,27 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
 
                 {/* Content card */}
                 <div
-                  className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 ${
+                  className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 relative overflow-hidden ${
                     isActive
-                      ? `glass ${tier.borderColor} border ${tier.glowClass}`
+                      ? `glass ${tier.activeBorder} border-2 ${tier.activeGlow}`
                       : isCompleted
                       ? "glass border border-border/50"
                       : "bg-muted/10 border border-border/30"
                   } ${isLocked ? "opacity-40" : ""}`}
                 >
-                  <div className="flex items-center justify-between mb-1">
+                  {/* Active tier background glow */}
+                  {isActive && (
+                    <div className={`absolute inset-0 ${tier.activeBg} opacity-60 pointer-events-none`} />
+                  )}
+
+                  <div className="relative flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <p className={`font-bold font-display text-sm ${isActive || isCompleted ? tier.color : "text-muted-foreground"}`}>
                         {tier.name}
                       </p>
                       {isActive && (
-                        <span className="text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="flex items-center gap-1 text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                          <Sparkles className="w-3 h-3" />
                           Atual
                         </span>
                       )}
@@ -117,7 +125,7 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
 
                   {/* Progress bar for active tier */}
                   {isActive && nextTier && (
-                    <div className="mt-2 mb-2">
+                    <div className="relative mt-2 mb-2">
                       <div className="flex items-center justify-between text-[10px] text-muted-foreground font-body mb-1">
                         <span>{userPoints} pts</span>
                         <span className="flex items-center gap-0.5">
@@ -134,8 +142,8 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                     </div>
                   )}
 
-                  <p className={`text-xs font-body leading-relaxed ${isActive || isCompleted ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
-                    {tier.subtitle} — {isLocked ? "Bloqueado" : isCompleted ? "Nível concluído" : isActive ? "Você está neste nível" : "Próximo objetivo"}
+                  <p className={`relative text-xs font-body leading-relaxed ${isActive ? "text-foreground font-semibold" : isCompleted ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
+                    {tier.subtitle} — {isLocked ? "Bloqueado" : isCompleted ? "Nível concluído" : isActive ? "🎮 Você está neste nível!" : "Próximo objetivo"}
                   </p>
                 </div>
               </div>
