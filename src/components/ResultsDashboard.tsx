@@ -80,7 +80,7 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
       {profile.league && (
         <LeagueRank
           league={profile.league}
-          points={profile.points}
+          points={officialPoints}
           leagueImage={profile.leagueImage}
           memberSince={profile.memberSince}
         />
