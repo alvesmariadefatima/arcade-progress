@@ -7,10 +7,10 @@ interface PointsBreakdownProps {
 }
 
 const tracks = [
-  { key: "fundamentosCloud", label: "Fundamentos Cloud", icon: Map },
-  { key: "cybersecurity", label: "Cybersecurity", icon: Shield },
+  { key: "fundamentosCloud", label: "Fundamentos da Computação em Google Cloud", icon: Map },
+  { key: "cybersecurity", label: "Iniciante: Google Cloud Cybersecurity", icon: Shield },
   { key: "liderIA", label: "Líder de IA Generativa", icon: Brain },
-  { key: "beginnerIA", label: "Beginner IA", icon: Sparkles },
+  { key: "beginnerIA", label: "Iniciante: Programa de Aprendizado Introdução à IA Generativa", icon: Sparkles },
   { key: "arcade", label: "Arcade Games", icon: Zap },
 ] as const;
 
