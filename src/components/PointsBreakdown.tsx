@@ -9,9 +9,9 @@ interface PointsBreakdownProps {
 const tracks = [
   { key: "fundamentosCloud", label: "Fundamentos Cloud", icon: Map },
   { key: "cybersecurity", label: "Cybersecurity", icon: Shield },
-  { key: "liderIA", label: "Líder IA", icon: Brain },
+  { key: "liderIA", label: "Líder de IA Generativa", icon: Brain },
   { key: "beginnerIA", label: "Beginner IA", icon: Sparkles },
-  { key: "arcade", label: "Arcade", icon: Zap },
+  { key: "arcade", label: "Arcade Games", icon: Zap },
 ] as const;
 
 type TrackKey = (typeof tracks)[number]["key"];
