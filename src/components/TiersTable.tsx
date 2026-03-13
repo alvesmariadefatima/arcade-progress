@@ -125,7 +125,7 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
 
                   {/* Progress bar for active tier */}
                   {isActive && nextTier && (
-                    <div className="mt-2 mb-2">
+                    <div className="relative mt-2 mb-2">
                       <div className="flex items-center justify-between text-[10px] text-muted-foreground font-body mb-1">
                         <span>{userPoints} pts</span>
                         <span className="flex items-center gap-0.5">
@@ -142,8 +142,8 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                     </div>
                   )}
 
-                  <p className={`text-xs font-body leading-relaxed ${isActive || isCompleted ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
-                    {tier.subtitle} — {isLocked ? "Bloqueado" : isCompleted ? "Nível concluído" : isActive ? "Você está neste nível" : "Próximo objetivo"}
+                  <p className={`relative text-xs font-body leading-relaxed ${isActive ? "text-foreground font-semibold" : isCompleted ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
+                    {tier.subtitle} — {isLocked ? "Bloqueado" : isCompleted ? "Nível concluído" : isActive ? "🎮 Você está neste nível!" : "Próximo objetivo"}
                   </p>
                 </div>
               </div>
