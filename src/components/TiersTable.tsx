@@ -90,21 +90,27 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
 
                 {/* Content card */}
                 <div
-                  className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 ${
+                  className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 relative overflow-hidden ${
                     isActive
-                      ? `glass ${tier.borderColor} border ${tier.glowClass}`
+                      ? `glass ${tier.activeBorder} border-2 ${tier.activeGlow}`
                       : isCompleted
                       ? "glass border border-border/50"
                       : "bg-muted/10 border border-border/30"
                   } ${isLocked ? "opacity-40" : ""}`}
                 >
-                  <div className="flex items-center justify-between mb-1">
+                  {/* Active tier background glow */}
+                  {isActive && (
+                    <div className={`absolute inset-0 ${tier.activeBg} opacity-60 pointer-events-none`} />
+                  )}
+
+                  <div className="relative flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <p className={`font-bold font-display text-sm ${isActive || isCompleted ? tier.color : "text-muted-foreground"}`}>
                         {tier.name}
                       </p>
                       {isActive && (
-                        <span className="text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="flex items-center gap-1 text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                          <Sparkles className="w-3 h-3" />
                           Atual
                         </span>
                       )}
