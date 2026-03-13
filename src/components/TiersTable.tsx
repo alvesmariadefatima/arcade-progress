@@ -1,8 +1,8 @@
-import { Trophy, Shield, Check, ChevronRight } from "lucide-react";
+import { Trophy, Shield, Check, ChevronRight, Sparkles } from "lucide-react";
 
 const tiers = [
-  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]" },
-  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]" },
+  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(185_100%_50%/0.5),0_0_50px_hsl(185_100%_50%/0.2)]", activeBorder: "border-primary/70", activeBg: "bg-gradient-to-r from-primary/20 via-primary/10 to-transparent" },
+  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(145_100%_50%/0.5),0_0_50px_hsl(145_100%_50%/0.2)]", activeBorder: "border-neon-green/70", activeBg: "bg-gradient-to-r from-neon-green/20 via-neon-green/10 to-transparent" },
 ];
 
 interface TiersTableProps {
