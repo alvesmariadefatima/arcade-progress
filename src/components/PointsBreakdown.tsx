@@ -117,7 +117,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
               <div className="flex items-center justify-between mb-1.5 gap-2">
                 <div className="flex items-center gap-2 min-w-0">
                   <Icon className="w-4 h-4 text-primary shrink-0" />
-                  <span className="text-sm font-body text-foreground truncate">{track.label}</span>
+                  <span className="text-sm font-body text-foreground break-words">{track.label}</span>
                 </div>
                 <span className="text-sm font-bold font-display text-primary tabular-nums shrink-0">
                   {points}/{max}
