@@ -5,6 +5,7 @@ import PointsBreakdown from "./PointsBreakdown";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
 import { User, Award, RefreshCw } from "lucide-react";
+import { getArcadeLevel } from "@/lib/arcade-types";
 import { Button } from "./ui/button";
 import { calculateScore } from "@/lib/badges";
 
@@ -29,6 +30,10 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
     const max = trackMaxes[key] ?? pts;
     return sum + Math.min(pts, max);
   }, 0);
+
+  // Use official calculated score instead of scraped points
+  const officialPoints = cappedTotal;
+  const officialLevel = getArcadeLevel(officialPoints);
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -75,7 +80,7 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
       {profile.league && (
         <LeagueRank
           league={profile.league}
-          points={profile.points}
+          points={officialPoints}
           leagueImage={profile.leagueImage}
           memberSince={profile.memberSince}
         />
@@ -83,8 +88,8 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
 
       {/* Level + Progress */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <LevelBadge level={profile.level} points={profile.points} />
-        <ProgressBar points={profile.points} />
+        <LevelBadge level={officialLevel} points={officialPoints} />
+        <ProgressBar points={officialPoints} />
       </div>
 
       {/* Points Breakdown */}
