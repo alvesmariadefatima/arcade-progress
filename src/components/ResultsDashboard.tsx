@@ -88,8 +88,8 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
 
       {/* Level + Progress */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <LevelBadge level={profile.level} points={profile.points} />
-        <ProgressBar points={profile.points} />
+        <LevelBadge level={officialLevel} points={officialPoints} />
+        <ProgressBar points={officialPoints} />
       </div>
 
       {/* Points Breakdown */}
