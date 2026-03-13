@@ -182,14 +182,6 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         </div>
       </div>
 
-      {scoreResult.unknownBadges.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-border flex items-start gap-2">
-          <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
-          <span className="text-xs font-body text-muted-foreground">
-            {scoreResult.unknownBadges.length} badge{scoreResult.unknownBadges.length > 1 ? "s" : ""} fora da lista oficial e não somada{scoreResult.unknownBadges.length > 1 ? "s" : ""} no total.
-          </span>
-        </div>
-      )}
     </div>
   );
 };

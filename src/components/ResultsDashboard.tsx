@@ -30,6 +30,10 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
     return sum + Math.min(pts, max);
   }, 0);
 
+  // Use official calculated score instead of scraped points
+  const officialPoints = cappedTotal;
+  const officialLevel = getArcadeLevel(officialPoints);
+
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
 
