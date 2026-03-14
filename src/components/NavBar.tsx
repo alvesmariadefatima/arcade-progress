@@ -23,7 +23,7 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={logoArcade} alt="Logo" className="w-8 h-8" />
-          <span className="font-display text-sm text-primary tracking-wider text-glow-yellow">ARCADE PROGRESS</span>
+          <span className="font-display text-sm text-primary tracking-wider text-glow-blue">ARCADE PROGRESS</span>
         </div>
 
         {/* Desktop */}

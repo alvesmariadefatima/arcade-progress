@@ -133,7 +133,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(48_100%_55%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
+          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(210_65%_50%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
