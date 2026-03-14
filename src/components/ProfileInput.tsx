@@ -75,8 +75,8 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   return (
     <div className="w-full max-w-xl mx-auto animate-slide-up flex flex-col items-center">
       <div className="text-center mb-10 flex flex-col items-center">
-        <img src={logoArcade} alt="Arcade Progress Logo" className="w-36 h-36 mb-6 animate-float drop-shadow-[0_0_30px_hsl(48_100%_55%/0.3)]" />
-        <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-yellow">
+        <img src={logoArcade} alt="Arcade Progress Logo" className="w-36 h-36 mb-6 animate-float drop-shadow-[0_0_30px_hsl(210_65%_50%/0.3)]" />
+        <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-blue">
           ARCADE PROGRESS
         </h1>
         <p className="text-base text-secondary font-display tracking-wider mb-1">
@@ -133,7 +133,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(48_100%_55%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
+          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(210_65%_50%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
