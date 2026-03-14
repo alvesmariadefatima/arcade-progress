@@ -73,9 +73,9 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto animate-slide-up">
-      <div className="text-center mb-10">
-        <img src={logoArcade} alt="Arcade Progress Logo" className="w-32 h-32 mb-6 animate-float drop-shadow-[0_0_30px_hsl(48_100%_55%/0.3)]" />
+    <div className="w-full max-w-xl mx-auto animate-slide-up flex flex-col items-center">
+      <div className="text-center mb-10 flex flex-col items-center">
+        <img src={logoArcade} alt="Arcade Progress Logo" className="w-36 h-36 mb-6 animate-float drop-shadow-[0_0_30px_hsl(48_100%_55%/0.3)]" />
         <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-yellow">
           ARCADE PROGRESS
         </h1>

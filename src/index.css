@@ -6,13 +6,13 @@
 
 @layer base {
   :root {
-    --background: 160 30% 5%;
+    --background: 175 35% 5%;
     --foreground: 60 10% 95%;
 
-    --card: 160 20% 9%;
+    --card: 175 25% 9%;
     --card-foreground: 60 10% 95%;
 
-    --popover: 160 20% 9%;
+    --popover: 175 25% 9%;
     --popover-foreground: 60 10% 95%;
 
     --primary: 48 100% 55%;
@@ -21,8 +21,8 @@
     --secondary: 330 90% 62%;
     --secondary-foreground: 60 10% 92%;
 
-    --muted: 160 15% 14%;
-    --muted-foreground: 150 10% 60%;
+    --muted: 175 18% 14%;
+    --muted-foreground: 175 12% 58%;
 
     --accent: 210 100% 55%;
     --accent-foreground: 60 10% 92%;
@@ -30,19 +30,19 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 160 12% 16%;
-    --input: 160 12% 16%;
+    --border: 175 15% 16%;
+    --input: 175 15% 16%;
     --ring: 48 100% 55%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 160 25% 7%;
+    --sidebar-background: 175 30% 7%;
     --sidebar-foreground: 60 10% 92%;
     --sidebar-primary: 48 100% 55%;
     --sidebar-primary-foreground: 240 15% 6%;
-    --sidebar-accent: 160 15% 14%;
+    --sidebar-accent: 175 18% 14%;
     --sidebar-accent-foreground: 60 10% 92%;
-    --sidebar-border: 160 12% 16%;
+    --sidebar-border: 175 15% 16%;
     --sidebar-ring: 48 100% 55%;
 
     /* Custom tokens */
