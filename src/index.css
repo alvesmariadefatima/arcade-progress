@@ -6,60 +6,74 @@
 
 @layer base {
   :root {
-    --background: 175 35% 5%;
-    --foreground: 60 10% 95%;
+    /* Logo-derived palette:
+       Primary Blue: #2D7DD2  → 210 65% 50%
+       Secondary Red: #E63946 → 355 78% 56%
+       Accent Gold: #FFB627   → 40 100% 57%
+       Background Navy: #0A1628 → 216 60% 10%
+       Highlight Green: #2D8B4E → 148 50% 36%
+       Neon Cyan: #4DA8DA → 200 60% 58%
+       Neon Pink: #FF4D6D → 348 100% 65%
+    */
 
-    --card: 175 25% 9%;
-    --card-foreground: 60 10% 95%;
+    --background: 216 60% 6%;
+    --foreground: 210 20% 95%;
 
-    --popover: 175 25% 9%;
-    --popover-foreground: 60 10% 95%;
+    --card: 216 50% 10%;
+    --card-foreground: 210 20% 95%;
 
-    --primary: 48 100% 55%;
-    --primary-foreground: 240 15% 6%;
+    --popover: 216 50% 10%;
+    --popover-foreground: 210 20% 95%;
 
-    --secondary: 330 90% 62%;
-    --secondary-foreground: 60 10% 92%;
+    --primary: 210 65% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 175 18% 14%;
-    --muted-foreground: 175 12% 58%;
+    --secondary: 355 78% 56%;
+    --secondary-foreground: 0 0% 100%;
 
-    --accent: 210 100% 55%;
-    --accent-foreground: 60 10% 92%;
+    --muted: 216 40% 14%;
+    --muted-foreground: 210 15% 58%;
+
+    --accent: 40 100% 57%;
+    --accent-foreground: 216 60% 6%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 175 15% 16%;
-    --input: 175 15% 16%;
-    --ring: 48 100% 55%;
+    --border: 216 35% 16%;
+    --input: 216 35% 16%;
+    --ring: 210 65% 50%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 175 30% 7%;
-    --sidebar-foreground: 60 10% 92%;
-    --sidebar-primary: 48 100% 55%;
-    --sidebar-primary-foreground: 240 15% 6%;
-    --sidebar-accent: 175 18% 14%;
-    --sidebar-accent-foreground: 60 10% 92%;
-    --sidebar-border: 175 15% 16%;
-    --sidebar-ring: 48 100% 55%;
+    --sidebar-background: 216 55% 8%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 210 65% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 216 40% 14%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 216 35% 16%;
+    --sidebar-ring: 210 65% 50%;
 
-    /* Custom tokens */
-    --neon-cyan: 210 100% 55%;
-    --neon-green: 145 100% 50%;
+    /* Neon tokens from logo */
+    --neon-cyan: 200 60% 58%;
+    --neon-green: 148 50% 36%;
     --neon-purple: 260 80% 60%;
-    --neon-pink: 330 90% 62%;
-    --neon-yellow: 48 100% 55%;
+    --neon-pink: 348 100% 65%;
+    --neon-yellow: 40 100% 57%;
+    --neon-blue: 210 65% 50%;
+    --neon-red: 355 78% 56%;
 
-    --glass-bg: 240 12% 10% / 0.7;
-    --glass-border: 60 10% 92% / 0.06;
+    --glass-bg: 216 50% 10% / 0.75;
+    --glass-border: 210 20% 95% / 0.06;
 
-    --glow-cyan: 0 0 20px hsl(210 100% 55% / 0.4), 0 0 60px hsl(210 100% 55% / 0.15);
-    --glow-green: 0 0 20px hsl(145 100% 50% / 0.4), 0 0 60px hsl(145 100% 50% / 0.15);
+    --glow-blue: 0 0 20px hsl(210 65% 50% / 0.4), 0 0 60px hsl(210 65% 50% / 0.15);
+    --glow-cyan: 0 0 20px hsl(200 60% 58% / 0.4), 0 0 60px hsl(200 60% 58% / 0.15);
+    --glow-green: 0 0 20px hsl(148 50% 36% / 0.4), 0 0 60px hsl(148 50% 36% / 0.15);
     --glow-purple: 0 0 20px hsl(260 80% 60% / 0.4), 0 0 60px hsl(260 80% 60% / 0.15);
-    --glow-yellow: 0 0 20px hsl(48 100% 55% / 0.4), 0 0 60px hsl(48 100% 55% / 0.15);
-    --glow-pink: 0 0 20px hsl(330 90% 62% / 0.4), 0 0 60px hsl(330 90% 62% / 0.15);
+    --glow-yellow: 0 0 20px hsl(40 100% 57% / 0.4), 0 0 60px hsl(40 100% 57% / 0.15);
+    --glow-pink: 0 0 20px hsl(348 100% 65% / 0.4), 0 0 60px hsl(348 100% 65% / 0.15);
+    --glow-red: 0 0 20px hsl(355 78% 56% / 0.4), 0 0 60px hsl(355 78% 56% / 0.15);
 
     --font-display: 'Orbitron', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -100,34 +114,66 @@
     box-shadow: var(--glow-purple);
   }
 
+  .glow-blue {
+    box-shadow: var(--glow-blue);
+  }
+
   .text-glow-cyan {
-    text-shadow: 0 0 10px hsl(210 100% 55% / 0.6), 0 0 30px hsl(210 100% 55% / 0.3);
+    text-shadow: 0 0 10px hsl(200 60% 58% / 0.6), 0 0 30px hsl(200 60% 58% / 0.3);
   }
 
   .text-glow-green {
-    text-shadow: 0 0 10px hsl(145 100% 50% / 0.6), 0 0 30px hsl(145 100% 50% / 0.3);
+    text-shadow: 0 0 10px hsl(148 50% 36% / 0.6), 0 0 30px hsl(148 50% 36% / 0.3);
   }
 
   .text-glow-yellow {
-    text-shadow: 0 0 10px hsl(48 100% 55% / 0.6), 0 0 30px hsl(48 100% 55% / 0.3);
+    text-shadow: 0 0 10px hsl(40 100% 57% / 0.6), 0 0 30px hsl(40 100% 57% / 0.3);
   }
 
   .text-glow-pink {
-    text-shadow: 0 0 10px hsl(330 90% 62% / 0.6), 0 0 30px hsl(330 90% 62% / 0.3);
+    text-shadow: 0 0 10px hsl(348 100% 65% / 0.6), 0 0 30px hsl(348 100% 65% / 0.3);
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 10px hsl(210 65% 50% / 0.6), 0 0 30px hsl(210 65% 50% / 0.3);
   }
 
   .neon-border {
-    border: 1px solid hsl(var(--neon-yellow) / 0.2);
+    border: 1px solid hsl(var(--neon-blue) / 0.2);
   }
 
   .arcade-gradient {
-    background: linear-gradient(135deg, hsl(var(--neon-yellow)), hsl(var(--neon-pink)));
+    background: linear-gradient(135deg, hsl(var(--neon-blue)), hsl(var(--neon-red)));
   }
 
+  /* Homepage background: arcade-inspired with grid + scanlines */
   .bg-grid-pattern {
-    background-image: 
-      linear-gradient(hsl(var(--neon-yellow) / 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--neon-yellow) / 0.02) 1px, transparent 1px);
+    background-image:
+      linear-gradient(hsl(var(--neon-blue) / 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--neon-blue) / 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  /* Scanline overlay for retro arcade feel */
+  .bg-scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(210 65% 50% / 0.015) 2px,
+      hsl(210 65% 50% / 0.015) 4px
+    );
+    z-index: 0;
+  }
+
+  /* Pixel grid for arcade feel */
+  .bg-pixel-grid {
+    background-image:
+      radial-gradient(circle at 1px 1px, hsl(var(--neon-blue) / 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 }

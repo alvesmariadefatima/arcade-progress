@@ -96,12 +96,27 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-grid-pattern relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-background bg-grid-pattern bg-scanlines relative overflow-hidden flex flex-col">
       <ArcadeDecorations />
       <NavBar onReset={handleReset} showResults={appState === "results"} />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-yellow/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-pink/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+
+      {/* Homepage ambient orbs — logo-derived colors */}
+      {appState !== "results" && (
+        <>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/8 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/6 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-accent/6 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-neon-green/4 rounded-full blur-[100px] pointer-events-none" />
+        </>
+      )}
+
+      {/* Profile page ambient — subtle, muted */}
+      {appState === "results" && (
+        <>
+          <div className="absolute top-0 left-1/3 w-80 h-80 bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-accent/4 rounded-full blur-[140px] pointer-events-none" />
+        </>
+      )}
 
       <div className="relative z-10 container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-20 flex flex-col items-center justify-center flex-1">
         {appState === "idle" || appState === "loading" ? (
