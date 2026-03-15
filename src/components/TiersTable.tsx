@@ -1,8 +1,8 @@
 import { Trophy, Shield, Check, ChevronRight, Sparkles } from "lucide-react";
 
 const tiers = [
-  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/15", borderColor: "border-primary/40", glowClass: "shadow-[0_0_15px_hsl(185_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(185_100%_50%/0.5),0_0_50px_hsl(185_100%_50%/0.2)]", activeBorder: "border-primary/70", activeBg: "bg-gradient-to-r from-primary/20 via-primary/10 to-transparent" },
-  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/15", borderColor: "border-neon-green/40", glowClass: "shadow-[0_0_15px_hsl(145_100%_50%/0.3)]", activeGlow: "shadow-[0_0_25px_hsl(145_100%_50%/0.5),0_0_50px_hsl(145_100%_50%/0.2)]", activeBorder: "border-neon-green/70", activeBg: "bg-gradient-to-r from-neon-green/20 via-neon-green/10 to-transparent" },
+  { name: "Marco Standard", subtitle: "40 Pontos", points: 40, icon: Shield, color: "text-primary", bgColor: "bg-primary/10", borderColor: "border-primary/30", activeBorder: "border-primary/60", activeBg: "bg-gradient-to-r from-primary/10 via-primary/5 to-transparent" },
+  { name: "Marco Premium", subtitle: "60 Pontos", points: 60, icon: Trophy, color: "text-neon-green", bgColor: "bg-neon-green/10", borderColor: "border-neon-green/30", activeBorder: "border-neon-green/60", activeBg: "bg-gradient-to-r from-neon-green/10 via-neon-green/5 to-transparent" },
 ];
 
 interface TiersTableProps {
@@ -19,8 +19,6 @@ function getTierIndex(currentLevel: string): number {
 
 const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
   const activeIndex = currentLevel ? getTierIndex(currentLevel) : -1;
-
-  // Calculate next tier info
   const nextTier = activeIndex < 3 ? tiers[activeIndex + 1] : null;
   const pointsToNext = nextTier ? nextTier.points - userPoints : 0;
 
@@ -35,17 +33,12 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
           : "Você atingiu o nível máximo! 🏆"}
       </p>
 
-      {/* Progress tracker */}
       <div className="relative">
-        {/* Vertical line connecting tiers */}
         <div className="absolute left-6 top-6 bottom-6 w-px bg-border" />
-        {/* Filled progress line */}
         {activeIndex >= 0 && (
           <div
             className="absolute left-6 top-6 w-px bg-primary transition-all duration-700"
-            style={{
-              height: `${((activeIndex + 0.5) / tiers.length) * 100}%`,
-            }}
+            style={{ height: `${((activeIndex + 0.5) / tiers.length) * 100}%` }}
           />
         )}
 
@@ -56,23 +49,19 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
             const isCompleted = index < activeIndex;
             const isLocked = index > activeIndex + 1;
 
-            // Progress within the current active tier
             let progressPercent = 0;
             if (isActive && nextTier) {
-              const prevPoints = index > 0 ? tiers[index - 1].points : 0;
-              const range = nextTier.points - prevPoints;
               progressPercent = Math.min(100, Math.max(0, ((userPoints - tier.points) / (nextTier.points - tier.points)) * 100));
             }
             if (isCompleted) progressPercent = 100;
 
             return (
               <div key={tier.name} className="relative flex items-stretch gap-4">
-                {/* Node */}
                 <div className="relative z-10 flex flex-col items-center">
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
                       isActive
-                        ? `${tier.bgColor} ${tier.activeBorder} ${tier.activeGlow} scale-125 ring-2 ring-primary/30 ring-offset-2 ring-offset-background`
+                        ? `${tier.bgColor} ${tier.activeBorder} scale-110 shadow-lg ring-2 ring-primary/20 ring-offset-2 ring-offset-background`
                         : isCompleted
                         ? `${tier.bgColor} ${tier.borderColor}`
                         : "bg-muted/30 border-border"
@@ -80,25 +69,21 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                   >
                     {isCompleted ? (
                       <Check className={`w-5 h-5 ${tier.color}`} />
-                    ) : isActive ? (
-                      <Icon className={`w-5 h-5 ${tier.color} animate-pulse`} />
                     ) : (
                       <Icon className={`w-5 h-5 ${isActive || isCompleted ? tier.color : "text-muted-foreground/50"}`} />
                     )}
                   </div>
                 </div>
 
-                {/* Content card */}
                 <div
                   className={`flex-1 mb-3 rounded-xl p-4 transition-all duration-500 relative overflow-hidden ${
                     isActive
-                      ? `glass ${tier.activeBorder} border-2 ${tier.activeGlow}`
+                      ? `bg-card ${tier.activeBorder} border-2 shadow-lg`
                       : isCompleted
-                      ? "glass border border-border/50"
-                      : "bg-muted/10 border border-border/30"
+                      ? "bg-card border border-border shadow-sm"
+                      : "bg-muted/20 border border-border/50"
                   } ${isLocked ? "opacity-40" : ""}`}
                 >
-                  {/* Active tier background glow */}
                   {isActive && (
                     <div className={`absolute inset-0 ${tier.activeBg} opacity-60 pointer-events-none`} />
                   )}
@@ -109,7 +94,7 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                         {tier.name}
                       </p>
                       {isActive && (
-                        <span className="flex items-center gap-1 text-[10px] font-bold font-body uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="flex items-center gap-1 text-[10px] font-bold font-body uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full animate-pulse">
                           <Sparkles className="w-3 h-3" />
                           Atual
                         </span>
@@ -123,7 +108,6 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                     </span>
                   </div>
 
-                  {/* Progress bar for active tier */}
                   {isActive && nextTier && (
                     <div className="relative mt-2 mb-2">
                       <div className="flex items-center justify-between text-[10px] text-muted-foreground font-body mb-1">
@@ -133,7 +117,7 @@ const TiersTable = ({ currentLevel, userPoints = 0 }: TiersTableProps) => {
                           {nextTier.name} ({nextTier.points} pts)
                         </span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+                      <div className="h-2 rounded-full bg-muted overflow-hidden">
                         <div
                           className="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
                           style={{ width: `${Math.max(5, progressPercent)}%` }}

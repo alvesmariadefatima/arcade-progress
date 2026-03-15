@@ -19,11 +19,11 @@ const NavBar = ({ onReset, showResults }: NavBarProps) => {
   const visibleItems = items.filter((i) => i.always || showResults);
 
   return (
-    <nav className="fixed top-0 right-0 left-0 z-50 px-4 py-3 bg-background/95 backdrop-blur-sm border-b border-border">
+    <nav className="fixed top-0 right-0 left-0 z-50 px-4 py-3 bg-card/95 backdrop-blur-sm border-b border-border shadow-sm">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={logoArcade} alt="Logo" className="w-8 h-8" />
-          <span className="font-display text-sm text-primary tracking-wider text-glow-blue">ARCADE PROGRESS</span>
+          <span className="font-display text-sm text-primary tracking-wider">ARCADE PROGRESS</span>
         </div>
 
         {/* Desktop */}

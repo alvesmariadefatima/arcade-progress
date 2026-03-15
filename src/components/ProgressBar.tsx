@@ -9,12 +9,12 @@ const ProgressBar = ({ points }: ProgressBarProps) => {
   if (!next) {
     return (
       <div
-        className="glass rounded-2xl p-6 neon-border animate-scale-in"
+        className="bg-card rounded-2xl p-6 border border-border shadow-md animate-scale-in"
         style={{ animationDelay: "0.3s", animationFillMode: "backwards" }}
       >
         <p className="text-sm text-muted-foreground font-body mb-2">Progresso</p>
         <div className="flex items-center gap-2">
-          <span className="text-accent font-display font-bold text-lg text-glow-green">
+          <span className="text-neon-green font-display font-bold text-lg">
             🎉 Nível máximo alcançado!
           </span>
         </div>
@@ -25,14 +25,13 @@ const ProgressBar = ({ points }: ProgressBarProps) => {
     );
   }
 
-  // Find previous threshold
   const prevThreshold = points >= 40 ? 40 : 0;
   const range = next.threshold - prevThreshold;
   const progress = ((points - prevThreshold) / range) * 100;
 
   return (
     <div
-      className="glass rounded-2xl p-6 neon-border animate-scale-in"
+      className="bg-card rounded-2xl p-6 border border-border shadow-md animate-scale-in"
       style={{ animationDelay: "0.3s", animationFillMode: "backwards" }}
     >
       <div className="flex justify-between items-center mb-2">
@@ -41,7 +40,7 @@ const ProgressBar = ({ points }: ProgressBarProps) => {
       </div>
       <div className="w-full h-3 rounded-full bg-muted overflow-hidden">
         <div
-          className="h-full rounded-full arcade-gradient transition-all duration-1000 ease-out"
+          className="h-full rounded-full bg-neon-green transition-all duration-1000 ease-out"
           style={{ width: `${Math.min(progress, 100)}%` }}
         />
       </div>

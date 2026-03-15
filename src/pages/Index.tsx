@@ -96,25 +96,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-grid-pattern bg-scanlines relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <ArcadeDecorations />
       <NavBar onReset={handleReset} showResults={appState === "results"} />
 
-      {/* Homepage ambient orbs — logo-derived colors */}
-      {appState !== "results" && (
-        <>
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/8 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/6 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-accent/6 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-neon-green/4 rounded-full blur-[100px] pointer-events-none" />
-        </>
-      )}
-
-      {/* Profile page ambient — subtle, muted */}
+      {/* Results page rainbow side borders */}
       {appState === "results" && (
         <>
-          <div className="absolute top-0 left-1/3 w-80 h-80 bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-accent/4 rounded-full blur-[140px] pointer-events-none" />
+          <div className="fixed left-0 top-0 bottom-0 w-1 rainbow-bar z-20" />
+          <div className="fixed right-0 top-0 bottom-0 w-1 rainbow-bar z-20" />
         </>
       )}
 
@@ -140,11 +130,18 @@ const Index = () => {
       </div>
 
       <footer className="relative z-10 py-6 text-center">
-        <p className="font-display text-sm md:text-base tracking-wide">
+        {/* Footer rainbow bar */}
+        <div className="flex justify-center gap-0.5 mb-4">
+          <div className="w-16 h-1 rounded-full bg-primary" />
+          <div className="w-16 h-1 rounded-full bg-secondary" />
+          <div className="w-16 h-1 rounded-full bg-accent" />
+          <div className="w-16 h-1 rounded-full bg-neon-green" />
+        </div>
+        <p className="font-body text-sm md:text-base">
           <span className="text-muted-foreground">Feito com </span>
-          <span className="text-secondary text-glow-pink text-lg">❤️</span>
+          <span className="text-secondary text-lg">❤️</span>
           <span className="text-muted-foreground"> e carinho por </span>
-          <a href="https://github.com/alvesmariadefatima" target="_blank" rel="noopener noreferrer" className="text-primary text-glow-blue font-semibold hover:underline">Maria de Fátima Nunes Alves</a>
+          <a href="https://github.com/alvesmariadefatima" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">Maria de Fátima Nunes Alves</a>
         </p>
       </footer>
     </div>
