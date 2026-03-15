@@ -10,31 +10,31 @@ interface LeagueRankProps {
 const LEAGUES = [
   {
     name: "Bronze League",
-    color: "from-amber-700/30 to-amber-900/10",
-    border: "border-amber-700/40",
-    textColor: "text-amber-500",
+    color: "from-amber-100 to-amber-50",
+    border: "border-amber-300",
+    textColor: "text-amber-700",
     dotColor: "bg-amber-500",
   },
   {
     name: "Silver League",
-    color: "from-slate-400/30 to-slate-500/10",
-    border: "border-slate-400/40",
-    textColor: "text-slate-300",
-    dotColor: "bg-slate-300",
+    color: "from-slate-100 to-slate-50",
+    border: "border-slate-300",
+    textColor: "text-slate-600",
+    dotColor: "bg-slate-400",
   },
   {
     name: "Gold League",
-    color: "from-yellow-500/30 to-yellow-600/10",
-    border: "border-yellow-500/40",
-    textColor: "text-yellow-400",
-    dotColor: "bg-yellow-400",
+    color: "from-yellow-100 to-yellow-50",
+    border: "border-yellow-400",
+    textColor: "text-yellow-700",
+    dotColor: "bg-yellow-500",
   },
   {
     name: "Diamond League",
-    color: "from-cyan-300/30 to-violet-400/10",
-    border: "border-cyan-300/40",
-    textColor: "text-cyan-300",
-    dotColor: "bg-cyan-300",
+    color: "from-sky-100 to-violet-50",
+    border: "border-sky-300",
+    textColor: "text-sky-600",
+    dotColor: "bg-sky-400",
   },
 ];
 
@@ -46,7 +46,7 @@ const LeagueRank = ({ league, points, leagueImage, memberSince }: LeagueRankProp
 
   return (
     <div
-      className="glass rounded-2xl p-6 neon-border animate-scale-in"
+      className="bg-card rounded-2xl p-6 border border-border shadow-md animate-scale-in"
       style={{ animationDelay: "0.35s", animationFillMode: "backwards" }}
     >
       <div className="flex items-center gap-2 mb-5">
@@ -56,19 +56,14 @@ const LeagueRank = ({ league, points, leagueImage, memberSince }: LeagueRankProp
         </h3>
       </div>
 
-      {/* Current league highlight */}
-      <div
-        className={`flex items-center gap-4 px-5 py-4 rounded-2xl bg-gradient-to-r ${current.color} border ${current.border} mb-5`}
-      >
+      <div className={`flex items-center gap-4 px-5 py-4 rounded-2xl bg-gradient-to-r ${current.color} border ${current.border} mb-5`}>
         {leagueImage ? (
           <img src={leagueImage} alt={league} className="w-16 h-16 object-contain" />
         ) : (
           <div className="w-16 h-16 flex items-center justify-center text-4xl">🏆</div>
         )}
         <div>
-          <p className={`text-xl font-bold font-display ${current.textColor}`}>
-            {league}
-          </p>
+          <p className={`text-xl font-bold font-display ${current.textColor}`}>{league}</p>
           <p className="text-2xl font-bold font-display text-foreground">
             {points.toLocaleString()}
             <span className="text-sm text-muted-foreground ml-1 font-body font-normal">pontos</span>
@@ -81,7 +76,6 @@ const LeagueRank = ({ league, points, leagueImage, memberSince }: LeagueRankProp
         </div>
       </div>
 
-      {/* League progression */}
       <div className="flex items-center gap-1">
         {LEAGUES.map((l, i) => {
           const isActive = i === currentIndex;
@@ -91,7 +85,7 @@ const LeagueRank = ({ league, points, leagueImage, memberSince }: LeagueRankProp
               <div
                 className={`w-full h-2 rounded-full transition-all ${
                   isActive
-                    ? `${l.dotColor} animate-pulse-glow`
+                    ? `${l.dotColor} animate-pulse`
                     : isPast
                     ? `${l.dotColor} opacity-60`
                     : "bg-muted"

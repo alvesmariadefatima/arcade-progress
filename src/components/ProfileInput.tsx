@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Zap, AlertTriangle, HelpCircle, History } from "lucide-react";
+import { Zap, AlertTriangle, HelpCircle, History, Link2 } from "lucide-react";
 import logoArcade from "@/assets/logo-arcade.png";
 
 const HISTORY_KEY = "arcade-url-history";
@@ -75,37 +75,67 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   return (
     <div className="w-full max-w-xl mx-auto animate-slide-up flex flex-col items-center">
       <div className="text-center mb-10 flex flex-col items-center">
-        <img src={logoArcade} alt="Arcade Progress Logo" className="w-36 h-36 mb-6 animate-float drop-shadow-[0_0_30px_hsl(210_65%_50%/0.3)]" />
-        <h1 className="text-4xl md:text-5xl font-bold font-display text-primary mb-3 text-glow-blue">
+        <img src={logoArcade} alt="Arcade Progress Logo" className="w-40 h-40 mb-6 animate-float drop-shadow-lg" />
+        <h1 className="text-4xl md:text-5xl font-bold font-display text-foreground mb-3">
           ARCADE PROGRESS
         </h1>
-        <p className="text-base text-secondary font-display tracking-wider mb-1">
-          ACOMPANHE SUA JORNADA
+        <p className="text-base font-display tracking-[0.3em] mb-1">
+          <span className="text-primary">A</span>
+          <span className="text-secondary">C</span>
+          <span className="text-foreground">O</span>
+          <span className="text-neon-green">M</span>
+          <span className="text-foreground">P</span>
+          <span className="text-primary">A</span>
+          <span className="text-foreground">N</span>
+          <span className="text-accent">H</span>
+          <span className="text-foreground">E </span>
+          <span className="text-foreground">S</span>
+          <span className="text-foreground">U</span>
+          <span className="text-secondary">A </span>
+          <span className="text-foreground">J</span>
+          <span className="text-primary">O</span>
+          <span className="text-accent">'</span>
+          <span className="text-secondary">R</span>
+          <span className="text-foreground">N</span>
+          <span className="text-neon-green">A</span>
+          <span className="text-foreground">D</span>
+          <span className="text-primary">A</span>
         </p>
-        <p className="text-sm text-muted-foreground font-body">
+        <p className="text-sm text-muted-foreground font-body mt-1">
           Google Arcade Facilitadores Brasil 2026
         </p>
+        {/* Color divider bar */}
+        <div className="flex mt-4 gap-0.5">
+          <div className="w-12 h-1 rounded-full bg-primary" />
+          <div className="w-12 h-1 rounded-full bg-secondary" />
+          <div className="w-12 h-1 rounded-full bg-accent" />
+          <div className="w-12 h-1 rounded-full bg-neon-green" />
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="glass rounded-xl p-6 neon-border">
-          <label className="block text-sm font-medium text-muted-foreground mb-2 font-body">
+      <form onSubmit={handleSubmit} className="space-y-4 w-full">
+        <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
+          <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3 font-body">
+            <Link2 className="w-4 h-4" />
             URL do Perfil Público
           </label>
           <div ref={inputWrapperRef} className="relative">
-            <Input
-              type="url"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-                setError("");
-              }}
-              onFocus={() => history.length > 0 && setShowHistory(true)}
-              placeholder="https://www.skills.google/public_profiles/USER_ID"
-              className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body"
-            />
+            {/* Multi-color border input */}
+            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-primary via-accent to-secondary">
+              <Input
+                type="url"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  setError("");
+                }}
+                onFocus={() => history.length > 0 && setShowHistory(true)}
+                placeholder="https://www.skills.google/public_profiles/..."
+                className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
+              />
+            </div>
             {showHistory && history.length > 0 && (
-              <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden">
+              <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-xl border border-border bg-card shadow-lg overflow-hidden">
                 {history.map((item) => (
                   <li key={item}>
                     <button
@@ -133,7 +163,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 shadow-[0_0_20px_hsl(210_65%_50%/0.3)] hover:opacity-90 transition-all duration-300 disabled:opacity-50"
+          className="w-full h-14 text-lg font-semibold font-display arcade-gradient text-primary-foreground border-0 rounded-xl shadow-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
@@ -152,30 +182,26 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       <button
         type="button"
         onClick={() => setShowHelp(true)}
-        className="mx-auto mt-5 flex items-center gap-2 px-4 py-2.5 rounded-xl glass neon-border text-sm font-body text-primary hover:bg-primary/10 transition-colors"
+        className="mx-auto mt-5 flex items-center gap-2 px-5 py-2.5 rounded-full bg-card border border-border text-sm font-body text-primary hover:bg-muted/50 transition-colors shadow-sm"
       >
         <HelpCircle className="w-4 h-4" />
         Como encontrar minha URL?
       </button>
 
-      <p className="text-center text-sm text-muted-foreground mt-4 font-body">
-        Cole a URL pública do seu perfil no Google Cloud Skills Boost
-      </p>
-
       {/* Help Modal */}
       <Dialog open={showHelp} onOpenChange={setShowHelp}>
-        <DialogContent className="glass neon-border sm:max-w-md">
+        <DialogContent className="bg-card border-border sm:max-w-md rounded-2xl">
           <DialogHeader>
             <div className="flex items-center gap-3">
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10">
-                <HelpCircle className="w-5 h-5 text-accent" />
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+                <HelpCircle className="w-5 h-5 text-primary" />
               </div>
               <DialogTitle className="font-display text-foreground">Como encontrar sua URL</DialogTitle>
             </div>
             <DialogDescription className="font-body text-muted-foreground pt-2">
               Siga os passos abaixo para copiar o link do seu perfil público:
             </DialogDescription>
-            <div className="mt-3 p-4 rounded-lg bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-2">
+            <div className="mt-3 p-4 rounded-xl bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-2">
               <ol className="list-decimal list-inside space-y-2 text-sm">
                 <li>Acesse <a href="https://www.cloudskillsboost.google" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80">cloudskillsboost.google</a></li>
                 <li>Faça login na sua conta Google</li>
@@ -189,10 +215,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
             </div>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              onClick={() => setShowHelp(false)}
-              className="arcade-gradient text-primary-foreground font-display"
-            >
+            <Button onClick={() => setShowHelp(false)} className="arcade-gradient text-primary-foreground font-display rounded-xl">
               Entendi
             </Button>
           </DialogFooter>
@@ -200,18 +223,18 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       </Dialog>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="glass neon-border sm:max-w-md">
+        <DialogContent className="bg-card border-border sm:max-w-md rounded-2xl">
           <DialogHeader>
             <div className="flex items-center gap-3">
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
-                <AlertTriangle className="w-5 h-5 text-primary" />
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-secondary/10">
+                <AlertTriangle className="w-5 h-5 text-secondary" />
               </div>
               <DialogTitle className="font-display text-foreground">Atenção</DialogTitle>
             </div>
             <DialogDescription className="font-body text-muted-foreground pt-2 whitespace-pre-line">
               {modalMessage}
             </DialogDescription>
-            <div className="mt-3 p-3 rounded-lg bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-1.5">
+            <div className="mt-3 p-3 rounded-xl bg-muted/50 border border-border text-sm font-body text-muted-foreground space-y-1.5">
               <p className="text-foreground font-medium text-xs uppercase tracking-wide">Como encontrar sua URL:</p>
               <ol className="list-decimal list-inside space-y-1 text-xs">
                 <li>Acesse <a href="https://www.cloudskillsboost.google" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80">cloudskillsboost.google</a></li>
@@ -221,10 +244,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
             </div>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              onClick={() => setShowModal(false)}
-              className="arcade-gradient text-primary-foreground font-display"
-            >
+            <Button onClick={() => setShowModal(false)} className="arcade-gradient text-primary-foreground font-display rounded-xl">
               Entendi
             </Button>
           </DialogFooter>

@@ -26,13 +26,10 @@ const maxByTrack: Record<TrackKey, number> = {
 
 const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const completedNames = badges.map((b) => b.name);
-
-  // Cálculo oficial baseado na lista de badges catalogadas do programa
   const scoreResult = calculateScore(completedNames);
   const recognizedSet = new Set(scoreResult.recognizedBadges);
   const recognizedBadgeDetails = BADGES_DATABASE.filter((b) => recognizedSet.has(b.name));
 
-  // Cap each track at its max and compute capped total
   const cappedCategoryPoints: Record<string, number> = {};
   let cappedTotal = 0;
   for (const track of tracks) {
@@ -45,61 +42,30 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
 
   const courseShortCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_SHORT).length;
   const courseShortPoints = courseShortCount * 1;
-
   const courseLongCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_LONG).length;
   const courseLongPoints = courseLongCount * 2;
-
   const skillBadgesCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
   const skillBadgesPoints = skillBadgesCount * 3;
-
   const arcadeEventsCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT).length;
   const arcadeEventsPoints = arcadeEventsCount * 3;
 
   const activityTypes = [
-    {
-      icon: BookOpen,
-      label: "Cursos < 60 min",
-      unitPoints: 1,
-      count: courseShortCount,
-      total: courseShortPoints,
-      color: "text-accent",
-    },
-    {
-      icon: GraduationCap,
-      label: "Cursos ≥ 60 min",
-      unitPoints: 2,
-      count: courseLongCount,
-      total: courseLongPoints,
-      color: "text-accent",
-    },
-    {
-      icon: Gamepad2,
-      label: "Arcade Game",
-      unitPoints: 3,
-      count: arcadeEventsCount,
-      total: arcadeEventsPoints,
-      color: "text-secondary",
-    },
-    {
-      icon: Award,
-      label: "Skill Badge",
-      unitPoints: 3,
-      count: skillBadgesCount,
-      total: skillBadgesPoints,
-      color: "text-primary",
-    },
+    { icon: BookOpen, label: "Cursos < 60 min", unitPoints: 1, count: courseShortCount, total: courseShortPoints, color: "text-accent" },
+    { icon: GraduationCap, label: "Cursos ≥ 60 min", unitPoints: 2, count: courseLongCount, total: courseLongPoints, color: "text-accent" },
+    { icon: Gamepad2, label: "Arcade Game", unitPoints: 3, count: arcadeEventsCount, total: arcadeEventsPoints, color: "text-secondary" },
+    { icon: Award, label: "Skill Badge", unitPoints: 3, count: skillBadgesCount, total: skillBadgesPoints, color: "text-primary" },
   ];
 
   return (
     <div
-      className="w-full glass rounded-2xl p-5 neon-border animate-scale-in"
+      className="w-full bg-card rounded-2xl p-5 border border-border shadow-md animate-scale-in"
       style={{ animationDelay: "0.5s", animationFillMode: "backwards" }}
     >
       <h3 className="text-lg font-bold font-display text-foreground mb-4">Tabela de Pontuação</h3>
 
-      <div className="flex items-center justify-between rounded-lg border border-border bg-muted/20 px-3 py-2 mb-4">
+      <div className="flex items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 mb-4">
         <span className="text-sm font-bold font-display text-foreground">Total Oficial</span>
-        <span className="text-lg font-bold font-display text-primary text-glow-cyan tabular-nums">
+        <span className="text-lg font-bold font-display text-primary tabular-nums">
           {cappedTotal} pts
         </span>
       </div>
@@ -123,9 +89,9 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
                   {points}/{max}
                 </span>
               </div>
-              <div className="h-1.5 rounded-full bg-muted/40 overflow-hidden">
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-primary transition-all duration-700 ease-out"
+                  className="h-full rounded-full arcade-gradient transition-all duration-700 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -134,7 +100,6 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         })}
       </div>
 
-      {/* Sistema de Pontos - baseado na ementa oficial */}
       <div className="mt-5 pt-4 border-t border-border">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-bold font-display text-foreground">Sistema de Pontos</h4>
@@ -155,10 +120,10 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
             return (
               <div
                 key={activity.label}
-                className="flex items-center justify-between rounded-lg border border-border bg-muted/10 px-3 py-2.5"
+                className="flex items-center justify-between rounded-xl border border-border bg-muted/30 px-3 py-2.5"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className={`flex items-center justify-center w-7 h-7 rounded-md bg-muted/30 shrink-0`}>
+                  <div className="flex items-center justify-center w-7 h-7 rounded-md bg-muted/50 shrink-0">
                     <Icon className={`w-4 h-4 ${activity.color} shrink-0`} />
                   </div>
                   <div className="min-w-0">
@@ -181,7 +146,6 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
           })}
         </div>
       </div>
-
     </div>
   );
 };
