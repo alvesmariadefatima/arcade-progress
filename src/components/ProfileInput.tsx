@@ -94,7 +94,6 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           <span className="text-secondary">A </span>
           <span className="text-foreground">J</span>
           <span className="text-primary">O</span>
-          <span className="text-accent">'</span>
           <span className="text-secondary">R</span>
           <span className="text-foreground">N</span>
           <span className="text-neon-green">A</span>
