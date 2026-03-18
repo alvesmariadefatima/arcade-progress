@@ -13,6 +13,7 @@ const Index = () => {
   const [appState, setAppState] = useState<AppState>("idle");
   const [profile, setProfile] = useState<ArcadeProfile | null>(null);
   const [lastUrl, setLastUrl] = useState<string>("");
+  const [lastCredlyUrl, setLastCredlyUrl] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,8 +25,9 @@ const Index = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSubmit = async (url: string) => {
+  const handleSubmit = async (url: string, credlyUrl?: string) => {
     setLastUrl(url);
+    setLastCredlyUrl(credlyUrl);
     setSearchParams({ url });
     const isRefresh = appState === "results" && profile !== null;
     if (isRefresh) {
@@ -36,7 +38,7 @@ const Index = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('arcade-points', {
-        body: { profileUrl: url },
+        body: { profileUrl: url, credlyUrl },
       });
 
       if (error) {
@@ -86,12 +88,13 @@ const Index = () => {
     setAppState("idle");
     setProfile(null);
     setLastUrl("");
+    setLastCredlyUrl(undefined);
     setSearchParams({});
   };
 
   const handleRefresh = () => {
     if (lastUrl) {
-      handleSubmit(lastUrl);
+      handleSubmit(lastUrl, lastCredlyUrl);
     }
   };
 

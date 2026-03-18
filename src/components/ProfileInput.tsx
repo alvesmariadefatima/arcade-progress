@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Zap, AlertTriangle, HelpCircle, History, Link2 } from "lucide-react";
+import { Zap, AlertTriangle, HelpCircle, History, Link2, Award } from "lucide-react";
 import logoArcade from "@/assets/logo-arcade.png";
 
 const HISTORY_KEY = "arcade-url-history";
@@ -23,12 +23,13 @@ function saveToHistory(url: string) {
 }
 
 interface ProfileInputProps {
-  onSubmit: (url: string) => void;
+  onSubmit: (url: string, credlyUrl?: string) => void;
   isLoading: boolean;
 }
 
 const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [url, setUrl] = useState("");
+  const [credlyUrl, setCredlyUrl] = useState("");
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
@@ -52,6 +53,12 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
     return pattern.test(input.trim());
   };
 
+  const validateCredlyUrl = (input: string): boolean => {
+    if (!input.trim()) return true; // optional
+    const pattern = /^https?:\/\/(www\.)?credly\.com\/users\/.+/;
+    return pattern.test(input.trim());
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
@@ -64,12 +71,17 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       setShowModal(true);
       return;
     }
+    if (credlyUrl.trim() && !validateCredlyUrl(credlyUrl)) {
+      setModalMessage("URL do Credly inválida. O link deve seguir o formato:\nhttps://www.credly.com/users/SEU_NOME/badges");
+      setShowModal(true);
+      return;
+    }
     setError("");
     const trimmed = url.trim();
     saveToHistory(trimmed);
     setHistory(loadHistory());
     setShowHistory(false);
-    onSubmit(trimmed);
+    onSubmit(trimmed, credlyUrl.trim() || undefined);
   };
 
   return (
@@ -159,6 +171,25 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           )}
         </div>
 
+        {/* Credly URL (optional) */}
+        <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
+          <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1 font-body">
+            <Award className="w-4 h-4" />
+            URL do Credly <span className="text-xs text-muted-foreground/60">(opcional)</span>
+          </label>
+          <p className="text-xs text-muted-foreground/70 mb-3 font-body">
+            Adicione seu perfil Credly para detectar certificados de conclusão de trilha.
+          </p>
+          <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-accent via-neon-green to-primary">
+            <Input
+              type="url"
+              value={credlyUrl}
+              onChange={(e) => setCredlyUrl(e.target.value)}
+              placeholder="https://www.credly.com/users/seu-nome/badges"
+              className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
+            />
+          </div>
+        </div>
         <Button
           type="submit"
           disabled={isLoading}
