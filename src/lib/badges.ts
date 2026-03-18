@@ -67,7 +67,7 @@ const BADGES_DATABASE: Badge[] = [
     points: 2,
   },
   {
-    name: 'Google Cloud Computing Foundations: Data, ML and AI in Google Cloud',
+    name: 'Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud',
     category: BadgeCategory.FUNDAMENTOS_CLOUD,
     type: BadgeType.COURSE_LONG,
     points: 2,
