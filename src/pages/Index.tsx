@@ -25,8 +25,9 @@ const Index = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSubmit = async (url: string) => {
+  const handleSubmit = async (url: string, credlyUrl?: string) => {
     setLastUrl(url);
+    setLastCredlyUrl(credlyUrl);
     setSearchParams({ url });
     const isRefresh = appState === "results" && profile !== null;
     if (isRefresh) {
