@@ -23,7 +23,7 @@ function saveToHistory(url: string) {
 }
 
 interface ProfileInputProps {
-  onSubmit: (url: string) => void;
+  onSubmit: (url: string, credlyUrl?: string) => void;
   isLoading: boolean;
 }
 

@@ -10,99 +10,67 @@ interface BadgeInfo {
   link: string;
   type: 'course_short' | 'course_long' | 'arcade_game' | 'skill_badge';
   points: number;
+  source?: 'google_skills' | 'credly';
 }
 
 function classifyBadge(name: string, description: string): { type: BadgeInfo['type']; points: number } {
-  const nameLower = name.toLowerCase();
-  const descLower = description.toLowerCase();
-  
-  // Arcade Games: name starts with "Arcade" or description mentions it's a challenge/game
   if (/^arcade\b/i.test(name)) {
     return { type: 'arcade_game', points: 3 };
   }
-  // Skill Badges: description starts with or contains "earn a skill badge" indicating the badge itself IS a skill badge
   if (/earn a skill badge/i.test(description) || /complete the .+ skill badge/i.test(description)) {
     return { type: 'skill_badge', points: 3 };
   }
-  // Courses: default — 1 point
   return { type: 'course_short', points: 1 };
 }
 
 function parseProfile(markdown: string, html: string) {
   const lines = markdown.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-  // Extract name from first H1
   let name = 'Usuário';
   for (const line of lines) {
     const h1 = line.match(/^# (.+)$/);
-    if (h1) {
-      name = h1[1].trim();
-      break;
-    }
+    if (h1) { name = h1[1].trim(); break; }
   }
 
-  // Extract points
   let points = 0;
   for (const line of lines) {
     const pointsMatch = line.match(/\*\*(\d[\d,\.]*)\s*points?\*\*/i);
-    if (pointsMatch) {
-      points = parseInt(pointsMatch[1].replace(/[,\.]/g, ''), 10);
-      break;
-    }
+    if (pointsMatch) { points = parseInt(pointsMatch[1].replace(/[,\.]/g, ''), 10); break; }
   }
 
-  // Extract league
   let league = '';
   for (const line of lines) {
     const leagueMatch = line.match(/^##\s+(.+League)/i);
-    if (leagueMatch) {
-      league = leagueMatch[1].trim();
-      break;
-    }
+    if (leagueMatch) { league = leagueMatch[1].trim(); break; }
   }
 
-  // Extract member since
   let memberSince = '';
   for (const line of lines) {
     const memberMatch = line.match(/Member since (\d{4})/i);
-    if (memberMatch) {
-      memberSince = memberMatch[1];
-      break;
-    }
+    if (memberMatch) { memberSince = memberMatch[1]; break; }
   }
 
-  // Extract league image from HTML
   let leagueImage = '';
   if (html) {
     const leagueImgMatch = html.match(/profile-league[\s\S]*?<img[^>]*src="([^"]+)"/i);
-    if (leagueImgMatch) {
-      leagueImage = leagueImgMatch[1];
-    }
+    if (leagueImgMatch) leagueImage = leagueImgMatch[1];
   }
 
-  // Extract avatar from HTML (ql-avatar component has the real profile photo)
   let avatar = '';
   if (html) {
     const avatarMatch = html.match(/ql-avatar[^>]*src="([^"]+)"/i)
       || html.match(/lh3\.googleusercontent\.com[^"'\s)]+/i);
-    if (avatarMatch) {
-      avatar = avatarMatch[1] || avatarMatch[0];
-    }
+    if (avatarMatch) avatar = avatarMatch[1] || avatarMatch[0];
   }
 
-  // Extract badges: multiple patterns for regular badges and skill badges
   const badges: BadgeInfo[] = [];
   const seenLinks = new Set<string>();
 
-  // First pass: collect badge names and their detail descriptions from the markdown
-  // Detail sections appear as: # Badge Name \n Dismiss \n Description text...
   const badgeDescriptions = new Map<string, string>();
   for (let i = 0; i < lines.length; i++) {
-    // Detail sections start with "# Name" followed by "Dismiss"
     const h1Match = lines[i].match(/^# (.+)$/);
     if (h1Match && i + 1 < lines.length && lines[i + 1] === 'Dismiss') {
       const detailName = h1Match[1].trim();
-      // Collect description lines until we hit "Learn more" or another heading
       let desc = '';
       for (let j = i + 2; j < lines.length && j <= i + 15; j++) {
         if (lines[j] === 'Learn more' || lines[j].startsWith('# ') || lines[j] === 'close') break;
@@ -112,24 +80,20 @@ function parseProfile(markdown: string, html: string) {
     }
   }
 
-  // Second pass: extract badges from the grid
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    
     const badgeMatch = line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/badges\/[^)]+)\)/);
     const skillBadgeMatch = !badgeMatch ? line.match(/\[!\[\]\(([^)]+)\)\]\(([^)]+\/(?:course_templates|quests|games)\/[^)]+)\)/) : null;
     const match = badgeMatch || skillBadgeMatch;
-    
+
     if (match) {
       const image = match[1];
       const link = match[2];
-      
       if (seenLinks.has(link)) continue;
       seenLinks.add(link);
-      
+
       let badgeName = '';
       let earnedDate = '';
-      
       for (let j = i + 1; j < lines.length && j <= i + 5; j++) {
         const nextLine = lines[j];
         if (!badgeName && !nextLine.startsWith('[') && !nextLine.startsWith('!') && !nextLine.startsWith('Earned') && !nextLine.startsWith('Learn') && !nextLine.startsWith('Dismiss') && nextLine.length > 2) {
@@ -144,12 +108,95 @@ function parseProfile(markdown: string, html: string) {
       if (badgeName) {
         const description = badgeDescriptions.get(badgeName.toLowerCase()) || '';
         const classification = classifyBadge(badgeName, description);
-        badges.push({ name: badgeName, image, earnedDate, link, type: classification.type, points: classification.points });
+        badges.push({ name: badgeName, image, earnedDate, link, type: classification.type, points: classification.points, source: 'google_skills' });
       }
     }
   }
 
   return { name, points, league, leagueImage, memberSince, avatar, badges };
+}
+
+function parseCredlyProfile(markdown: string): BadgeInfo[] {
+  const badges: BadgeInfo[] = [];
+  const lines = markdown.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  const seenNames = new Set<string>();
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    // Match image pattern: ![Badge Name](image_url)
+    const imgMatch = line.match(/^!\[([^\]]+)\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      const altText = imgMatch[1].trim();
+      const image = imgMatch[2];
+
+      // Next line should have the badge name + issuer
+      let badgeName = '';
+      let earnedDate = '';
+      for (let j = i + 1; j < lines.length && j <= i + 4; j++) {
+        const nextLine = lines[j];
+        if (!badgeName && nextLine.length > 3 && !nextLine.startsWith('![') && !nextLine.startsWith('Issued')) {
+          // Badge name line often has issuer appended, e.g. "Google Cloud Cybersecurity CertificateGoogle Cloud"
+          badgeName = nextLine.replace(/Google Cloud$/, '').trim();
+        }
+        if (nextLine.startsWith('Issued ')) {
+          earnedDate = nextLine.replace('Issued ', '');
+          break;
+        }
+      }
+
+      if (!badgeName && altText) {
+        badgeName = altText;
+      }
+
+      if (badgeName && !seenNames.has(badgeName.toLowerCase())) {
+        seenNames.add(badgeName.toLowerCase());
+        // Classify Credly badges - certificates are typically course completions
+        const isCertificate = /certificate/i.test(badgeName);
+        const isSkillBadge = /skill badge/i.test(badgeName);
+        let type: BadgeInfo['type'] = 'course_long';
+        let points = 2;
+        if (isSkillBadge) { type = 'skill_badge'; points = 3; }
+
+        badges.push({
+          name: badgeName,
+          image,
+          earnedDate,
+          link: '',
+          type,
+          points,
+          source: 'credly',
+        });
+      }
+    }
+  }
+
+  return badges;
+}
+
+async function scrapeUrl(apiKey: string, url: string, formats: string[] = ['markdown', 'html']): Promise<{ markdown: string; html: string }> {
+  const response = await fetch('https://api.firecrawl.dev/v1/scrape', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url,
+      formats,
+      waitFor: 8000,
+      onlyMainContent: false,
+    }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || `Scrape failed with status ${response.status}`);
+  }
+
+  return {
+    markdown: data.data?.markdown || data.markdown || '',
+    html: data.data?.html || data.html || '',
+  };
 }
 
 function calculateArcadePoints(badges: BadgeInfo[]): number {
@@ -162,7 +209,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { profileUrl } = await req.json();
+    const { profileUrl, credlyUrl } = await req.json();
 
     if (!profileUrl) {
       return new Response(
@@ -186,39 +233,40 @@ Deno.serve(async (req) => {
 
     console.log('Scraping profile:', formattedUrl);
 
-    const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: formattedUrl,
-        formats: ['markdown', 'html'],
-        waitFor: 8000,
-        onlyMainContent: false,
-      }),
-    });
-
-    const scrapeData = await scrapeResponse.json();
-
-    if (!scrapeResponse.ok) {
-      console.error('Firecrawl error:', scrapeData);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Não foi possível acessar o perfil. Verifique se o perfil é público.' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const markdown = scrapeData.data?.markdown || scrapeData.markdown || '';
-    const html = scrapeData.data?.html || scrapeData.html || '';
-    console.log('Markdown length:', markdown.length);
+    // Scrape Google Skills profile
+    const { markdown, html } = await scrapeUrl(apiKey, formattedUrl);
+    console.log('Google Skills markdown length:', markdown.length);
     const profile = parseProfile(markdown, html);
 
-    // Calculate arcade points based on badge types
+    // Scrape Credly profile if provided
+    let credlyBadges: BadgeInfo[] = [];
+    if (credlyUrl) {
+      let formattedCredlyUrl = credlyUrl.trim();
+      if (!formattedCredlyUrl.startsWith('http://') && !formattedCredlyUrl.startsWith('https://')) {
+        formattedCredlyUrl = `https://${formattedCredlyUrl}`;
+      }
+      console.log('Scraping Credly profile:', formattedCredlyUrl);
+      try {
+        const credlyData = await scrapeUrl(apiKey, formattedCredlyUrl, ['markdown']);
+        console.log('Credly markdown length:', credlyData.markdown.length);
+        credlyBadges = parseCredlyProfile(credlyData.markdown);
+        console.log(`Found ${credlyBadges.length} Credly badges`);
+      } catch (err) {
+        console.error('Credly scrape error (non-fatal):', err);
+      }
+    }
+
+    // Merge badges: add Credly badges that don't duplicate Google Skills ones
+    const existingNames = new Set(profile.badges.map(b => b.name.toLowerCase()));
+    for (const cb of credlyBadges) {
+      if (!existingNames.has(cb.name.toLowerCase())) {
+        profile.badges.push(cb);
+        existingNames.add(cb.name.toLowerCase());
+      }
+    }
+
     const arcadePoints = calculateArcadePoints(profile.badges);
     
-    // Determine level based on calculated points
     let level = 'Iniciante';
     if (arcadePoints >= 60) level = 'Marco Premium';
     else if (arcadePoints >= 40) level = 'Marco Standard';
@@ -241,12 +289,14 @@ Deno.serve(async (req) => {
           link: b.link,
           type: b.type,
           points: b.points,
+          source: b.source || 'google_skills',
         })),
         badgeCount: profile.badges.length,
+        credlyBadgesCount: credlyBadges.length,
       },
     };
 
-    console.log(`Found ${profile.badges.length} badges for ${profile.name} — ${arcadePoints} arcade points (${profile.points} profile points)`);
+    console.log(`Found ${profile.badges.length} total badges for ${profile.name} — ${arcadePoints} arcade points (${credlyBadges.length} from Credly)`);
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
