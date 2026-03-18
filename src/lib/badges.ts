@@ -38,6 +38,7 @@ interface Badge {
   category: BadgeCategory;
   type: BadgeType;
   points: number;
+  isCredlyCertificate?: boolean;
 }
 
 /**
