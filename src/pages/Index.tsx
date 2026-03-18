@@ -38,7 +38,7 @@ const Index = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('arcade-points', {
-        body: { profileUrl: url },
+        body: { profileUrl: url, credlyUrl },
       });
 
       if (error) {
