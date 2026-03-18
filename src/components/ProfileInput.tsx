@@ -52,6 +52,12 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
     return pattern.test(input.trim());
   };
 
+  const validateCredlyUrl = (input: string): boolean => {
+    if (!input.trim()) return true; // optional
+    const pattern = /^https?:\/\/(www\.)?credly\.com\/users\/.+/;
+    return pattern.test(input.trim());
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) {
@@ -64,12 +70,17 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       setShowModal(true);
       return;
     }
+    if (credlyUrl.trim() && !validateCredlyUrl(credlyUrl)) {
+      setModalMessage("URL do Credly inválida. O link deve seguir o formato:\nhttps://www.credly.com/users/SEU_NOME/badges");
+      setShowModal(true);
+      return;
+    }
     setError("");
     const trimmed = url.trim();
     saveToHistory(trimmed);
     setHistory(loadHistory());
     setShowHistory(false);
-    onSubmit(trimmed);
+    onSubmit(trimmed, credlyUrl.trim() || undefined);
   };
 
   return (
