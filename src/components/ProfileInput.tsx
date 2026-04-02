@@ -216,7 +216,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
             </div>
           </DialogHeader>
           <DialogFooter>
-            <Button onClick={() => setShowHelp(false)} className="arcade-gradient text-primary-foreground font-display rounded-xl">
+            <Button onClick={() => setShowHelp(false)} className="arcade-gradient text-primary-foreground font-display rounded-xl text-base font-bold px-8 py-3 h-auto min-h-[48px] shadow-md">
               Entendi
             </Button>
           </DialogFooter>
