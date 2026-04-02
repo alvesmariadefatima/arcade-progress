@@ -87,7 +87,6 @@ const Index = () => {
     setAppState("idle");
     setProfile(null);
     setLastUrl("");
-    setLastCredlyUrl(undefined);
     setSearchParams({});
   };
 
