@@ -92,7 +92,7 @@ const Index = () => {
 
   const handleRefresh = () => {
     if (lastUrl) {
-      handleSubmit(lastUrl, lastCredlyUrl);
+      handleSubmit(lastUrl);
     }
   };
 
