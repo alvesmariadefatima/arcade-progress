@@ -160,24 +160,6 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
             )}
           </div>
 
-          <div className="border-t border-border pt-5">
-            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1 font-body">
-              <Award className="w-4 h-4" />
-              URL do Perfil Credly <span className="text-xs text-secondary">*obrigatório</span>
-            </label>
-            <p className="text-xs text-muted-foreground/70 mb-3 font-body">
-              Necessário para validar certificados de conclusão de trilha.
-            </p>
-            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-accent via-neon-green to-primary">
-              <Input
-                type="url"
-                value={credlyUrl}
-                onChange={(e) => setCredlyUrl(e.target.value)}
-                placeholder="https://www.credly.com/users/seu-nome/badges"
-                className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
-              />
-            </div>
-          </div>
         </div>
         <Button
           type="submit"
