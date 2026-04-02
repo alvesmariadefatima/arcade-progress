@@ -54,7 +54,6 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   };
 
   const validateCredlyUrl = (input: string): boolean => {
-    if (!input.trim()) return true; // optional
     const pattern = /^https?:\/\/(www\.)?credly\.com\/users\/.+/;
     return pattern.test(input.trim());
   };
