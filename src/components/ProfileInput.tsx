@@ -133,7 +133,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3 font-body">
               <Link2 className="w-4 h-4" />
-              URL do Perfil Público (Google Skills)
+              URL do Perfil Público (Google Skills) <span className="text-xs text-secondary">*obrigatório</span>
             </label>
             <div ref={inputWrapperRef} className="relative">
               <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-primary via-accent to-secondary">
