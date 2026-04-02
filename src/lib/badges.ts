@@ -239,20 +239,6 @@ const BADGES_DATABASE: Badge[] = [
     points: 3,
   },
 
-  // ==================== Credly Certificates (track completion proofs) ====================
-  // These map Credly certificate names to the missing individual badges
-  {
-    name: 'Google Cloud Cybersecurity Certificate',
-    category: BadgeCategory.CYBERSECURITY,
-    type: BadgeType.COURSE_LONG,
-    points: 2,
-  },
-  {
-    name: 'Google Cloud Computing Foundations Certificate',
-    category: BadgeCategory.FUNDAMENTOS_CLOUD,
-    type: BadgeType.COURSE_LONG,
-    points: 2,
-  },
 ];
 
 // ============================================================================
