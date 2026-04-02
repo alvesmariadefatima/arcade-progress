@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Zap, AlertTriangle, HelpCircle, History, Link2, Award } from "lucide-react";
+import { Zap, AlertTriangle, HelpCircle, History, Link2 } from "lucide-react";
 import logoArcade from "@/assets/logo-arcade.png";
 
 const HISTORY_KEY = "arcade-url-history";
