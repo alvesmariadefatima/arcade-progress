@@ -70,7 +70,12 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       setShowModal(true);
       return;
     }
-    if (credlyUrl.trim() && !validateCredlyUrl(credlyUrl)) {
+    if (!credlyUrl.trim()) {
+      setModalMessage("Por favor, insira a URL do seu perfil do Credly para validar os certificados de conclusão de trilha.");
+      setShowModal(true);
+      return;
+    }
+    if (!validateCredlyUrl(credlyUrl)) {
       setModalMessage("URL do Credly inválida. O link deve seguir o formato:\nhttps://www.credly.com/users/SEU_NOME/badges");
       setShowModal(true);
       return;
