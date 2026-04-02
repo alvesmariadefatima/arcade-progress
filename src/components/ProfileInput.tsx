@@ -70,7 +70,7 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
     saveToHistory(trimmed);
     setHistory(loadHistory());
     setShowHistory(false);
-    onSubmit(trimmed, credlyUrl.trim() || undefined);
+    onSubmit(trimmed);
   };
 
   return (
