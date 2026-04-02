@@ -256,15 +256,10 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Merge badges: add Credly badges that don't duplicate Google Skills ones
-    const existingNames = new Set(profile.badges.map(b => b.name.toLowerCase()));
-    for (const cb of credlyBadges) {
-      if (!existingNames.has(cb.name.toLowerCase())) {
-        profile.badges.push(cb);
-        existingNames.add(cb.name.toLowerCase());
-      }
-    }
-
+    // Only use Google Skills badges for scoring
+    // Credly is used only to validate track completion (certificates)
+    const credlyNames = credlyBadges.map(b => b.name.toLowerCase());
+    
     const arcadePoints = calculateArcadePoints(profile.badges);
     
     let level = 'Iniciante';
@@ -289,10 +284,10 @@ Deno.serve(async (req) => {
           link: b.link,
           type: b.type,
           points: b.points,
-          source: b.source || 'google_skills',
+          source: 'google_skills',
         })),
         badgeCount: profile.badges.length,
-        credlyBadgesCount: credlyBadges.length,
+        credlyCertificates: credlyNames,
       },
     };
 
