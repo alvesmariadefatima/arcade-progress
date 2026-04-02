@@ -29,7 +29,6 @@ interface ProfileInputProps {
 
 const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
   const [url, setUrl] = useState("");
-  const [credlyUrl, setCredlyUrl] = useState("");
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
