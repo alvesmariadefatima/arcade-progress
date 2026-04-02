@@ -13,7 +13,7 @@ const Index = () => {
   const [appState, setAppState] = useState<AppState>("idle");
   const [profile, setProfile] = useState<ArcadeProfile | null>(null);
   const [lastUrl, setLastUrl] = useState<string>("");
-  const [lastCredlyUrl, setLastCredlyUrl] = useState<string | undefined>(undefined);
+  
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
