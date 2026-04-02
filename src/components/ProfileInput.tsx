@@ -129,69 +129,69 @@ const ProfileInput = ({ onSubmit, isLoading }: ProfileInputProps) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 w-full">
-        <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
-          <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3 font-body">
-            <Link2 className="w-4 h-4" />
-            URL do Perfil Público
-          </label>
-          <div ref={inputWrapperRef} className="relative">
-            {/* Multi-color border input */}
-            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-primary via-accent to-secondary">
+        <div className="bg-card rounded-2xl p-6 shadow-lg border border-border space-y-5">
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3 font-body">
+              <Link2 className="w-4 h-4" />
+              URL do Perfil Público (Google Skills)
+            </label>
+            <div ref={inputWrapperRef} className="relative">
+              <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-primary via-accent to-secondary">
+                <Input
+                  type="url"
+                  value={url}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    setError("");
+                  }}
+                  onFocus={() => history.length > 0 && setShowHistory(true)}
+                  placeholder="https://www.skills.google/public_profiles/..."
+                  className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
+                />
+              </div>
+              {showHistory && history.length > 0 && (
+                <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-xl border border-border bg-card shadow-lg overflow-hidden">
+                  {history.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          setUrl(item);
+                          setShowHistory(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-body text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors truncate"
+                      >
+                        <History className="w-3.5 h-3.5 shrink-0 text-muted-foreground/50" />
+                        <span className="truncate">{item}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {error && (
+              <p className="text-destructive text-sm mt-2 font-body">{error}</p>
+            )}
+          </div>
+
+          <div className="border-t border-border pt-5">
+            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1 font-body">
+              <Award className="w-4 h-4" />
+              URL do Perfil Credly <span className="text-xs text-secondary">*obrigatório</span>
+            </label>
+            <p className="text-xs text-muted-foreground/70 mb-3 font-body">
+              Necessário para validar certificados de conclusão de trilha.
+            </p>
+            <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-accent via-neon-green to-primary">
               <Input
                 type="url"
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                  setError("");
-                }}
-                onFocus={() => history.length > 0 && setShowHistory(true)}
-                placeholder="https://www.skills.google/public_profiles/..."
+                value={credlyUrl}
+                onChange={(e) => setCredlyUrl(e.target.value)}
+                placeholder="https://www.credly.com/users/seu-nome/badges"
                 className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
               />
             </div>
-            {showHistory && history.length > 0 && (
-              <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-xl border border-border bg-card shadow-lg overflow-hidden">
-                {history.map((item) => (
-                  <li key={item}>
-                    <button
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        setUrl(item);
-                        setShowHistory(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-body text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors truncate"
-                    >
-                      <History className="w-3.5 h-3.5 shrink-0 text-muted-foreground/50" />
-                      <span className="truncate">{item}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          {error && (
-            <p className="text-destructive text-sm mt-2 font-body">{error}</p>
-          )}
-        </div>
-
-        {/* Credly URL (optional) */}
-        <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
-          <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1 font-body">
-            <Award className="w-4 h-4" />
-            URL do Credly <span className="text-xs text-muted-foreground/60">(opcional)</span>
-          </label>
-          <p className="text-xs text-muted-foreground/70 mb-3 font-body">
-            Adicione seu perfil Credly para detectar certificados de conclusão de trilha.
-          </p>
-          <div className="relative rounded-xl p-[2px] bg-gradient-to-r from-accent via-neon-green to-primary">
-            <Input
-              type="url"
-              value={credlyUrl}
-              onChange={(e) => setCredlyUrl(e.target.value)}
-              placeholder="https://www.credly.com/users/seu-nome/badges"
-              className="bg-card border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base font-body rounded-[10px]"
-            />
           </div>
         </div>
         <Button
