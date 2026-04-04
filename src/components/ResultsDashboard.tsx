@@ -4,6 +4,7 @@ import ProgressBar from "./ProgressBar";
 import PointsBreakdown from "./PointsBreakdown";
 import BadgeGrid from "./BadgeGrid";
 import LeagueRank from "./LeagueRank";
+import SocialShareButtons from "./SocialShareButtons";
 import { User, Award, RefreshCw } from "lucide-react";
 import { getArcadeLevel } from "@/lib/arcade-types";
 import { Button } from "./ui/button";
@@ -98,6 +99,11 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
 
       {/* Badges */}
       {profile.badges.length > 0 && <BadgeGrid badges={profile.badges} />}
+
+      {/* Social Share */}
+      <SocialShareButtons
+        shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${officialPoints} pontos! Confira meu progresso:`}
+      />
     </div>
   );
 };

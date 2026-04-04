@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProfileInput from "@/components/ProfileInput";
+import SocialShareButtons from "@/components/SocialShareButtons";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
 import NavBar from "@/components/NavBar";
@@ -111,7 +112,10 @@ const Index = () => {
 
       <div className="relative z-10 container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-20 flex flex-col items-center justify-center flex-1">
         {appState === "idle" || appState === "loading" ? (
-          <ProfileInput onSubmit={handleSubmit} isLoading={appState === "loading"} />
+          <>
+            <ProfileInput onSubmit={handleSubmit} isLoading={appState === "loading"} />
+            <SocialShareButtons compact />
+          </>
         ) : appState === "error" ? (
           <div className="text-center animate-slide-up">
             <p className="text-destructive text-lg mb-4 font-body">Erro ao buscar perfil</p>
