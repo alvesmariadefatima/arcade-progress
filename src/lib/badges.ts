@@ -372,7 +372,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.FUNDAMENTOS_CLOUD]: 20,
   [BadgeCategory.CYBERSECURITY]: 10,
   [BadgeCategory.LIDER_IA]: 11,
-  [BadgeCategory.BEGINNER_IA]: 5,
+  [BadgeCategory.BEGINNER_IA]: 10,
   [BadgeCategory.ARCADE]: 9,
 };
 
