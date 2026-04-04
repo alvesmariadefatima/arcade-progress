@@ -75,27 +75,27 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
             )}
           </div>
 
-          <div className="p-5 bg-card space-y-3">
+          <div className="p-5 bg-white space-y-3">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="flex items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
-                <Gift className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-xl border border-[#1a237e]/15 bg-[#1a237e]/5 p-3">
+                <Gift className="w-5 h-5 text-[#1a237e] shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold font-body text-foreground">Kit Google Cloud</p>
-                  <p className="text-xs text-muted-foreground font-body">Caneta + mochila saco exclusiva Google Cloud</p>
+                  <p className="text-sm font-bold font-body text-[#1a237e]">Kit Google Cloud</p>
+                  <p className="text-xs text-[#1a237e]/70 font-body">Caneta + mochila saco exclusiva Google Cloud</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
-                <Coins className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-xl border border-[#1a237e]/15 bg-[#1a237e]/5 p-3">
+                <Coins className="w-5 h-5 text-[#1a237e] shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold font-body text-foreground">500 Créditos</p>
-                  <p className="text-xs text-muted-foreground font-body">Créditos gratuitos do Google Skills para continuar estudando</p>
+                  <p className="text-sm font-bold font-body text-[#1a237e]">500 Créditos</p>
+                  <p className="text-xs text-[#1a237e]/70 font-body">Créditos gratuitos do Google Skills para continuar estudando</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
-                <GraduationCap className="w-5 h-5 text-neon-green shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-xl border border-[#1a237e]/15 bg-[#1a237e]/5 p-3">
+                <GraduationCap className="w-5 h-5 text-[#1a237e] shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold font-body text-foreground">Voucher 100% OFF</p>
-                  <p className="text-xs text-muted-foreground font-body">Exame de certificação Google Cloud Generative AI Leader (US$ 99)</p>
+                  <p className="text-sm font-bold font-body text-[#1a237e]">Voucher 100% OFF</p>
+                  <p className="text-xs text-[#1a237e]/70 font-body">Exame de certificação Google Cloud Generative AI Leader (US$ 99)</p>
                 </div>
               </div>
             </div>
