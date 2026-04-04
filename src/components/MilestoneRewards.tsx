@@ -42,10 +42,10 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
       <div className="space-y-5">
         {/* Marco Standard */}
         <div
-          className={`rounded-2xl border-2 overflow-hidden transition-all duration-500 ${
+          className={`rounded-2xl border-2 overflow-hidden transition-all duration-500 bg-white ${
             standardUnlocked
-              ? "border-primary/50 shadow-lg"
-              : "border-border opacity-75"
+              ? "border-[#1a237e]/30 shadow-lg"
+              : "border-gray-200 opacity-75"
           }`}
         >
           <div className={`px-5 py-3 flex items-center gap-3 ${
