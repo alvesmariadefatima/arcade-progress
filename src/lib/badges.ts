@@ -206,6 +206,12 @@ const BADGES_DATABASE: Badge[] = [
     points: 1,
   },
   {
+    name: 'Generative AI Fundamentals',
+    category: BadgeCategory.BEGINNER_IA,
+    type: BadgeType.SKILL_BADGE,
+    points: 3,
+  },
+  {
     name: 'Gen AI: Navigate the Landscape',
     category: BadgeCategory.BEGINNER_IA,
     type: BadgeType.COURSE_SHORT,
@@ -213,6 +219,18 @@ const BADGES_DATABASE: Badge[] = [
   },
   {
     name: 'Gen AI: Beyond the Chatbot',
+    category: BadgeCategory.BEGINNER_IA,
+    type: BadgeType.COURSE_SHORT,
+    points: 1,
+  },
+  {
+    name: 'Introduction to Image Generation',
+    category: BadgeCategory.BEGINNER_IA,
+    type: BadgeType.COURSE_SHORT,
+    points: 1,
+  },
+  {
+    name: 'Encoder-Decoder Architecture',
     category: BadgeCategory.BEGINNER_IA,
     type: BadgeType.COURSE_SHORT,
     points: 1,
