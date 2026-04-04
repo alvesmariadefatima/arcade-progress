@@ -423,14 +423,29 @@ function validateScoreResult(result: ScoreResult): ValidationResult {
 }
 
 /**
- * Returns capped points per track and capped total
+ * Returns capped points per track (including completion bonuses) and capped total
  */
 function getCappedScore(result: ScoreResult): { cappedTotal: number; cappedByTrack: Record<BadgeCategory, number> } {
   const cappedByTrack = {} as Record<BadgeCategory, number>;
   let cappedTotal = 0;
   for (const [cat, cap] of Object.entries(TRACK_CAPS)) {
-    const capped = Math.min(result.categoryPoints[cat as BadgeCategory], cap);
-    cappedByTrack[cat as BadgeCategory] = capped;
+    const catKey = cat as BadgeCategory;
+    let points = result.categoryPoints[catKey];
+
+    // Add completion bonus if all badges in the track are completed
+    const bonus = TRACK_COMPLETION_BONUS[catKey] ?? 0;
+    if (bonus > 0) {
+      const trackBadges = BADGES_DATABASE.filter(b => b.category === catKey);
+      const completedInTrack = trackBadges.filter(b =>
+        result.recognizedBadges.some(rb => normalize(rb) === normalize(b.name))
+      );
+      if (completedInTrack.length === trackBadges.length && trackBadges.length > 0) {
+        points += bonus;
+      }
+    }
+
+    const capped = Math.min(points, cap);
+    cappedByTrack[catKey] = capped;
     cappedTotal += capped;
   }
   return { cappedTotal, cappedByTrack };
