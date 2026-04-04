@@ -99,6 +99,11 @@ const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: Results
 
       {/* Badges */}
       {profile.badges.length > 0 && <BadgeGrid badges={profile.badges} />}
+
+      {/* Social Share */}
+      <SocialShareButtons
+        shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${officialPoints} pontos! Confira meu progresso:`}
+      />
     </div>
   );
 };
