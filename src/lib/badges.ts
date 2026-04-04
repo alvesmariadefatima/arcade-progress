@@ -461,6 +461,7 @@ export {
   getCappedScore,
   BADGES_DATABASE,
   TRACK_CAPS,
+  TRACK_COMPLETION_BONUS,
   MAX_TOTAL_POINTS,
   BadgeCategory,
   BadgeType,
