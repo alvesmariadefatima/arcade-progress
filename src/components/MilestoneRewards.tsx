@@ -119,26 +119,26 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
         >
           <div className={`px-5 py-3 flex items-center gap-3 ${
             premiumUnlocked
-              ? "bg-neon-green/10"
-              : "bg-muted/30"
+              ? "bg-[#1a237e]/10"
+              : "bg-gray-100"
           }`}>
             <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
               premiumUnlocked
-                ? "bg-neon-green/20 border-neon-green/40"
-                : "bg-muted/50 border-border"
+                ? "bg-[#1a237e]/20 border-[#1a237e]/40"
+                : "bg-gray-200 border-gray-300"
             }`}>
-              <Trophy className={`w-5 h-5 ${premiumUnlocked ? "text-neon-green" : "text-muted-foreground"}`} />
+              <Trophy className={`w-5 h-5 ${premiumUnlocked ? "text-[#1a237e]" : "text-gray-500"}`} />
             </div>
             <div className="flex-1">
-              <h4 className={`font-bold font-display text-sm ${premiumUnlocked ? "text-neon-green" : "text-muted-foreground"}`}>
+              <h4 className={`font-bold font-display text-sm ${premiumUnlocked ? "text-[#1a237e]" : "text-gray-500"}`}>
                 🏆 Marco Premium — 60 Pontos
               </h4>
-              <p className="text-xs text-muted-foreground font-body">
+              <p className="text-xs text-[#1a237e]/70 font-body">
                 {premiumUnlocked ? "✅ Marco alcançado!" : `Faltam ${Math.max(0, 60 - userPoints)} pontos`}
               </p>
             </div>
             {premiumUnlocked && (
-              <span className="text-xs font-bold font-display text-neon-green bg-neon-green/10 px-2.5 py-1 rounded-full border border-neon-green/20">
+              <span className="text-xs font-bold font-display text-[#1a237e] bg-[#1a237e]/10 px-2.5 py-1 rounded-full border border-[#1a237e]/20">
                 <Star className="w-3 h-3 inline mr-1" />Conquistado
               </span>
             )}
