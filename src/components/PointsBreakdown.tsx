@@ -1,4 +1,4 @@
-import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
+import { Award, Gamepad2, Cloud, ShieldCheck, BotMessageSquare, Lightbulb, Joystick, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
 import { Badge } from "@/lib/arcade-types";
 import { BADGES_DATABASE, BadgeType, BadgeCategory, TRACK_CAPS, calculateScore, getCappedScore } from "@/lib/badges";
 
@@ -7,11 +7,11 @@ interface PointsBreakdownProps {
 }
 
 const tracks = [
-  { key: BadgeCategory.FUNDAMENTOS_CLOUD, label: "Fundamentos da Computação em Google Cloud", icon: Map },
-  { key: BadgeCategory.CYBERSECURITY, label: "Iniciante: Google Cloud Cybersecurity", icon: Shield },
-  { key: BadgeCategory.LIDER_IA, label: "Líder de IA Generativa", icon: Brain },
-  { key: BadgeCategory.BEGINNER_IA, label: "Iniciante: Programa de Aprendizado Introdução à IA Generativa", icon: Sparkles },
-  { key: BadgeCategory.ARCADE, label: "Arcade Games", icon: Zap },
+  { key: BadgeCategory.FUNDAMENTOS_CLOUD, label: "Fundamentos da Computação em Google Cloud", icon: Cloud },
+  { key: BadgeCategory.CYBERSECURITY, label: "Iniciante: Google Cloud Cybersecurity", icon: ShieldCheck },
+  { key: BadgeCategory.LIDER_IA, label: "Líder de IA Generativa", icon: BotMessageSquare },
+  { key: BadgeCategory.BEGINNER_IA, label: "Iniciante: Programa de Aprendizado Introdução à IA Generativa", icon: Lightbulb },
+  { key: BadgeCategory.ARCADE, label: "Arcade Games", icon: Joystick },
 ] as const;
 
 const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
