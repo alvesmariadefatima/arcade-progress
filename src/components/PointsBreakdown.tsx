@@ -1,28 +1,18 @@
 import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
 import { Badge } from "@/lib/arcade-types";
-import { BADGES_DATABASE, BadgeType, calculateScore } from "@/lib/badges";
+import { BADGES_DATABASE, BadgeType, BadgeCategory, TRACK_CAPS, calculateScore } from "@/lib/badges";
 
 interface PointsBreakdownProps {
   badges: Badge[];
 }
 
 const tracks = [
-  { key: "fundamentosCloud", label: "Fundamentos da Computação em Google Cloud", icon: Map },
-  { key: "cybersecurity", label: "Iniciante: Google Cloud Cybersecurity", icon: Shield },
-  { key: "liderIA", label: "Líder de IA Generativa", icon: Brain },
-  { key: "beginnerIA", label: "Iniciante: Programa de Aprendizado Introdução à IA Generativa", icon: Sparkles },
-  { key: "arcade", label: "Arcade Games", icon: Zap },
+  { key: BadgeCategory.FUNDAMENTOS_CLOUD, label: "Fundamentos da Computação em Google Cloud", icon: Map },
+  { key: BadgeCategory.CYBERSECURITY, label: "Iniciante: Google Cloud Cybersecurity", icon: Shield },
+  { key: BadgeCategory.LIDER_IA, label: "Líder de IA Generativa", icon: Brain },
+  { key: BadgeCategory.BEGINNER_IA, label: "Iniciante: Programa de Aprendizado Introdução à IA Generativa", icon: Sparkles },
+  { key: BadgeCategory.ARCADE, label: "Arcade Games", icon: Zap },
 ] as const;
-
-type TrackKey = (typeof tracks)[number]["key"];
-
-const maxByTrack: Record<TrackKey, number> = {
-  fundamentosCloud: 20,
-  cybersecurity: 10,
-  liderIA: 11,
-  beginnerIA: 5,
-  arcade: 9,
-};
 
 const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const completedNames = badges.map((b) => b.name);
