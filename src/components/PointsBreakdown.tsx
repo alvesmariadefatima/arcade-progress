@@ -24,7 +24,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   let cappedTotal = 0;
   for (const track of tracks) {
     const raw = scoreResult.categoryPoints[track.key];
-    const max = maxByTrack[track.key];
+    const max = TRACK_CAPS[track.key];
     const capped = Math.min(raw, max);
     cappedCategoryPoints[track.key] = capped;
     cappedTotal += capped;
