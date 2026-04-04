@@ -132,6 +132,11 @@ const Index = () => {
           <>
             <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
             <TiersTable currentLevel={profile.level} userPoints={profile.points} />
+            <div className="mt-8 w-full max-w-2xl mx-auto">
+              <SocialShareButtons
+                shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${profile.points} pontos! Confira meu progresso:`}
+              />
+            </div>
           </>
         ) : null}
       </div>
