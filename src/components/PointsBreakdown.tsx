@@ -1,6 +1,6 @@
 import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
 import { Badge } from "@/lib/arcade-types";
-import { BADGES_DATABASE, BadgeType, BadgeCategory, TRACK_CAPS, calculateScore } from "@/lib/badges";
+import { BADGES_DATABASE, BadgeType, BadgeCategory, TRACK_CAPS, calculateScore, getCappedScore } from "@/lib/badges";
 
 interface PointsBreakdownProps {
   badges: Badge[];
@@ -20,15 +20,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const recognizedSet = new Set(scoreResult.recognizedBadges);
   const recognizedBadgeDetails = BADGES_DATABASE.filter((b) => recognizedSet.has(b.name));
 
-  const cappedCategoryPoints: Record<string, number> = {};
-  let cappedTotal = 0;
-  for (const track of tracks) {
-    const raw = scoreResult.categoryPoints[track.key];
-    const max = TRACK_CAPS[track.key];
-    const capped = Math.min(raw, max);
-    cappedCategoryPoints[track.key] = capped;
-    cappedTotal += capped;
-  }
+  const { cappedTotal, cappedByTrack } = getCappedScore(scoreResult);
 
   const courseShortCount = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_SHORT).length;
   const courseShortPoints = courseShortCount * 1;
@@ -64,7 +56,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         <h4 className="text-sm font-bold font-display text-foreground">Pontuação por Trilha</h4>
         {tracks.map((track) => {
           const Icon = track.icon;
-          const points = cappedCategoryPoints[track.key];
+          const points = cappedByTrack[track.key];
           const max = TRACK_CAPS[track.key];
           const progress = max > 0 ? Math.min(100, (points / max) * 100) : 0;
 

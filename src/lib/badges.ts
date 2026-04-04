@@ -151,9 +151,21 @@ const BADGES_DATABASE: Badge[] = [
   },
 
   // ==================== Líder de IA Generativa ====================
-  // Cursos >= 60 min (2 pts)
+  // Cursos >= 60 min (2 pts) — Path 1951
+  {
+    name: 'Gen AI: Beyond the Chatbot',
+    category: BadgeCategory.LIDER_IA,
+    type: BadgeType.COURSE_LONG,
+    points: 2,
+  },
   {
     name: 'Gen AI: Unlock Foundational Concepts',
+    category: BadgeCategory.LIDER_IA,
+    type: BadgeType.COURSE_LONG,
+    points: 2,
+  },
+  {
+    name: 'Gen AI: Navigate the Landscape',
     category: BadgeCategory.LIDER_IA,
     type: BadgeType.COURSE_LONG,
     points: 2,
@@ -170,22 +182,9 @@ const BADGES_DATABASE: Badge[] = [
     type: BadgeType.COURSE_LONG,
     points: 2,
   },
-  {
-    name: 'Responsible AI: Applying AI Principles with Google Cloud',
-    category: BadgeCategory.LIDER_IA,
-    type: BadgeType.COURSE_LONG,
-    points: 2,
-  },
-
-  // Skill Badge (3 pts)
-  {
-    name: 'Prompt Design in Vertex AI',
-    category: BadgeCategory.LIDER_IA,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
-  },
 
   // ==================== Beginner IA ====================
+  // Path 118 — 5 atividades (9 pts base + 2 bônus = 11 pts)
   // Cursos < 60 min (1 pt)
   {
     name: 'Introduction to Generative AI',
@@ -205,35 +204,18 @@ const BADGES_DATABASE: Badge[] = [
     type: BadgeType.COURSE_SHORT,
     points: 1,
   },
+  // Skill Badges (3 pts)
   {
-    name: 'Generative AI Fundamentals',
+    name: 'Prompt Design in Vertex AI',
     category: BadgeCategory.BEGINNER_IA,
     type: BadgeType.SKILL_BADGE,
     points: 3,
   },
   {
-    name: 'Gen AI: Navigate the Landscape',
+    name: 'Responsible AI: Applying AI Principles with Google Cloud',
     category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Gen AI: Beyond the Chatbot',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Introduction to Image Generation',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Encoder-Decoder Architecture',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
+    type: BadgeType.SKILL_BADGE,
+    points: 3,
   },
 
   // ==================== Arcade ====================
@@ -371,9 +353,16 @@ function calculateScore(completedBadges: string[]): ScoreResult {
 const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.FUNDAMENTOS_CLOUD]: 20,
   [BadgeCategory.CYBERSECURITY]: 10,
-  [BadgeCategory.LIDER_IA]: 11,
-  [BadgeCategory.BEGINNER_IA]: 10,
+  [BadgeCategory.LIDER_IA]: 10,
+  [BadgeCategory.BEGINNER_IA]: 11,
   [BadgeCategory.ARCADE]: 9,
+};
+
+/**
+ * Bonus points awarded when ALL badges of a track are completed
+ */
+const TRACK_COMPLETION_BONUS: Partial<Record<BadgeCategory, number>> = {
+  [BadgeCategory.BEGINNER_IA]: 2, // 9 base + 2 bônus = 11
 };
 
 const MAX_TOTAL_POINTS = Object.values(TRACK_CAPS).reduce((s, v) => s + v, 0); // 55
@@ -434,14 +423,29 @@ function validateScoreResult(result: ScoreResult): ValidationResult {
 }
 
 /**
- * Returns capped points per track and capped total
+ * Returns capped points per track (including completion bonuses) and capped total
  */
 function getCappedScore(result: ScoreResult): { cappedTotal: number; cappedByTrack: Record<BadgeCategory, number> } {
   const cappedByTrack = {} as Record<BadgeCategory, number>;
   let cappedTotal = 0;
   for (const [cat, cap] of Object.entries(TRACK_CAPS)) {
-    const capped = Math.min(result.categoryPoints[cat as BadgeCategory], cap);
-    cappedByTrack[cat as BadgeCategory] = capped;
+    const catKey = cat as BadgeCategory;
+    let points = result.categoryPoints[catKey];
+
+    // Add completion bonus if all badges in the track are completed
+    const bonus = TRACK_COMPLETION_BONUS[catKey] ?? 0;
+    if (bonus > 0) {
+      const trackBadges = BADGES_DATABASE.filter(b => b.category === catKey);
+      const completedInTrack = trackBadges.filter(b =>
+        result.recognizedBadges.some(rb => normalize(rb) === normalize(b.name))
+      );
+      if (completedInTrack.length === trackBadges.length && trackBadges.length > 0) {
+        points += bonus;
+      }
+    }
+
+    const capped = Math.min(points, cap);
+    cappedByTrack[catKey] = capped;
     cappedTotal += capped;
   }
   return { cappedTotal, cappedByTrack };
@@ -457,6 +461,7 @@ export {
   getCappedScore,
   BADGES_DATABASE,
   TRACK_CAPS,
+  TRACK_COMPLETION_BONUS,
   MAX_TOTAL_POINTS,
   BadgeCategory,
   BadgeType,

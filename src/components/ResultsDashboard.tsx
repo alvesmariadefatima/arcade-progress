@@ -7,7 +7,7 @@ import LeagueRank from "./LeagueRank";
 import { User, Award, RefreshCw } from "lucide-react";
 import { getArcadeLevel } from "@/lib/arcade-types";
 import { Button } from "./ui/button";
-import { calculateScore } from "@/lib/badges";
+import { calculateScore, TRACK_CAPS, TRACK_COMPLETION_BONUS, BadgeCategory, getCappedScore } from "@/lib/badges";
 import logoArcade from "@/assets/logo-arcade.png";
 
 interface ResultsDashboardProps {
@@ -17,20 +17,9 @@ interface ResultsDashboardProps {
   isRefreshing: boolean;
 }
 
-const trackMaxes: Record<string, number> = {
-  fundamentosCloud: 20,
-  cybersecurity: 10,
-  liderIA: 11,
-  beginnerIA: 5,
-  arcade: 9,
-};
-
 const ResultsDashboard = ({ profile, onReset, onRefresh, isRefreshing }: ResultsDashboardProps) => {
   const scoreResult = calculateScore(profile.badges.map((b) => b.name));
-  const cappedTotal = Object.entries(scoreResult.categoryPoints).reduce((sum, [key, pts]) => {
-    const max = trackMaxes[key] ?? pts;
-    return sum + Math.min(pts, max);
-  }, 0);
+  const { cappedTotal } = getCappedScore(scoreResult);
 
   const officialPoints = cappedTotal;
   const officialLevel = getArcadeLevel(officialPoints);

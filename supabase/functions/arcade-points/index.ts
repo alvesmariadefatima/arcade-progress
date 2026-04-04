@@ -24,10 +24,12 @@ const LONG_COURSES = new Set([
   'cloud security risks: identify and protect against threats',
   'detect, respond, and recover from cloud cybersecurity attacks',
   'put it all together: prepare for a cloud security analyst job',
+  // Líder IA (Path 1951) - all 5 are long courses
+  'gen ai: beyond the chatbot',
   'gen ai: unlock foundational concepts',
+  'gen ai: navigate the landscape',
   'gen ai apps: transform your work',
   'gen ai agents: transform your organization',
-  'responsible ai: applying ai principles with google cloud',
 ]);
 
 // Known skill badges (3pts) - from official scoring table
@@ -39,8 +41,9 @@ const SKILL_BADGES = new Set([
   'set up an app dev environment on google cloud',
   'implementing cloud load balancing for compute engine',
   'the basics of google cloud compute',
+  // Beginner IA (Path 118) - skill badges
   'prompt design in vertex ai',
-  'generative ai fundamentals',
+  'responsible ai: applying ai principles with google cloud',
 ]);
 
 function classifyBadge(name: string, description: string): { type: BadgeInfo['type']; points: number } {
