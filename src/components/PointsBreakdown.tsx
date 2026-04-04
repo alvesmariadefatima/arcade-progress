@@ -65,7 +65,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
         {tracks.map((track) => {
           const Icon = track.icon;
           const points = cappedCategoryPoints[track.key];
-          const max = maxByTrack[track.key];
+          const max = TRACK_CAPS[track.key];
           const progress = max > 0 ? Math.min(100, (points / max) * 100) : 0;
 
           return (
