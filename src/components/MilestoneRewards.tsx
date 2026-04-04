@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Trophy, Shield, Gift, GraduationCap, Coins, ExternalLink, Star } from "lucide-react";
+import confetti from "canvas-confetti";
 import standardImg from "@/assets/aluno_standard.png";
 import premiumImg from "@/assets/aluno_premium.png";
 
@@ -9,7 +11,37 @@ interface MilestoneRewardsProps {
 const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
   const standardUnlocked = userPoints >= 40;
   const premiumUnlocked = userPoints >= 60;
+  const confettiFired = useRef(false);
 
+  useEffect(() => {
+    if (confettiFired.current) return;
+    if (!standardUnlocked && !premiumUnlocked) return;
+    confettiFired.current = true;
+
+    const colors = premiumUnlocked
+      ? ["#4285F4", "#EA4335", "#FBBC04", "#34A853", "#1a237e", "#FFD700"]
+      : ["#4285F4", "#1a237e", "#34A853", "#FBBC04"];
+
+    const end = Date.now() + 2500;
+    const frame = () => {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.7 },
+        colors,
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.7 },
+        colors,
+      });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }, [standardUnlocked, premiumUnlocked]);
   return (
     <div
       className="w-full max-w-2xl mx-auto mt-10 animate-scale-in"
