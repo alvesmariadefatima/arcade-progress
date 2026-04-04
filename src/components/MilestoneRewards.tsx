@@ -214,12 +214,10 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
 
       {/* Suporte Google Skills */}
       <div className="bg-white rounded-2xl border border-border p-5 mt-5 shadow-sm">
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src={googleCloudLogo}
-            alt="Google Cloud"
-            className="h-10 w-10"
-          />
+        <div className="flex items-center gap-2 mb-3">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg arcade-gradient">
+            <Headset className="w-5 h-5 text-white" />
+          </span>
           <h3 className="text-lg font-bold font-display text-foreground">
             Central de Suporte
           </h3>
