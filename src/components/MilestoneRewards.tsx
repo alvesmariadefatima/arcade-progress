@@ -18,9 +18,7 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
     if (!standardUnlocked && !premiumUnlocked) return;
     confettiFired.current = true;
 
-    const colors = premiumUnlocked
-      ? ["#4285F4", "#EA4335", "#FBBC04", "#34A853", "#1a237e", "#FFD700"]
-      : ["#4285F4", "#1a237e", "#34A853", "#FBBC04"];
+    const colors = ["#4285F4", "#EA4335", "#FBBC04", "#34A853"];
 
     const end = Date.now() + 2500;
     const frame = () => {
