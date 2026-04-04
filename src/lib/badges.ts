@@ -151,9 +151,21 @@ const BADGES_DATABASE: Badge[] = [
   },
 
   // ==================== Líder de IA Generativa ====================
-  // Cursos >= 60 min (2 pts)
+  // Cursos >= 60 min (2 pts) — Path 1951
+  {
+    name: 'Gen AI: Beyond the Chatbot',
+    category: BadgeCategory.LIDER_IA,
+    type: BadgeType.COURSE_LONG,
+    points: 2,
+  },
   {
     name: 'Gen AI: Unlock Foundational Concepts',
+    category: BadgeCategory.LIDER_IA,
+    type: BadgeType.COURSE_LONG,
+    points: 2,
+  },
+  {
+    name: 'Gen AI: Navigate the Landscape',
     category: BadgeCategory.LIDER_IA,
     type: BadgeType.COURSE_LONG,
     points: 2,
@@ -170,22 +182,9 @@ const BADGES_DATABASE: Badge[] = [
     type: BadgeType.COURSE_LONG,
     points: 2,
   },
-  {
-    name: 'Responsible AI: Applying AI Principles with Google Cloud',
-    category: BadgeCategory.LIDER_IA,
-    type: BadgeType.COURSE_LONG,
-    points: 2,
-  },
-
-  // Skill Badge (3 pts)
-  {
-    name: 'Prompt Design in Vertex AI',
-    category: BadgeCategory.LIDER_IA,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
-  },
 
   // ==================== Beginner IA ====================
+  // Path 118 — 5 atividades (9 pts base + 2 bônus = 11 pts)
   // Cursos < 60 min (1 pt)
   {
     name: 'Introduction to Generative AI',
@@ -205,35 +204,18 @@ const BADGES_DATABASE: Badge[] = [
     type: BadgeType.COURSE_SHORT,
     points: 1,
   },
+  // Skill Badges (3 pts)
   {
-    name: 'Generative AI Fundamentals',
+    name: 'Prompt Design in Vertex AI',
     category: BadgeCategory.BEGINNER_IA,
     type: BadgeType.SKILL_BADGE,
     points: 3,
   },
   {
-    name: 'Gen AI: Navigate the Landscape',
+    name: 'Responsible AI: Applying AI Principles with Google Cloud',
     category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Gen AI: Beyond the Chatbot',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Introduction to Image Generation',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
-  },
-  {
-    name: 'Encoder-Decoder Architecture',
-    category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.COURSE_SHORT,
-    points: 1,
+    type: BadgeType.SKILL_BADGE,
+    points: 3,
   },
 
   // ==================== Arcade ====================
