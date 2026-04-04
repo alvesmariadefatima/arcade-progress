@@ -4,6 +4,7 @@ import ProfileInput from "@/components/ProfileInput";
 import SocialShareButtons from "@/components/SocialShareButtons";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
+import MilestoneRewards from "@/components/MilestoneRewards";
 import NavBar from "@/components/NavBar";
 import ArcadeDecorations from "@/components/ArcadeDecorations";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
@@ -132,6 +133,7 @@ const Index = () => {
           <>
             <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
             <TiersTable currentLevel={profile.level} userPoints={profile.points} />
+            <MilestoneRewards userPoints={profile.points} />
             <div className="mt-8 w-full max-w-2xl mx-auto">
               <SocialShareButtons
                 shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${profile.points} pontos! Confira meu progresso:`}
