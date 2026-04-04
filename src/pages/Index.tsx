@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProfileInput from "@/components/ProfileInput";
+import SocialShareButtons from "@/components/SocialShareButtons";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
 import NavBar from "@/components/NavBar";
