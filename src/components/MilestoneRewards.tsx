@@ -49,25 +49,27 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
     >
       <div className="bg-white rounded-2xl border border-border p-5 mb-5 shadow-sm">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold font-display text-[#1a237e] flex items-center gap-2">
-            <Gift className="w-5 h-5 text-[#1a237e]" />
+          <h3 className="text-xl font-bold font-display text-foreground flex items-center gap-2">
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded arcade-gradient">
+              <Gift className="w-4 h-4 text-white" />
+            </span>
             Prêmios dos Marcos
           </h3>
           <a
             href="https://rsvp.withgoogle.com/events/arcade-facilitador/sistema-de-pontos"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs font-body text-[#1a237e]/70 hover:text-primary transition-colors"
+            className="flex items-center gap-1 text-xs font-body text-muted-foreground hover:text-primary transition-colors"
           >
             <span>Ver regras oficiais</span>
             <ExternalLink className="w-3 h-3" />
           </a>
         </div>
 
-        <p className="text-sm text-[#1a237e]/80 font-body leading-relaxed">
+        <p className="text-sm text-muted-foreground font-body leading-relaxed">
           Ao acumular Arcade Points concluindo cursos, Skill Badges e Arcade Games, você pode resgatar prêmios e brindes do Google Cloud.
-          Você será premiado pelo <strong className="text-[#1a237e]">último marco alcançado</strong> (os prêmios não são cumulativos).
-          É necessário estar entre as <strong className="text-[#1a237e]">1.000 primeiras pessoas</strong> a atingir cada marco.
+          Você será premiado pelo <strong className="text-foreground">último marco alcançado</strong> (os prêmios não são cumulativos).
+          É necessário estar entre as <strong className="text-foreground">1.000 primeiras pessoas</strong> a atingir cada marco.
         </p>
       </div>
 
