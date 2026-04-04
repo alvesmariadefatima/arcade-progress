@@ -115,7 +115,7 @@ const Index = () => {
         {appState === "idle" || appState === "loading" ? (
           <>
             <ProfileInput onSubmit={handleSubmit} isLoading={appState === "loading"} />
-            <div className="mt-6">
+            <div className="mt-8 mb-4">
               <SocialShareButtons compact />
             </div>
           </>
