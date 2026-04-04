@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import { Trophy, Shield, Gift, GraduationCap, Coins, ExternalLink, Star, Mail } from "lucide-react";
+import { Trophy, Shield, Gift, GraduationCap, Coins, ExternalLink, Star, Mail, Headset } from "lucide-react";
 import confetti from "canvas-confetti";
 import standardImg from "@/assets/aluno_standard.png";
 import premiumImg from "@/assets/aluno_premium.png";
+import googleCloudLogo from "@/assets/google-cloud-logo.png";
 
 interface MilestoneRewardsProps {
   userPoints: number;
