@@ -13,13 +13,59 @@ interface BadgeInfo {
   source?: 'google_skills' | 'credly';
 }
 
+// Known long courses (>= 60 min, 2pts) - from official scoring table
+const LONG_COURSES = new Set([
+  'google cloud computing foundations: cloud computing fundamentals',
+  'google cloud computing foundations: infrastructure in google cloud',
+  'google cloud computing foundations: networking & security in google cloud',
+  'google cloud computing foundations: data, ml, and ai in google cloud',
+  'introduction to security principles in cloud computing',
+  'strategies for cloud security risk management',
+  'cloud security risks: identify and protect against threats',
+  'detect, respond, and recover from cloud cybersecurity attacks',
+  'put it all together: prepare for a cloud security analyst job',
+  'gen ai: unlock foundational concepts',
+  'gen ai apps: transform your work',
+  'gen ai agents: transform your organization',
+  'responsible ai: applying ai principles with google cloud',
+]);
+
+// Known skill badges (3pts) - from official scoring table
+const SKILL_BADGES = new Set([
+  'get started with cloud storage',
+  'get started with pub/sub',
+  'prepare data for ml apis on google cloud',
+  'build a secure google cloud network',
+  'set up an app dev environment on google cloud',
+  'implementing cloud load balancing for compute engine',
+  'the basics of google cloud compute',
+  'prompt design in vertex ai',
+  'generative ai fundamentals',
+]);
+
 function classifyBadge(name: string, description: string): { type: BadgeInfo['type']; points: number } {
+  const normalized = name.toLowerCase().trim();
+
   if (/^arcade\b/i.test(name)) {
     return { type: 'arcade_game', points: 3 };
   }
+
+  // Check known skill badges first
+  if (SKILL_BADGES.has(normalized)) {
+    return { type: 'skill_badge', points: 3 };
+  }
+
+  // Check description for skill badge pattern
   if (/earn a skill badge/i.test(description) || /complete the .+ skill badge/i.test(description)) {
     return { type: 'skill_badge', points: 3 };
   }
+
+  // Check known long courses
+  if (LONG_COURSES.has(normalized)) {
+    return { type: 'course_long', points: 2 };
+  }
+
+  // Default: short course
   return { type: 'course_short', points: 1 };
 }
 
