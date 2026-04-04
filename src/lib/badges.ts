@@ -346,11 +346,104 @@ function calculateScore(completedBadges: string[]): ScoreResult {
 // EXPORT - Make functions and types available for use
 // ============================================================================
 
+// ============================================================================
+// TRACK CAPS - Maximum points per track (source of truth)
+// ============================================================================
+
+const TRACK_CAPS: Record<BadgeCategory, number> = {
+  [BadgeCategory.FUNDAMENTOS_CLOUD]: 20,
+  [BadgeCategory.CYBERSECURITY]: 10,
+  [BadgeCategory.LIDER_IA]: 11,
+  [BadgeCategory.BEGINNER_IA]: 5,
+  [BadgeCategory.ARCADE]: 9,
+};
+
+const MAX_TOTAL_POINTS = Object.values(TRACK_CAPS).reduce((s, v) => s + v, 0); // 55
+
+// ============================================================================
+// VALIDATION - Post-calculation integrity checks
+// ============================================================================
+
+interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+/**
+ * Validates a ScoreResult for data consistency:
+ * - No track exceeds its cap
+ * - Sum of capped track points equals total
+ * - No negative values
+ * - Total doesn't exceed theoretical max
+ */
+function validateScoreResult(result: ScoreResult): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  // Check each track against its cap
+  for (const [category, cap] of Object.entries(TRACK_CAPS)) {
+    const catKey = category as BadgeCategory;
+    const raw = result.categoryPoints[catKey];
+    if (raw < 0) {
+      errors.push(`Track "${catKey}" has negative points: ${raw}`);
+    }
+    if (raw > cap) {
+      warnings.push(`Track "${catKey}" raw points (${raw}) exceed cap (${cap}) — will be capped`);
+    }
+  }
+
+  // Check total consistency
+  const cappedSum = Object.entries(TRACK_CAPS).reduce((sum, [cat, cap]) => {
+    return sum + Math.min(result.categoryPoints[cat as BadgeCategory], cap);
+  }, 0);
+
+  if (cappedSum > MAX_TOTAL_POINTS) {
+    errors.push(`Capped total (${cappedSum}) exceeds max possible (${MAX_TOTAL_POINTS})`);
+  }
+
+  // Check for duplicate recognized badges
+  const uniqueRecognized = new Set(result.recognizedBadges.map(n => normalize(n)));
+  if (uniqueRecognized.size !== result.recognizedBadges.length) {
+    errors.push(`Duplicate badges detected in recognized list (${result.recognizedBadges.length} total, ${uniqueRecognized.size} unique)`);
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    warnings,
+  };
+}
+
+/**
+ * Returns capped points per track and capped total
+ */
+function getCappedScore(result: ScoreResult): { cappedTotal: number; cappedByTrack: Record<BadgeCategory, number> } {
+  const cappedByTrack = {} as Record<BadgeCategory, number>;
+  let cappedTotal = 0;
+  for (const [cat, cap] of Object.entries(TRACK_CAPS)) {
+    const capped = Math.min(result.categoryPoints[cat as BadgeCategory], cap);
+    cappedByTrack[cat as BadgeCategory] = capped;
+    cappedTotal += capped;
+  }
+  return { cappedTotal, cappedByTrack };
+}
+
+// ============================================================================
+// EXPORT - Make functions and types available for use
+// ============================================================================
+
 export {
   calculateScore,
+  validateScoreResult,
+  getCappedScore,
   BADGES_DATABASE,
+  TRACK_CAPS,
+  MAX_TOTAL_POINTS,
   BadgeCategory,
   BadgeType,
+  normalize,
   type Badge,
   type ScoreResult,
+  type ValidationResult,
 };

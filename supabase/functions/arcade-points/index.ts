@@ -203,6 +203,55 @@ function calculateArcadePoints(badges: BadgeInfo[]): number {
   return badges.reduce((sum, b) => sum + b.points, 0);
 }
 
+// ============================================================================
+// STRUCTURED LOGGING
+// ============================================================================
+
+function structuredLog(event: string, data: Record<string, unknown>) {
+  console.log(JSON.stringify({ event, timestamp: new Date().toISOString(), ...data }));
+}
+
+// ============================================================================
+// POST-CALCULATION VALIDATION
+// ============================================================================
+
+interface ValidationIssue {
+  type: 'error' | 'warning';
+  message: string;
+}
+
+function validateResult(badges: BadgeInfo[], arcadePoints: number): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  // Check for negative scores
+  if (arcadePoints < 0) {
+    issues.push({ type: 'error', message: `Negative total score: ${arcadePoints}` });
+  }
+
+  // Check for duplicate badges (by link)
+  const links = badges.map(b => b.link).filter(Boolean);
+  const uniqueLinks = new Set(links);
+  if (uniqueLinks.size !== links.length) {
+    issues.push({ type: 'warning', message: `Duplicate badges detected: ${links.length} total, ${uniqueLinks.size} unique` });
+  }
+
+  // Check individual badge points are valid
+  const validPoints = new Set([1, 2, 3]);
+  for (const badge of badges) {
+    if (!validPoints.has(badge.points)) {
+      issues.push({ type: 'error', message: `Badge "${badge.name}" has invalid points: ${badge.points}` });
+    }
+  }
+
+  // Verify sum matches
+  const expectedSum = badges.reduce((sum, b) => sum + b.points, 0);
+  if (expectedSum !== arcadePoints) {
+    issues.push({ type: 'error', message: `Score mismatch: sum=${expectedSum}, reported=${arcadePoints}` });
+  }
+
+  return issues;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
