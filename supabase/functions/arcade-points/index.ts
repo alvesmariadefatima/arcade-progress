@@ -258,9 +258,11 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { profileUrl, credlyUrl } = await req.json();
+    const startTime = Date.now();
+    const { profileUrl } = await req.json();
 
     if (!profileUrl) {
+      structuredLog('validation_error', { error: 'missing_profile_url' });
       return new Response(
         JSON.stringify({ success: false, error: 'URL do perfil é obrigatória' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -269,6 +271,7 @@ Deno.serve(async (req) => {
 
     const apiKey = Deno.env.get('FIRECRAWL_API_KEY');
     if (!apiKey) {
+      structuredLog('config_error', { error: 'missing_firecrawl_key' });
       return new Response(
         JSON.stringify({ success: false, error: 'Firecrawl não configurado' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -280,36 +283,36 @@ Deno.serve(async (req) => {
       formattedUrl = `https://${formattedUrl}`;
     }
 
-    console.log('Scraping profile:', formattedUrl);
+    structuredLog('scrape_start', { url: formattedUrl });
 
     // Scrape Google Skills profile
     const { markdown, html } = await scrapeUrl(apiKey, formattedUrl);
-    console.log('Google Skills markdown length:', markdown.length);
-    const profile = parseProfile(markdown, html);
+    const scrapeMs = Date.now() - startTime;
+    structuredLog('scrape_complete', { url: formattedUrl, markdown_length: markdown.length, duration_ms: scrapeMs });
 
-    // Scrape Credly profile if provided
-    let credlyBadges: BadgeInfo[] = [];
-    if (credlyUrl) {
-      let formattedCredlyUrl = credlyUrl.trim();
-      if (!formattedCredlyUrl.startsWith('http://') && !formattedCredlyUrl.startsWith('https://')) {
-        formattedCredlyUrl = `https://${formattedCredlyUrl}`;
-      }
-      console.log('Scraping Credly profile:', formattedCredlyUrl);
-      try {
-        const credlyData = await scrapeUrl(apiKey, formattedCredlyUrl, ['markdown']);
-        console.log('Credly markdown length:', credlyData.markdown.length);
-        credlyBadges = parseCredlyProfile(credlyData.markdown);
-        console.log(`Found ${credlyBadges.length} Credly badges`);
-      } catch (err) {
-        console.error('Credly scrape error (non-fatal):', err);
-      }
+    if (!markdown || markdown.length < 50) {
+      structuredLog('scrape_warning', { url: formattedUrl, markdown_length: markdown.length, reason: 'empty_or_short_response' });
     }
 
-    // Only use Google Skills badges for scoring
-    // Credly is used only to validate track completion (certificates)
-    const credlyNames = credlyBadges.map(b => b.name.toLowerCase());
+    const profile = parseProfile(markdown, html);
+
+    // Post-parse validation
+    if (profile.badges.length === 0) {
+      structuredLog('parse_warning', { url: formattedUrl, reason: 'no_badges_found', name: profile.name });
+    }
     
     const arcadePoints = calculateArcadePoints(profile.badges);
+
+    // Post-calculation validation
+    const validationIssues = validateResult(profile.badges, arcadePoints);
+    if (validationIssues.length > 0) {
+      structuredLog('validation_issues', {
+        url: formattedUrl,
+        issues: validationIssues,
+        badge_count: profile.badges.length,
+        score: arcadePoints,
+      });
+    }
     
     let level = 'Iniciante';
     if (arcadePoints >= 60) level = 'Marco Premium';
@@ -336,17 +339,32 @@ Deno.serve(async (req) => {
           source: 'google_skills',
         })),
         badgeCount: profile.badges.length,
-        credlyCertificates: credlyNames,
+        validation: {
+          issues: validationIssues,
+          isConsistent: validationIssues.filter(i => i.type === 'error').length === 0,
+        },
       },
     };
 
-    console.log(`Found ${profile.badges.length} total badges for ${profile.name} — ${arcadePoints} arcade points (${credlyBadges.length} from Credly)`);
+    const totalMs = Date.now() - startTime;
+    structuredLog('score_calculated', {
+      profile: formattedUrl,
+      name: profile.name,
+      badges: profile.badges.length,
+      score: arcadePoints,
+      level,
+      duration_ms: totalMs,
+      is_consistent: result.data.validation.isConsistent,
+    });
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error:', error);
+    structuredLog('error', {
+      error: error instanceof Error ? error.message : 'unknown',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return new Response(
       JSON.stringify({ success: false, error: error instanceof Error ? error.message : 'Erro desconhecido' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
