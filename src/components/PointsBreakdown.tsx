@@ -1,4 +1,4 @@
-import { Award, Gamepad2, Map, Shield, Brain, Sparkles, Zap, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
+import { Award, Gamepad2, Cloud, ShieldCheck, BotMessageSquare, Lightbulb, Joystick, BookOpen, GraduationCap, ExternalLink } from "lucide-react";
 import { Badge } from "@/lib/arcade-types";
 import { BADGES_DATABASE, BadgeType, BadgeCategory, TRACK_CAPS, calculateScore, getCappedScore } from "@/lib/badges";
 
