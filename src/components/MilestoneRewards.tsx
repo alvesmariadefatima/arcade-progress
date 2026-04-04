@@ -50,26 +50,26 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
         >
           <div className={`px-5 py-3 flex items-center gap-3 ${
             standardUnlocked
-              ? "bg-primary/10"
-              : "bg-muted/30"
+              ? "bg-[#1a237e]/10"
+              : "bg-gray-100"
           }`}>
             <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
               standardUnlocked
-                ? "bg-primary/20 border-primary/40"
-                : "bg-muted/50 border-border"
+                ? "bg-[#1a237e]/20 border-[#1a237e]/40"
+                : "bg-gray-200 border-gray-300"
             }`}>
-              <Shield className={`w-5 h-5 ${standardUnlocked ? "text-primary" : "text-muted-foreground"}`} />
+              <Shield className={`w-5 h-5 ${standardUnlocked ? "text-[#1a237e]" : "text-gray-500"}`} />
             </div>
             <div className="flex-1">
-              <h4 className={`font-bold font-display text-sm ${standardUnlocked ? "text-primary" : "text-muted-foreground"}`}>
+              <h4 className={`font-bold font-display text-sm ${standardUnlocked ? "text-[#1a237e]" : "text-gray-500"}`}>
                 🏆 Marco Standard — 40 Pontos
               </h4>
-              <p className="text-xs text-muted-foreground font-body">
+              <p className="text-xs text-[#1a237e]/70 font-body">
                 {standardUnlocked ? "✅ Marco alcançado!" : `Faltam ${40 - userPoints} pontos`}
               </p>
             </div>
             {standardUnlocked && (
-              <span className="text-xs font-bold font-display text-primary bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20">
+              <span className="text-xs font-bold font-display text-[#1a237e] bg-[#1a237e]/10 px-2.5 py-1 rounded-full border border-[#1a237e]/20">
                 <Star className="w-3 h-3 inline mr-1" />Conquistado
               </span>
             )}
