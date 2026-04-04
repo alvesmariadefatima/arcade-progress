@@ -50,8 +50,8 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
       <div className="bg-white rounded-2xl border border-border p-5 mb-5 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xl font-bold font-display text-foreground flex items-center gap-2">
-            <span className="inline-flex w-5 h-5 arcade-gradient rounded" style={{ WebkitMaskImage: 'none' }}>
-              <Gift className="w-5 h-5 text-white" />
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded arcade-gradient">
+              <Gift className="w-4 h-4 text-white" />
             </span>
             Prêmios dos Marcos
           </h3>
