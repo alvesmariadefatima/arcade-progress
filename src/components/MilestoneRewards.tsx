@@ -210,6 +210,28 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
           </div>
         </div>
       </div>
+
+      {/* Suporte Google Skills */}
+      <div className="bg-white rounded-2xl border border-border p-5 mt-5 shadow-sm">
+        <div className="flex items-center gap-3 mb-3">
+          <img
+            src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
+            alt="Google Cloud"
+            className="h-6"
+          />
+          <span className="text-xs font-bold font-display text-muted-foreground tracking-wide uppercase">Cloud Skills</span>
+        </div>
+        <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3">
+          Precisa de ajuda com sua conta, badges ou pontuação? Entre em contato com o suporte oficial do Google Skills.
+        </p>
+        <a
+          href="mailto:support-skills@google.com"
+          className="inline-flex items-center gap-2 arcade-gradient text-white font-bold font-body text-sm px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+        >
+          <Mail className="w-4 h-4" />
+          support-skills@google.com
+        </a>
+      </div>
     </div>
   );
 };
