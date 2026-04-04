@@ -4,6 +4,7 @@ import ProfileInput from "@/components/ProfileInput";
 import SocialShareButtons from "@/components/SocialShareButtons";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import TiersTable from "@/components/TiersTable";
+import MilestoneRewards from "@/components/MilestoneRewards";
 import NavBar from "@/components/NavBar";
 import ArcadeDecorations from "@/components/ArcadeDecorations";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
