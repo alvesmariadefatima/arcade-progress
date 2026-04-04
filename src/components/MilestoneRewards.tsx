@@ -214,13 +214,16 @@ const MilestoneRewards = ({ userPoints }: MilestoneRewardsProps) => {
 
       {/* Suporte Google Skills */}
       <div className="bg-white rounded-2xl border border-border p-5 mt-5 shadow-sm">
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-2 mb-3">
           <img
-            src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
+            src={googleCloudLogo}
             alt="Google Cloud"
-            className="h-6"
+            className="h-7 w-7"
           />
-          <span className="text-xs font-bold font-display text-muted-foreground tracking-wide uppercase">Cloud Skills</span>
+          <h3 className="text-lg font-bold font-display text-foreground flex items-center gap-2">
+            <Headset className="w-5 h-5 text-primary" />
+            Central de Suporte
+          </h3>
         </div>
         <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4">
           Está enfrentando problemas técnicos com sua conta, badges ou pontuação? Tem dúvidas sobre o programa?
