@@ -341,6 +341,15 @@ function calculateScore(completedBadges: string[]): ScoreResult {
       });
     }
 
+    // Dynamic arcade badge matching: any "Arcade for Brazil" badge → 3pts arcade
+    if (!badge && /^arcade\s+(for\s+)?brazil/i.test(badgeName)) {
+      result.recognizedBadges.push(badgeName);
+      result.totalPoints += 3;
+      result.categoryPoints[BadgeCategory.ARCADE] += 3;
+      processedBadges.add(key);
+      continue;
+    }
+
     if (badge) {
       result.recognizedBadges.push(badgeName);
       result.totalPoints += badge.points;
