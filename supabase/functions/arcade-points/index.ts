@@ -232,7 +232,7 @@ async function scrapeUrl(apiKey: string, url: string, formats: string[] = ['mark
     body: JSON.stringify({
       url,
       formats,
-      waitFor: 3000,
+      waitFor: 5000,
       onlyMainContent: false,
     }),
   });
