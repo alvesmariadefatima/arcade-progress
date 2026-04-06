@@ -232,8 +232,16 @@ async function scrapeUrl(apiKey: string, url: string, formats: string[] = ['mark
     body: JSON.stringify({
       url,
       formats,
-      waitFor: 8000,
+      waitFor: 5000,
       onlyMainContent: false,
+      actions: [
+        { type: 'scroll', direction: 'down', amount: 3 },
+        { type: 'wait', milliseconds: 2000 },
+        { type: 'scroll', direction: 'down', amount: 3 },
+        { type: 'wait', milliseconds: 2000 },
+        { type: 'scroll', direction: 'up', amount: 10 },
+        { type: 'wait', milliseconds: 1000 },
+      ],
     }),
   });
 
