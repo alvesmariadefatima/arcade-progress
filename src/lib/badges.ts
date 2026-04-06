@@ -219,7 +219,7 @@ const BADGES_DATABASE: Badge[] = [
   },
 
   // ==================== Arcade ====================
-  // Eventos (3 pts cada — 1 por mês)
+  // Eventos (3 pts cada — 1 por mês, adicionados dinamicamente)
   {
     name: 'Arcade for Brazil Jan 2026',
     category: BadgeCategory.ARCADE,
@@ -234,6 +234,18 @@ const BADGES_DATABASE: Badge[] = [
   },
   {
     name: 'Arcade for Brazil March 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil Apr 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil April 2026',
     category: BadgeCategory.ARCADE,
     type: BadgeType.ARCADE_EVENT,
     points: 3,
@@ -329,6 +341,15 @@ function calculateScore(completedBadges: string[]): ScoreResult {
       });
     }
 
+    // Dynamic arcade badge matching: any "Arcade for Brazil" badge → 3pts arcade
+    if (!badge && /^arcade\s+(for\s+)?brazil/i.test(badgeName)) {
+      result.recognizedBadges.push(badgeName);
+      result.totalPoints += 3;
+      result.categoryPoints[BadgeCategory.ARCADE] += 3;
+      processedBadges.add(key);
+      continue;
+    }
+
     if (badge) {
       result.recognizedBadges.push(badgeName);
       result.totalPoints += badge.points;
@@ -355,7 +376,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.CYBERSECURITY]: 10,
   [BadgeCategory.LIDER_IA]: 10,
   [BadgeCategory.BEGINNER_IA]: 11,
-  [BadgeCategory.ARCADE]: 9,
+  [BadgeCategory.ARCADE]: 12,
 };
 
 /**
