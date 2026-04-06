@@ -219,7 +219,7 @@ const BADGES_DATABASE: Badge[] = [
   },
 
   // ==================== Arcade ====================
-  // Eventos (3 pts cada — 1 por mês)
+  // Eventos (3 pts cada — 1 por mês, adicionados dinamicamente)
   {
     name: 'Arcade for Brazil Jan 2026',
     category: BadgeCategory.ARCADE,
@@ -234,6 +234,18 @@ const BADGES_DATABASE: Badge[] = [
   },
   {
     name: 'Arcade for Brazil March 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil Apr 2026',
+    category: BadgeCategory.ARCADE,
+    type: BadgeType.ARCADE_EVENT,
+    points: 3,
+  },
+  {
+    name: 'Arcade for Brazil April 2026',
     category: BadgeCategory.ARCADE,
     type: BadgeType.ARCADE_EVENT,
     points: 3,
@@ -355,7 +367,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.CYBERSECURITY]: 10,
   [BadgeCategory.LIDER_IA]: 10,
   [BadgeCategory.BEGINNER_IA]: 11,
-  [BadgeCategory.ARCADE]: 9,
+  [BadgeCategory.ARCADE]: 12,
 };
 
 /**
