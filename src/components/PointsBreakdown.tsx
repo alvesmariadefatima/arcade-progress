@@ -26,7 +26,12 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const courseShortCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_SHORT);
   const courseLongCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_LONG);
   const skillBadgesCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE);
-  const arcadeEventsCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT);
+  const arcadeEventsFromDb = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT);
+  // Also count dynamically matched arcade badges (recognized but not in BADGES_DATABASE)
+  const dynamicArcadeCount = scoreResult.recognizedBadges.filter(
+    (name) => !BADGES_DATABASE.some((b) => b.name === name) && /^arcade\s+(for\s+)?brazil/i.test(name)
+  ).length;
+  const arcadeEventsCount = arcadeEventsFromDb.length + dynamicArcadeCount;
 
   const activityTypes = [
     {
