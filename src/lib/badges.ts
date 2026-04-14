@@ -345,7 +345,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.FUNDAMENTOS_CLOUD]: 20,
   [BadgeCategory.CYBERSECURITY]: 10,
   [BadgeCategory.LIDER_IA]: 10,
-  [BadgeCategory.BEGINNER_IA]: 10,
+  [BadgeCategory.BEGINNER_IA]: 11,
   [BadgeCategory.ARCADE]: 9,
 };
 
@@ -353,7 +353,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
  * Bonus points awarded when ALL badges of a track are completed
  */
 const TRACK_COMPLETION_BONUS: Partial<Record<BadgeCategory, number>> = {
-  [BadgeCategory.BEGINNER_IA]: 2, // 9 base + 2 bônus = 11
+  [BadgeCategory.BEGINNER_IA]: 3, // 8 base + 3 bônus = 11
 };
 
 const MAX_TOTAL_POINTS = Object.values(TRACK_CAPS).reduce((s, v) => s + v, 0); // 55
