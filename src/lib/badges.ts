@@ -75,25 +75,7 @@ const BADGES_DATABASE: Badge[] = [
 
   // Skill Badges (3 pts)
   {
-    name: 'Get Started with Cloud Storage',
-    category: BadgeCategory.FUNDAMENTOS_CLOUD,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
-  },
-  {
-    name: 'Get Started with Pub/Sub',
-    category: BadgeCategory.FUNDAMENTOS_CLOUD,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
-  },
-  {
-    name: 'Prepare Data for ML APIs on Google Cloud',
-    category: BadgeCategory.FUNDAMENTOS_CLOUD,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
-  },
-  {
-    name: 'Build a Secure Google Cloud Network',
+    name: 'Implementing Cloud Load Balancing for Compute Engine',
     category: BadgeCategory.FUNDAMENTOS_CLOUD,
     type: BadgeType.SKILL_BADGE,
     points: 3,
@@ -105,13 +87,13 @@ const BADGES_DATABASE: Badge[] = [
     points: 3,
   },
   {
-    name: 'Implementing Cloud Load Balancing for Compute Engine',
+    name: 'Build a Secure Google Cloud Network',
     category: BadgeCategory.FUNDAMENTOS_CLOUD,
     type: BadgeType.SKILL_BADGE,
     points: 3,
   },
   {
-    name: 'The Basics of Google Cloud Compute',
+    name: 'Prepare Data for ML APIs on Google Cloud',
     category: BadgeCategory.FUNDAMENTOS_CLOUD,
     type: BadgeType.SKILL_BADGE,
     points: 3,
@@ -214,8 +196,8 @@ const BADGES_DATABASE: Badge[] = [
   {
     name: 'Responsible AI: Applying AI Principles with Google Cloud',
     category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
+    type: BadgeType.COURSE_SHORT,
+    points: 1,
   },
 
   // ==================== Arcade ====================
