@@ -244,12 +244,6 @@ const BADGES_DATABASE: Badge[] = [
     type: BadgeType.ARCADE_EVENT,
     points: 3,
   },
-  {
-    name: 'Arcade for Brazil April 2026',
-    category: BadgeCategory.ARCADE,
-    type: BadgeType.ARCADE_EVENT,
-    points: 3,
-  },
 
 ];
 
