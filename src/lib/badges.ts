@@ -196,8 +196,8 @@ const BADGES_DATABASE: Badge[] = [
   {
     name: 'Responsible AI: Applying AI Principles with Google Cloud',
     category: BadgeCategory.BEGINNER_IA,
-    type: BadgeType.SKILL_BADGE,
-    points: 3,
+    type: BadgeType.COURSE_LONG,
+    points: 2,
   },
 
   // ==================== Arcade ====================
@@ -345,7 +345,7 @@ const TRACK_CAPS: Record<BadgeCategory, number> = {
   [BadgeCategory.FUNDAMENTOS_CLOUD]: 20,
   [BadgeCategory.CYBERSECURITY]: 10,
   [BadgeCategory.LIDER_IA]: 10,
-  [BadgeCategory.BEGINNER_IA]: 11,
+  [BadgeCategory.BEGINNER_IA]: 10,
   [BadgeCategory.ARCADE]: 9,
 };
 
