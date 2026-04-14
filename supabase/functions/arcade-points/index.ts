@@ -30,6 +30,8 @@ const LONG_COURSES = new Set([
   'gen ai: navigate the landscape',
   'gen ai apps: transform your work',
   'gen ai agents: transform your organization',
+  // Beginner IA (Path 118) - long course
+  'responsible ai: applying ai principles with google cloud',
 ]);
 
 // Known skill badges (3pts) - from official scoring table
