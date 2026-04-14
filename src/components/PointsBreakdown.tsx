@@ -143,9 +143,6 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
                   <span className="text-xs font-body text-muted-foreground tabular-nums">
                     {activity.completedCount} de {activity.totalCount} concluído{activity.totalCount !== 1 ? "s" : ""}
                   </span>
-                  <span className="text-xs font-body text-muted-foreground tabular-nums">
-                    {activity.completedCount} de {activity.totalCount} concluído{activity.totalCount !== 1 ? "s" : ""}
-                  </span>
                 </div>
               </div>
             );
