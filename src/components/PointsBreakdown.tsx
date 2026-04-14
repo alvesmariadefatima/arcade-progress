@@ -48,8 +48,8 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
     },
     {
       icon: Gamepad2, label: "Arcade Game", unitPoints: 3,
-      count: arcadeEventsCompleted.length,
-      earnedPts: arcadeEventsCompleted.length * 3,
+      count: arcadeEventsCount,
+      earnedPts: arcadeEventsCount * 3,
       color: "text-secondary",
     },
     {
