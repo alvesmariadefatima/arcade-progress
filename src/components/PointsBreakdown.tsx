@@ -27,35 +27,47 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   const courseLongCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_LONG);
   const skillBadgesCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE);
   const arcadeEventsFromDb = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT);
-  // Also count dynamically matched arcade badges (recognized but not in BADGES_DATABASE)
   const dynamicArcadeCount = scoreResult.recognizedBadges.filter(
     (name) => !BADGES_DATABASE.some((b) => b.name === name) && /^arcade\s+(for\s+)?brazil/i.test(name)
   ).length;
   const arcadeEventsCount = arcadeEventsFromDb.length + dynamicArcadeCount;
 
+  // Total counts from database per type
+  const totalCourseShort = BADGES_DATABASE.filter((b) => b.type === BadgeType.COURSE_SHORT).length;
+  const totalCourseLong = BADGES_DATABASE.filter((b) => b.type === BadgeType.COURSE_LONG).length;
+  const totalSkillBadges = BADGES_DATABASE.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
+  const totalArcadeEvents = Math.max(
+    BADGES_DATABASE.filter((b) => b.type === BadgeType.ARCADE_EVENT).length,
+    arcadeEventsCount
+  );
+
   const activityTypes = [
     {
       icon: BookOpen, label: "Cursos < 60 min", unitPoints: 1,
-      count: courseShortCompleted.length,
+      count: courseShortCompleted.length, total: totalCourseShort,
       earnedPts: courseShortCompleted.length * 1,
+      maxPts: totalCourseShort * 1,
       color: "text-accent",
     },
     {
       icon: GraduationCap, label: "Cursos ≥ 60 min", unitPoints: 2,
-      count: courseLongCompleted.length,
+      count: courseLongCompleted.length, total: totalCourseLong,
       earnedPts: courseLongCompleted.length * 2,
+      maxPts: totalCourseLong * 2,
       color: "text-accent",
     },
     {
       icon: Gamepad2, label: "Arcade Game", unitPoints: 3,
-      count: arcadeEventsCount,
+      count: arcadeEventsCount, total: totalArcadeEvents,
       earnedPts: arcadeEventsCount * 3,
+      maxPts: totalArcadeEvents * 3,
       color: "text-secondary",
     },
     {
       icon: Award, label: "Skill Badge", unitPoints: 3,
-      count: skillBadgesCompleted.length,
+      count: skillBadgesCompleted.length, total: totalSkillBadges,
       earnedPts: skillBadgesCompleted.length * 3,
+      maxPts: totalSkillBadges * 3,
       color: "text-primary",
     },
   ];
@@ -139,10 +151,10 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-sm font-bold font-display text-primary tabular-nums block">
-                    {activity.earnedPts} pts
+                    {activity.earnedPts} de {activity.maxPts} pts
                   </span>
                   <span className="text-xs font-body text-muted-foreground tabular-nums">
-                    {activity.count} concluído{activity.count !== 1 ? "s" : ""}
+                    {activity.count} de {activity.total} concluído{activity.total !== 1 ? "s" : ""}
                   </span>
                 </div>
               </div>
