@@ -138,7 +138,10 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-sm font-bold font-display text-primary tabular-nums block">
-                    {activity.earnedPts} pts de {activity.maxPts} pts
+                    {activity.earnedPts}/{activity.maxPts} pontos
+                  </span>
+                  <span className="text-xs font-body text-muted-foreground tabular-nums">
+                    {activity.completedCount} de {activity.totalCount} concluído{activity.totalCount !== 1 ? "s" : ""}
                   </span>
                   <span className="text-xs font-body text-muted-foreground tabular-nums">
                     {activity.completedCount} de {activity.totalCount} concluído{activity.totalCount !== 1 ? "s" : ""}
