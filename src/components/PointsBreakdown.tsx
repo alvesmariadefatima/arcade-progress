@@ -25,7 +25,10 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   // Count completed per type
   const courseShortCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_SHORT);
   const courseLongCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.COURSE_LONG);
-  const skillBadgesCompleted = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE);
+  // Count skill badges from actual scraped badges (includes dynamically classified ones)
+  const skillBadgesFromProps = badges.filter((b) => b.type === 'skill_badge');
+  const skillBadgesFromDb = recognizedBadgeDetails.filter((b) => b.type === BadgeType.SKILL_BADGE);
+  const skillBadgesCompleted = skillBadgesFromProps.length > skillBadgesFromDb.length ? skillBadgesFromProps : skillBadgesFromDb;
   const arcadeEventsFromDb = recognizedBadgeDetails.filter((b) => b.type === BadgeType.ARCADE_EVENT);
   const dynamicArcadeCount = scoreResult.recognizedBadges.filter(
     (name) => !BADGES_DATABASE.some((b) => b.name === name) && /^arcade\s+(for\s+)?brazil/i.test(name)
