@@ -30,20 +30,18 @@ const LONG_COURSES = new Set([
   'gen ai: navigate the landscape',
   'gen ai apps: transform your work',
   'gen ai agents: transform your organization',
+  // Beginner IA (Path 118) - long course
+  'responsible ai: applying ai principles with google cloud',
 ]);
 
 // Known skill badges (3pts) - from official scoring table
 const SKILL_BADGES = new Set([
-  'get started with cloud storage',
-  'get started with pub/sub',
   'prepare data for ml apis on google cloud',
   'build a secure google cloud network',
   'set up an app dev environment on google cloud',
   'implementing cloud load balancing for compute engine',
-  'the basics of google cloud compute',
-  // Beginner IA (Path 118) - skill badges
+  // Beginner IA (Path 118) - skill badge
   'prompt design in vertex ai',
-  'responsible ai: applying ai principles with google cloud',
 ]);
 
 function classifyBadge(name: string, description: string): { type: BadgeInfo['type']; points: number } {
