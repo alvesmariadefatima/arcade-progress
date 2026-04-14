@@ -35,7 +35,7 @@ const PointsBreakdown = ({ badges }: PointsBreakdownProps) => {
   // Total counts from database per type
   const totalCourseShort = BADGES_DATABASE.filter((b) => b.type === BadgeType.COURSE_SHORT).length;
   const totalCourseLong = BADGES_DATABASE.filter((b) => b.type === BadgeType.COURSE_LONG).length;
-  const totalSkillBadges = BADGES_DATABASE.filter((b) => b.type === BadgeType.SKILL_BADGE).length;
+  const totalSkillBadges = 6; // 5 do Google Skills + 1 do Credly
   const totalArcadeEvents = Math.max(
     BADGES_DATABASE.filter((b) => b.type === BadgeType.ARCADE_EVENT).length,
     arcadeEventsCount
