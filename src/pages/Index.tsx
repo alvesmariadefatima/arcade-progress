@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProfileInput from "@/components/ProfileInput";
 import SocialShareButtons from "@/components/SocialShareButtons";
@@ -8,6 +8,7 @@ import MilestoneRewards from "@/components/MilestoneRewards";
 import NavBar from "@/components/NavBar";
 import ArcadeDecorations from "@/components/ArcadeDecorations";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
+import { calculateScore, getCappedScore } from "@/lib/badges";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,6 +20,16 @@ const Index = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Centralized official score calculation — single source of truth
+  const officialPoints = useMemo(() => {
+    if (!profile) return 0;
+    const scoreResult = calculateScore(profile.badges.map((b) => b.name));
+    const { cappedTotal } = getCappedScore(scoreResult);
+    return cappedTotal;
+  }, [profile]);
+
+  const officialLevel = useMemo(() => getArcadeLevel(officialPoints), [officialPoints]);
 
   useEffect(() => {
     const urlParam = searchParams.get("url");
@@ -132,11 +143,11 @@ const Index = () => {
         ) : profile ? (
           <>
             <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
-            <TiersTable currentLevel={profile.level} userPoints={profile.points} />
-            <MilestoneRewards userPoints={profile.points} />
+            <TiersTable currentLevel={officialLevel} userPoints={officialPoints} />
+            <MilestoneRewards userPoints={officialPoints} />
             <div className="mt-8 w-full max-w-2xl mx-auto">
               <SocialShareButtons
-                shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${profile.points} pontos! Confira meu progresso:`}
+                shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${officialPoints} pontos! Confira meu progresso:`}
               />
             </div>
           </>
