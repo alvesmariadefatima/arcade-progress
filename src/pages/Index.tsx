@@ -21,6 +21,16 @@ const Index = () => {
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Centralized official score calculation — single source of truth
+  const officialPoints = useMemo(() => {
+    if (!profile) return 0;
+    const scoreResult = calculateScore(profile.badges.map((b) => b.name));
+    const { cappedTotal } = getCappedScore(scoreResult);
+    return cappedTotal;
+  }, [profile]);
+
+  const officialLevel = useMemo(() => getArcadeLevel(officialPoints), [officialPoints]);
+
   useEffect(() => {
     const urlParam = searchParams.get("url");
     if (urlParam) {
@@ -131,13 +141,16 @@ const Index = () => {
             </button>
           </div>
         ) : profile ? (
-          <ProfileResults
-            profile={profile}
-            onReset={handleReset}
-            onRefresh={handleRefresh}
-            isRefreshing={isRefreshing}
-          />
-        ) : null}
+          <>
+            <ResultsDashboard profile={profile} onReset={handleReset} onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+            <TiersTable currentLevel={officialLevel} userPoints={officialPoints} />
+            <MilestoneRewards userPoints={officialPoints} />
+            <div className="mt-8 w-full max-w-2xl mx-auto">
+              <SocialShareButtons
+                shareText={`🎮 Completei ${profile.badges.length} badges no Google Arcade com ${officialPoints} pontos! Confira meu progresso:`}
+              />
+            </div>
+          </>
         ) : null}
       </div>
 
