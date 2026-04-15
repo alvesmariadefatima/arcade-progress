@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProfileInput from "@/components/ProfileInput";
 import SocialShareButtons from "@/components/SocialShareButtons";
@@ -8,6 +8,7 @@ import MilestoneRewards from "@/components/MilestoneRewards";
 import NavBar from "@/components/NavBar";
 import ArcadeDecorations from "@/components/ArcadeDecorations";
 import { ArcadeProfile, getArcadeLevel, AppState } from "@/lib/arcade-types";
+import { calculateScore, getCappedScore } from "@/lib/badges";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
